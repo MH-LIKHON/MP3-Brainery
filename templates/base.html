@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brainery - {{ title }}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/png">
+
+  <style>
+    /* =======================================================
+       Top Bar Styling
+       ======================================================= */
+    .top-bar {
+      background-color: #f8f9fa; /* Light gray background for the top bar */
+      border-bottom: 1px solid #ddd; /* Subtle border below the top bar */
+      position: sticky; /* Keeps the top bar visible during scroll */
+      top: 0; /* Positions it at the very top of the screen */
+      z-index: 1020; /* Ensures it stays above other content */
+    }
+
+    /* Styling for the social icons in the top bar */
+    .top-bar .social-icons {
+      display: flex; /* Arranges the icons horizontally */
+      justify-content: center; /* Centers the icons horizontally */
+      align-items: center; /* Vertically aligns icons */
+      gap: 25px; /* Space between each social icon */
+    }
+
+    /* Default style for social icons */
+    .top-bar .social-icons a {
+      color: #333; /* Dark gray icon color */
+      text-decoration: none; /* Removes underline */
+      font-size: 18px; /* Sets the size of the icons */
+      transition: all 0.3s ease; /* Smooth transition for hover effects */
+    }
+
+    /* Hover effect for social icons */
+    .top-bar .social-icons a:hover {
+      color: #20c997; /* Changes icon color to teal on hover */
+      transform: scale(1.2); /* Slightly enlarges the icon on hover */
+    }
+
+    /* =======================================================
+       Navbar Styling
+       ======================================================= */
+    .navbar {
+      position: sticky; /* Keeps the navbar visible during scroll */
+      top: 50px; /* Places it below the top bar */
+      z-index: 1010; /* Ensures it stays below the top bar */
+      transition: all 0.3s ease; /* Smooth transition for hover effects */
+    }
+
+    /* Styling for the navbar brand (logo) */
+    .navbar-brand {
+      transition: all 0.3s ease; /* Smooth hover effect */
+    }
+
+    /* Hover effect for the navbar brand */
+    .navbar-brand:hover {
+      color: #20c997 !important; /* Changes logo color to teal on hover */
+      transform: scale(1.2); /* Slightly enlarges the logo on hover */
+    }
+
+    /* Styling for navbar links */
+    .navbar-nav .nav-link {
+      transition: all 0.3s ease; /* Smooth hover effect */
+    }
+
+    /* Hover effect for navbar links */
+    .navbar-nav .nav-link:hover {
+      color: #20c997 !important; /* Changes link color to teal on hover */
+      transform: scale(1.1); /* Slightly enlarges the link on hover */
+    }
+
+    /* =======================================================
+       Footer Links Hover Styling
+       ======================================================= */
+    footer a {
+      color: #20c997; /* Default link color in footer */
+      text-decoration: none; /* Removes underline for footer links */
+      transition: color 0.3s ease; /* Smooth color change effect */
+    }
+
+    /* Hover effect for footer links */
+    footer a:hover {
+      color: #333; /* Changes link color to dark gray on hover */
+    }
+
+    /* =======================================================
+       Responsive Styling (Optional Enhancements)
+       ======================================================= */
+    @media (max-width: 768px) {
+      /* For smaller screens, reduce the gap between social icons */
+      .top-bar .social-icons {
+        gap: 15px; /* Smaller gap for better fit on smaller screens */
+      }
+
+      /* Reduce the size of social icons on smaller screens */
+      .top-bar .social-icons a {
+        font-size: 16px; /* Smaller icon size for mobile */
+      }
+
+      /* Reduce the size of navbar links for smaller screens */
+      .navbar-nav .nav-link {
+        font-size: 14px; /* Smaller font size for better fit */
+      }
+
+      /* Reduce the logo size for smaller screens */
+      .navbar-brand {
+        font-size: 20px; /* Smaller font size for the brand/logo */
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =======================================================
+       Top Bar Section
+       ======================================================= -->
+  <div class="top-bar py-2">
+    <div class="container">
+      <div class="social-icons">
+        <a href="mailto:hello@brainery.com" target="_blank">
+          <i class="fas fa-envelope"></i>
+        </a>
+        <a href="https://www.facebook.com" target="_blank">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.twitter.com" target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com" target="_blank">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com" target="_blank">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.whatsapp.com" target="_blank">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       Navbar Section
+       ======================================================= -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('main.index') }}">
+        <i class="fas fa-brain"></i> Brainery
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('main.index') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.register') }}">Register</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =======================================================
+       Main Content Section
+       ======================================================= -->
+  <main>
+    <div class="container py-4">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </main>
+
+  <!-- =======================================================
+       Footer Section
+       ======================================================= -->
+  <footer class="bg-light py-3 text-center">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 Brainery. All Rights Reserved.</p>
+      <a href="#" class="text-decoration-none">Privacy Policy</a> | 
+      <a href="#" class="text-decoration-none">Terms of Service</a>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS + Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <!-- Custom JS -->
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>
