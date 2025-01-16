@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+  <h2 class="mb-4">{{ resource.title }}</h2>
+  <div class="mb-4">
+    <p><strong>Description:</strong></p>
+    <p>{{ resource.description }}</p>
+  </div>
+  <div class="mb-4">
+    <p><strong>Category:</strong> {{ resource.category }}</p>
+    <p><strong>Tags:</strong> {{ resource.tags | join(', ') }}</p>
+  </div>
+  <div class="mb-4">
+    <a href="{{ resource.link }}" class="btn btn-primary" target="_blank">View Resource</a>
+    <a href="{{ url_for('dashboard.index') }}" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
+</div>
+{% endblock %}
