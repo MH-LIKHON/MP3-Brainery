@@ -167,7 +167,7 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
 }
 
 /* Active Slide */
@@ -182,7 +182,7 @@ body {
     z-index: 10;
     text-align: center;
     width: 80%;
-    color: white;
+    color: black;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     animation: fadeIn 2s ease-in-out;
 }
@@ -203,9 +203,9 @@ body {
 .hero-btn {
     padding: 12px 25px;
     font-size: 18px;
-    border: 2px solid white;
     background-color: transparent;
-    color: white;
+    border: 2px solid #20c997;
+    color: #20c997;
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -213,7 +213,7 @@ body {
 
 /* Button Hover */
 .hero-btn:hover {
-    background-color: white;
+    background-color: #20c997;
     color: black;
     transform: scale(1.1);
 }
@@ -437,15 +437,15 @@ footer a:hover {
           <!-- Background Grid -->
             <section class="hero-section">
               <!-- Background Slideshow -->
-              <div class="hero-background">
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero1.webp') }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero2.webp') }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero3.webp) }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero4.webp') }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero5.webp') }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero6.webp') }}');"></div>
-                  <div class="slide" style="background-image: url('{{ url_for('static', filename='images/hero7.webp') }}');"></div>
-              </div>
+                <div class="hero-background">
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero1.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero2.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero3.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero4.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero5.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero6.webp") }}');"></div>
+                    <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero7.webp") }}');"></div>
+                </div>
 
               <!-- Hero Text -->
               <div class="hero-text">
