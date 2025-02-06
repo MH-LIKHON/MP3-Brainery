@@ -167,13 +167,13 @@ body {
     background-position: center center;
     background-repeat: no-repeat;
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 2s ease-in-out;
 }
 
 /* Active Slide */
 .slide.active {
     opacity: 1;
-    transition: opacity 1.5s ease-in-out;
+    transition: opacity 2s ease-in-out;
 }
 
 /* Hero Text */
@@ -222,6 +222,34 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero Logo Styling */
+.hero-logo {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Ensures perfect centering */
+    width: 300px; /* Adjust based on logo size */
+    height: auto; /* Keep aspect ratio */
+    border-radius: 50%; /* Rounds the edges */
+    background-color: rgba(255, 255, 255, 0.7); /* Optional: Adds a slight background for better visibility */
+    padding: 10px; /* Space around the logo */
+    opacity: 0; /* Initially hidden */
+    z-index: 10; /* Ensure it stays above background images */
+    animation: fadeIn 1.5s ease-in-out forwards; /* Fade-in effect on page load */
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%); /* Slightly above */
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 /* =======================================================
@@ -447,12 +475,10 @@ footer a:hover {
                     <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero7.webp") }}');"></div>
                 </div>
 
-              <!-- Hero Text -->
-              <div class="hero-text">
-                  <h1>Welcome to Brainery</h1>
-                  <p>Discover, learn, and share knowledge with our community-driven platform.</p>
-                  <a href="#" class="hero-btn">Get Started</a>
-              </div>
+              <!-- Hero Logo Image -->
+                <div class="hero-logo-container">
+                    <img src="{{ url_for('static', filename='images/herologo.png') }}" alt="Hero Logo" class="hero-logo">
+                </div>
             </section>
 
          <!-- FEATURES SECTION -->
@@ -570,6 +596,26 @@ footer a:hover {
         console.error("No slides found! Check your HTML structure.");
     }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    let slides = document.querySelectorAll(".hero-background img");
+    let currentSlide = 0;
+
+    function changeSlide() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove("active"); // Remove active from all
+            slide.style.opacity = "0"; // Hide all slides
+        });
+
+        slides[currentSlide].classList.add("active"); // Add active class
+        slides[currentSlide].style.opacity = "1"; // Show current slide
+
+        currentSlide = (currentSlide + 1) % slides.length; // Cycle to next slide
+    }
+
+    setInterval(changeSlide, 4000); // Faster transition every 4 seconds
+});
+
     </script>
 
 </body>
