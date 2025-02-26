@@ -37,7 +37,7 @@ body {
 .hero-section {
     position: relative;
     width: 100%;
-    height: 60vh;
+    height: 70vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,50 +45,62 @@ body {
     overflow: hidden;
 }
 
-/* Hero Background */
-.hero-background {
+/* Background Video - Now Covers Entire Screen */
+.video-wrap {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+    width: 100vw;
+    height: 70vh;
+    overflow: hidden;
 }
 
-/* Individual Slides */
-.slide {
+#video-bg {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 2s ease-in-out;
-}
-
-/* Active Slide */
-.slide.active {
-    opacity: 1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 70vh;
+    object-fit: cover;
+    rotate: 180deg;
 }
 
 /* Hero Text */
 .hero-text {
     position: relative;
     z-index: 2;
-    color: #fff;
+    color: #ffffff;
+    top: 20%;
+    text-align: center;
     text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Hero Title */
+/* New Small Title Above Main Heading */
+.hero-text .small-title {
+    font-weight: 700;
+    color: #20c997;
+}
+
+/* Main Hero Heading */
 .hero-text h1 {
     font-size: 3.5rem;
-    font-weight: bold;
+    font-weight: 900;
+    margin-bottom: 25px;
 }
 
-/* Hero Subtitle */
-.hero-text p {
+/* Subtext */
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+/* Subtext */
+.hero-text h3 {
     font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-weight: 400;
+    margin-bottom: 70px;
 }
 
 /* Hero Button */
@@ -103,11 +115,44 @@ body {
     transition: 0.3s ease-in-out;
 }
 
-/* Hero Button Hover */
 .hero-btn:hover {
     background-color: #20c997;
-    color: #fff;
+    color: #ffffff;
     transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+    .hero-text h2 {
+        font-size: 2.5rem;
+    }
+    .hero-text h3 {
+        font-size: 1.5rem;
+    }
+    .hero-text {
+        top: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        height: 80vh;
+    }
+    .hero-text h1 {
+        font-size: 1.3rem;
+    }
+    .hero-text h2 {
+        font-size: 1.2rem;
+    }
+    .hero-text h3 {
+        font-size: 1rem;
+    }
+    .hero-text {
+        top: 50px;
+    }
 }
 
 /* =======================================================
@@ -192,17 +237,9 @@ body {
     transform: scale(1.1);
 }
 
-/* =======================================================
-   RESPONSIVE STYLES (For Mobile and Tablets)
-   ======================================================= */
 
+/* Responsive */
 @media (max-width: 768px) {
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-    .hero-text p {
-        font-size: 1.2rem;
-    }
     .features-grid {
         grid-template-columns: 1fr;
     }
@@ -212,64 +249,68 @@ body {
 <!-- =======================================================
      HERO SECTION (Dynamic Background)
      ======================================================= -->
-<section class="hero-section">
-    <div class="hero-background">
-        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero1.webp") }}');"></div>
-        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero2.webp") }}');"></div>
-        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero3.webp") }}');"></div>
-    </div>
-    <div class="hero-text">
-        <h1>Welcome to Brainery</h1>
-        <p>Your journey to knowledge starts here.</p>
-        <a href="#" class="hero-btn">Get Started</a>
-    </div>
-</section>
-
+    <section class="hero-section">
+        <!-- Background Video -->
+        <div class="video-wrap">
+            <video autoplay playsinline loop muted id="video-bg">
+                <source src="https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4" type="video/mp4">
+            </video>
+        </div>
+    
+        <!-- Hero Text -->
+        <div class="hero-text">
+            <h2 class="small-title">Welcome to Brainery</h2>
+            <h1>Where Creativity & Strategy Meet</h1>
+            <h3>Your journey to success begins here</h3>
+            <a href="#" class="hero-btn">Get Started</a>
+        </div>
+    </section>
+    
 <!-- =======================================================
      FEATURES SECTION (Interactive Cards)
      ======================================================= -->
-<section class="feature-section">
-    <div class="container">
-        <h2>Explore Features</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <i class="fas fa-book-open feature-icon"></i>
-                <h5>Explore Resources</h5>
-                <p>Browse our vast collection of learning resources.</p>
-                <a href="#" class="feature-btn">Start Exploring</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-upload feature-icon"></i>
-                <h5>Contribute</h5>
-                <p>Upload and manage your own resources.</p>
-                <a href="#" class="feature-btn">Get Started</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-users feature-icon"></i>
-                <h5>Join the Community</h5>
-                <p>Collaborate and grow together.</p>
-                <a href="#" class="feature-btn">Join Now</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-chalkboard-teacher feature-icon"></i>
-                <h5>Interactive Courses</h5>
-                <p>Learn with hands-on, interactive courses.</p>
-                <a href="#" class="feature-btn">View Courses</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-video feature-icon"></i>
-                <h5>Live Workshops</h5>
-                <p>Participate in expert-led workshops.</p>
-                <a href="#" class="feature-btn">See Workshops</a>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-user-tie feature-icon"></i>
-                <h5>Career Guidance</h5>
-                <p>Get mentorship from professionals.</p>
-                <a href="#" class="feature-btn">Learn More</a>
+    <section class="feature-section">
+        <div class="container">
+            <h2>Explore Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-book-open feature-icon"></i>
+                    <h5>Explore Resources</h5>
+                    <p>Browse our vast collection of learning resources.</p>
+                    <a href="#" class="feature-btn">Start Exploring</a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-upload feature-icon"></i>
+                    <h5>Contribute</h5>
+                    <p>Upload and manage your own resources.</p>
+                    <a href="#" class="feature-btn">Get Started</a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users feature-icon"></i>
+                    <h5>Join the Community</h5>
+                    <p>Collaborate and grow together.</p>
+                    <a href="#" class="feature-btn">Join Now</a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                    <h5>Interactive Courses</h5>
+                    <p>Learn with hands-on, interactive courses.</p>
+                    <a href="#" class="feature-btn">View Courses</a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-video feature-icon"></i>
+                    <h5>Live Workshops</h5>
+                    <p>Participate in expert-led workshops.</p>
+                    <a href="#" class="feature-btn">See Workshops</a>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-user-tie feature-icon"></i>
+                    <h5>Career Guidance</h5>
+                    <p>Get mentorship from professionals.</p>
+                    <a href="#" class="feature-btn">Learn More</a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 {% endblock %}
