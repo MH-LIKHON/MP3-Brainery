@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Brainery{% endblock %}
+
+{% block extra_styles %}
+    <style>
+        /* =======================================================
+   GENERAL STYLES
+   ======================================================= */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* =======================================================
+   HERO SECTION
+   ======================================================= */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
+}
+
+.hero-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: auto;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 10px;
+    opacity: 0;
+    z-index: 10;
+    animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* =======================================================
+   FEATURES SECTION
+   ======================================================= */
+.features-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.feature-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card h5 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.feature-card p {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+.feature-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.feature-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* =======================================================
+   RESPONSIVE DESIGN
+   ======================================================= */
+@media (max-width: 768px) {
+    .features-section {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- ===========================
+         HERO SECTION
+         =========================== -->
+    <section class="hero-section">
+        <!-- Background Slideshow -->
+        <div class="hero-background">
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero1.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero2.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero3.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero4.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero5.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero6.webp") }}');"></div>
+            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero7.webp") }}');"></div>
+        </div>
+
+        <!-- Hero Logo Image -->
+        <div class="hero-logo-container">
+            <img src="{{ url_for('static', filename='images/herologo.png') }}" alt="Hero Logo" class="hero-logo">
+        </div>
+    </section>
+
+    <!-- ===========================
+         FEATURES SECTION
+         =========================== -->
+    <section class="feature-section">
+        <div class="container">
+            <h2 class="text-center mb-4">Explore Features</h2>
+            <div class="features-section">
+                {% for feature in features %}
+                    <div class="feature-card">
+                        <h5>{{ feature.title }}</h5>
+                        <p>{{ feature.description }}</p>
+                        <a href="{{ feature.link }}" class="feature-btn">{{ feature.button_text }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("JavaScript Loaded!"); // Debugging step
+
+    // ===============================
+    // ✅ HERO SECTION SLIDESHOW
+    // ===============================
+    let slides = document.querySelectorAll(".slide");
+    let currentSlide = 0;
+
+    function changeSlide() {
+        slides.forEach((slide, index) => {
+            slide.classList.remove("active"); // Remove active from all
+            slide.style.opacity = "0"; // Hide all slides
+        });
+
+        slides[currentSlide].classList.add("active"); // Add active class
+        slides[currentSlide].style.opacity = "1"; // Show current slide
+
+        currentSlide = (currentSlide + 1) % slides.length; // Cycle to next slide
+    }
+
+    if (slides.length > 0) {
+        slides[0].classList.add("active");
+        slides[0].style.opacity = "1";
+        setInterval(changeSlide, 3000); // Change slide every 3 seconds
+    } else {
+        console.error("No slides found! Check your HTML structure.");
+    }
+
+    // ===============================
+    // ✅ NAVIGATION MENU TOGGLE
+    // ===============================
+    document.querySelector(".navbar-toggler").addEventListener("click", function () {
+        document.getElementById("navbarNav").classList.toggle("show");
+    });
+
+    // ===============================
+    // ✅ SMOOTH SCROLL FOR ANCHOR LINKS
+    // ===============================
+    document.querySelectorAll("a[href^='#']").forEach(anchor => {
+        anchor.addEventListener("click", function (event) {
+            event.preventDefault();
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
+});
+
+    </script>
+{% endblock %}

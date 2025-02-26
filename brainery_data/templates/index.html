@@ -1,76 +1,275 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Brainery{% endblock %}
-
 {% block content %}
-    <!-- ===========================
-         HERO SECTION
-         =========================== -->
 
-    <section class="hero-section">
-        <div class="hero-background">
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero1.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero2.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero3.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero4.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero5.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero6.webp") }}');"></div>
-            <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero7.webp") }}');"></div>
-        </div>
+<style>
+/* =======================================================
+   GENERAL STYLES (Global Reset, Background, and Typography)
+   ======================================================= */
 
-        <div class="hero-logo-container">
-            <img src="{{ url_for('static', filename='images/herologo.png') }}" alt="Hero Logo" class="hero-logo">
-        </div>
-    </section>
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <!-- ===========================
-         FEATURES SECTION
-         =========================== -->
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
 
-    <section class="feature-section">
-        <div class="container">
-            <h2 class="text-center mb-4">Explore Features</h2>
-            <div class="features-section">
-                <div class="feature-card">
-                    <h5>Explore Resources</h5>
-                    <p>Browse our vast collection of learning resources across multiple disciplines.</p>
-                    <a href="#" class="feature-btn">Start Exploring</a>
-                </div>
+/* Utility class for container max-width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
 
-                <div class="feature-card">
-                    <h5>Contribute</h5>
-                    <p>Have something to share? Upload and manage your own resources.</p>
-                    <a href="#" class="feature-btn">Get Started</a>
-                </div>
+/* =======================================================
+   HERO SECTION (Animated Background)
+   ======================================================= */
 
-                <div class="feature-card">
-                    <h5>Join the Community</h5>
-                    <p>Collaborate with like-minded individuals and grow together.</p>
-                    <a href="#" class="feature-btn">Join Now</a>
-                </div>
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
 
-                <div class="feature-card">
-                    <h5>Interactive Courses</h5>
-                    <p>Learn with hands-on, interactive courses in various subjects.</p>
-                    <a href="#" class="feature-btn">View Courses</a>
-                </div>
+/* Hero Background */
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
 
-                <div class="feature-card">
-                    <h5>Live Workshops</h5>
-                    <p>Participate in expert-led workshops and training sessions.</p>
-                    <a href="#" class="feature-btn">See Workshops</a>
-                </div>
+/* Individual Slides */
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+}
 
-                <div class="feature-card">
-                    <h5>Career Guidance</h5>
-                    <p>Get mentorship and career guidance from industry professionals.</p>
-                    <a href="#" class="feature-btn">Learn More</a>
-                </div>
+/* Active Slide */
+.slide.active {
+    opacity: 1;
+}
+
+/* Hero Text */
+.hero-text {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero Title */
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+}
+
+/* Hero Subtitle */
+.hero-text p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Hero Button */
+.hero-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hero Button Hover */
+.hero-btn:hover {
+    background-color: #20c997;
+    color: #fff;
+    transform: scale(1.1);
+}
+
+/* =======================================================
+   FEATURES SECTION (Cards for Features)
+   ======================================================= */
+
+/* Features Section */
+.feature-section {
+    padding: 60px 0;
+}
+
+/* Features Title */
+.feature-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Feature Card */
+.feature-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Feature Card Hover */
+.feature-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Feature Icon */
+.feature-icon {
+    font-size: 40px;
+    color: #20c997;
+    margin-bottom: 15px;
+}
+
+/* Feature Title */
+.feature-card h5 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Feature Description */
+.feature-card p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* Feature Button */
+.feature-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Feature Button Hover */
+.feature-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* =======================================================
+   RESPONSIVE STYLES (For Mobile and Tablets)
+   ======================================================= */
+
+@media (max-width: 768px) {
+    .hero-text h1 {
+        font-size: 2.5rem;
+    }
+    .hero-text p {
+        font-size: 1.2rem;
+    }
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<!-- =======================================================
+     HERO SECTION (Dynamic Background)
+     ======================================================= -->
+<section class="hero-section">
+    <div class="hero-background">
+        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero1.webp") }}');"></div>
+        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero2.webp") }}');"></div>
+        <div class="slide" style="background-image: url('{{ url_for("static", filename="images/hero3.webp") }}');"></div>
+    </div>
+    <div class="hero-text">
+        <h1>Welcome to Brainery</h1>
+        <p>Your journey to knowledge starts here.</p>
+        <a href="#" class="hero-btn">Get Started</a>
+    </div>
+</section>
+
+<!-- =======================================================
+     FEATURES SECTION (Interactive Cards)
+     ======================================================= -->
+<section class="feature-section">
+    <div class="container">
+        <h2>Explore Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-book-open feature-icon"></i>
+                <h5>Explore Resources</h5>
+                <p>Browse our vast collection of learning resources.</p>
+                <a href="#" class="feature-btn">Start Exploring</a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-upload feature-icon"></i>
+                <h5>Contribute</h5>
+                <p>Upload and manage your own resources.</p>
+                <a href="#" class="feature-btn">Get Started</a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-users feature-icon"></i>
+                <h5>Join the Community</h5>
+                <p>Collaborate and grow together.</p>
+                <a href="#" class="feature-btn">Join Now</a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                <h5>Interactive Courses</h5>
+                <p>Learn with hands-on, interactive courses.</p>
+                <a href="#" class="feature-btn">View Courses</a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-video feature-icon"></i>
+                <h5>Live Workshops</h5>
+                <p>Participate in expert-led workshops.</p>
+                <a href="#" class="feature-btn">See Workshops</a>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-tie feature-icon"></i>
+                <h5>Career Guidance</h5>
+                <p>Get mentorship from professionals.</p>
+                <a href="#" class="feature-btn">Learn More</a>
             </div>
         </div>
-    </section>
-{% endblock %}
+    </div>
+</section>
 
-{% block extra_scripts %}
-    <script src="{{ url_for('static', filename='js/hero.js') }}"></script>
 {% endblock %}
