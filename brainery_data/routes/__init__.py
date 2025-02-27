@@ -2,7 +2,7 @@ import os
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_login import LoginManager
-from dotenv import load_dotenv  # ✅ Load environment variables
+from dotenv import load_dotenv  #  Load environment variables
 
 # Load environment variables from .env file
 load_dotenv()
@@ -43,11 +43,11 @@ def create_app():
     from brainery_data.routes.auth import auth
     from brainery_data.routes.dashboard import dashboard
     from brainery_data.routes.main import main
-    from brainery_data.routes.resource import resource  # ✅ Ensure resource CRUD routes are registered
+    from brainery_data.routes.resource import resource  #  Ensure resource CRUD routes are registered
 
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(dashboard, url_prefix="/dashboard")
     app.register_blueprint(main)
-    app.register_blueprint(resource, url_prefix="/resource")  # ✅ Adding resource CRUD routes
+    app.register_blueprint(resource, url_prefix="/resource")  #  Adding resource CRUD routes
 
     return app

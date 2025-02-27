@@ -24,9 +24,12 @@
     <!-- Custom CSS Test -->
     <style>
 /* =======================================================
-   GENERAL STYLES (Global Reset, Background, and Typography)
+   HEADER & FOOTER ALL PAGES
    ======================================================= */
-
+   
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
 /* Reset default margins and paddings */
 * {
     margin: 0;
@@ -49,13 +52,10 @@ body {
     padding: 0 15px;
 }
 
-/* =======================================================
-   HEADER SECTION (Top Bar, Social Icons, and Navbar)
-   ======================================================= */
-
 /* -------------------------------
    Top Bar
    ------------------------------- */
+/* Top bar styling */
 .top-bar {
     background-color: #f8f9fa;
     border-bottom: 1px solid #ddd;
@@ -87,6 +87,7 @@ body {
 /* -------------------------------
    Navbar
    ------------------------------- */
+/* Navbar styling */
 .navbar {
     background-color: #ffffff;
     border-bottom: 1px solid #ddd;
@@ -130,13 +131,10 @@ body {
     transform: scale(1.1);
 }
 
-/* =======================================================
-   FOOTER SECTION (Footer Styling)
-   ======================================================= */
-
 /* -------------------------------
    Footer Container
    ------------------------------- */
+/* Footer styling */
 footer {
     background-color: #f8f9fa;
     padding: 20px 0;
@@ -175,44 +173,68 @@ footer a:hover {
     color: #333;
 }
 
-/* =======================================================
-   RESPONSIVE STYLES (For Mobile and Tablets)
-   ======================================================= */
-
 /* -------------------------------
-   Adjustments for screens smaller than 768px
-   ------------------------------- */
+    Mobile & Tablet View (Responsive)
+    ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .navbar-collapse {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        text-align: right;
+    }
+
+    .navbar-nav .nav-item {
+        padding-right: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-item:hover {
+        transform: translateX(10px);
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
 @media (max-width: 768px) {
     .social-icons {
         gap: 10px;
     }
+
     .social-icons a {
         font-size: 18px;
     }
+
     .navbar-brand {
         font-size: 20px;
     }
+
     .hero-section h1 {
         font-size: 2.5rem;
     }
+
     .hero-section p {
         font-size: 1rem;
     }
 }
 
-/* -------------------------------
-   Adjustments for screens smaller than 576px
-   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
 @media (max-width: 576px) {
     .hero-section {
         height: 300px;
     }
+
     .hero-section h1 {
         font-size: 2rem;
     }
+
     .hero-section p {
         font-size: 0.9rem;
     }
+    
     .hero-section .btn {
         font-size: 16px;
     }

@@ -4,8 +4,13 @@
 
 <style>
 /* =======================================================
-   GENERAL STYLES
+   REGISTER PAGE
    ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
 * {
     margin: 0;
     padding: 0;
@@ -13,14 +18,15 @@
     font-family: 'Arial', sans-serif;
 }
 
+/* Body Styling */
 body {
     background: #f8f9fa;
 }
 
-/* =======================================================
-   REGISTER PAGE STYLES
-   ======================================================= */
-/* Page Container */
+/* -------------------------------
+   Page Layout
+   ------------------------------- */
+/* Page container for register form */
 .register-container {
     max-width: 700px;
     margin: 50px auto;
@@ -31,13 +37,19 @@ body {
     text-align: center;
 }
 
-/* Title */
+/* -------------------------------
+   Titles
+   ------------------------------- */
+/* Register Page Title */
 .register-container h2 {
     font-weight: bold;
     margin-bottom: 20px;
 }
 
-/* Package Selection */
+/* -------------------------------
+   Package Selection Layout
+   ------------------------------- */
+/* Package selection container */
 .package-selection {
     display: flex;
     justify-content: space-between;
@@ -46,7 +58,10 @@ body {
     flex-wrap: wrap;
 }
 
-/* Package Cards */
+/* -------------------------------
+   Package Cards
+   ------------------------------- */
+/* Individual package card */
 .package {
     flex: 1;
     padding: 20px;
@@ -60,6 +75,7 @@ body {
     min-width: 200px;
 }
 
+/* Hover effect & selection */
 .package:hover,
 .package.selected {
     background: #20c997;
@@ -67,32 +83,44 @@ body {
     transform: scale(1.05);
 }
 
-/* Bullet Points */
+/* -------------------------------
+   Bullet Points
+   ------------------------------- */
+/* List of package benefits */
 .package ul {
     text-align: left;
     padding-left: 20px;
 }
 
+/* Individual list item */
 .package ul li {
     margin-bottom: 5px;
 }
 
-/* Step Sections */
+/* -------------------------------
+   Step Sections
+   ------------------------------- */
+/* Hidden by default */
 .step-section {
     display: none;
     text-align: left;
 }
 
-/* Form Input */
+/* -------------------------------
+   Form Input Fields
+   ------------------------------- */
+/* Form group wrapper */
 .form-group {
     margin-bottom: 15px;
 }
 
+/* Input Labels */
 label {
     font-weight: bold;
     display: block;
 }
 
+/* Input Fields */
 input {
     width: 100%;
     padding: 10px;
@@ -100,17 +128,24 @@ input {
     border-radius: 5px;
 }
 
-/* Payment Section */
+/* -------------------------------
+   Payment Section
+   ------------------------------- */
+/* Hidden by default */
 .payment-section {
     display: none;
 }
 
-/* Promo Code */
+/* -------------------------------
+   Promo Code Section
+   ------------------------------- */
+/* Promo code input */
 .promo-code input {
     width: 70%;
     display: inline-block;
 }
 
+/* Promo code apply button */
 .promo-code button {
     width: 28%;
     background: #20c997;
@@ -120,11 +155,15 @@ input {
     cursor: pointer;
 }
 
+/* Hover effect */
 .promo-code button:hover {
     background: #198754;
 }
 
-/* Submit Button */
+/* -------------------------------
+   Submit Button
+   ------------------------------- */
+/* Main submit button */
 .submit-btn {
     background: #20c997;
     color: white;
@@ -137,11 +176,15 @@ input {
     border-radius: 5px;
 }
 
+/* Hover effect */
 .submit-btn:hover {
     background: #198754;
 }
 
-/* Funny Message */
+/* -------------------------------
+   Funny Confirmation Message
+   ------------------------------- */
+/* Hidden by default */
 .success-message {
     display: none;
     font-size: 22px;
@@ -151,9 +194,10 @@ input {
     padding: 50px;
 }
 
-/* =======================================================
-   RESPONSIVE STYLES
-   ======================================================= */
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
 @media (max-width: 768px) {
     .register-container {
         max-width: 95%;
@@ -179,6 +223,7 @@ input {
     }
 }
 
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
 @media (max-width: 480px) {
     .register-container {
         padding: 15px;
@@ -192,6 +237,7 @@ input {
         font-size: 14px;
     }
 }
+
 </style>
 
 <!-- Register Page -->

@@ -4,9 +4,12 @@
 
 <style>
 /* =======================================================
-   GENERAL STYLES (Global Reset, Background, and Typography)
+   HOME PAGE
    ======================================================= */
 
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
 /* Reset default margins and paddings */
 * {
     margin: 0;
@@ -29,10 +32,9 @@ body {
     padding: 0 15px;
 }
 
-/* =======================================================
-   HERO SECTION (Animated Background)
-   ======================================================= */
-
+/* -------------------------------
+   Hero Section Container
+   ------------------------------- */
 /* Hero Section */
 .hero-section {
     position: relative;
@@ -45,7 +47,10 @@ body {
     overflow: hidden;
 }
 
-/* Background Video - Now Covers Entire Screen */
+/* -------------------------------
+   Background Video
+   ------------------------------- */
+/* Full-width background video */
 .video-wrap {
     position: absolute;
     top: 0;
@@ -55,6 +60,7 @@ body {
     overflow: hidden;
 }
 
+/* Video Styling */
 #video-bg {
     position: absolute;
     top: 0;
@@ -65,7 +71,10 @@ body {
     rotate: 180deg;
 }
 
-/* Hero Text */
+/* -------------------------------
+   Hero Text
+   ------------------------------- */
+/* Hero Text Container */
 .hero-text {
     position: relative;
     z-index: 2;
@@ -76,7 +85,7 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* New Small Title Above Main Heading */
+/* Small Title */
 .hero-text .small-title {
     font-weight: 700;
     color: #20c997;
@@ -96,14 +105,17 @@ body {
     margin-bottom: 25px;
 }
 
-/* Subtext */
+/* Additional Subtext */
 .hero-text h3 {
     font-size: 1.5rem;
     font-weight: 400;
     margin-bottom: 70px;
 }
 
-/* Hero Button */
+/* -------------------------------
+   Hero Button
+   ------------------------------- */
+/* Hero Button Styling */
 .hero-btn {
     padding: 12px 25px;
     font-size: 18px;
@@ -115,50 +127,16 @@ body {
     transition: 0.3s ease-in-out;
 }
 
+/* Hover Effect */
 .hero-btn:hover {
     background-color: #20c997;
     color: #ffffff;
     transform: scale(1.1);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .hero-text h1 {
-        font-size: 3rem;
-    }
-    .hero-text h2 {
-        font-size: 2.5rem;
-    }
-    .hero-text h3 {
-        font-size: 1.5rem;
-    }
-    .hero-text {
-        top: 150px;
-    }
-}
-
-@media (max-width: 576px) {
-    .hero-section {
-        height: 80vh;
-    }
-    .hero-text h1 {
-        font-size: 1.3rem;
-    }
-    .hero-text h2 {
-        font-size: 1.2rem;
-    }
-    .hero-text h3 {
-        font-size: 1rem;
-    }
-    .hero-text {
-        top: 50px;
-    }
-}
-
-/* =======================================================
-   FEATURES SECTION (Cards for Features)
-   ======================================================= */
-
+/* -------------------------------
+   Features Section Layout
+   ------------------------------- */
 /* Features Section */
 .feature-section {
     padding: 60px 0;
@@ -172,7 +150,10 @@ body {
     margin-bottom: 30px;
 }
 
-/* Features Grid */
+/* -------------------------------
+   Features Grid
+   ------------------------------- */
+/* Grid layout for features */
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -181,7 +162,10 @@ body {
     margin: 0 auto;
 }
 
-/* Feature Card */
+/* -------------------------------
+   Feature Cards
+   ------------------------------- */
+/* Feature Card Styling */
 .feature-card {
     background: #ffffff;
     border-radius: 12px;
@@ -191,12 +175,15 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Feature Card Hover */
+/* Hover Effect */
 .feature-card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* -------------------------------
+   Feature Card Elements
+   ------------------------------- */
 /* Feature Icon */
 .feature-icon {
     font-size: 40px;
@@ -218,7 +205,10 @@ body {
     color: #666;
 }
 
-/* Feature Button */
+/* -------------------------------
+   Feature Card Button
+   ------------------------------- */
+/* Feature Button Styling */
 .feature-btn {
     display: inline-block;
     padding: 12px 20px;
@@ -230,18 +220,66 @@ body {
     transition: 0.3s ease-in-out;
 }
 
-/* Feature Button Hover */
+/* Hover Effect */
 .feature-btn:hover {
     background-color: #20c997;
     color: #ffffff;
     transform: scale(1.1);
 }
 
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
 
-/* Responsive */
+    .hero-text h2 {
+        font-size: 2.5rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero-text {
+        top: 150px;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
 @media (max-width: 768px) {
     .features-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-section {
+        height: 80vh;
+    }
+
+    .hero-text h1 {
+        font-size: 1.3rem;
+    }
+
+    .hero-text h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1rem;
+    }
+
+    .hero-text {
+        top: 50px;
     }
 }
 </style>
