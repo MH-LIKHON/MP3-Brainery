@@ -35,6 +35,18 @@ body {
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Smooth fade-in effect */
+.register-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.register-container.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
 }
 
 /* -------------------------------
@@ -73,6 +85,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     min-width: 200px;
+    position: relative;
 }
 
 /* Hover effect & selection */
@@ -81,29 +94,33 @@ body {
     background: #20c997;
     color: white;
     transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Small pulse effect when selected */
+.package.selected::after {
+    content: "✔";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
 }
 
 /* -------------------------------
-   Bullet Points
+   Form Sections
    ------------------------------- */
-/* List of package benefits */
-.package ul {
-    text-align: left;
-    padding-left: 20px;
-}
-
-/* Individual list item */
-.package ul li {
-    margin-bottom: 5px;
-}
-
-/* -------------------------------
-   Step Sections
-   ------------------------------- */
-/* Hidden by default */
+/* Smooth fade-in effect */
 .step-section {
     display: none;
-    text-align: left;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.step-section.active {
+    display: block;
+    opacity: 1;
 }
 
 /* -------------------------------
@@ -112,6 +129,7 @@ body {
 /* Form group wrapper */
 .form-group {
     margin-bottom: 15px;
+    position: relative;
 }
 
 /* Input Labels */
@@ -126,14 +144,29 @@ input {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Input focus effect */
+input:focus {
+    border-color: #20c997;
+    box-shadow: 0px 0px 8px rgba(32, 201, 151, 0.3);
+    outline: none;
 }
 
 /* -------------------------------
    Payment Section
    ------------------------------- */
-/* Hidden by default */
+/* Smooth fade-in effect */
 .payment-section {
     display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.payment-section.active {
+    display: block;
+    opacity: 1;
 }
 
 /* -------------------------------
@@ -153,11 +186,19 @@ input {
     border: none;
     padding: 8px;
     cursor: pointer;
+    transition: background 0.3s ease-in-out;
 }
 
 /* Hover effect */
 .promo-code button:hover {
     background: #198754;
+}
+
+/* Promo Message */
+#promo-message {
+    margin-top: 5px;
+    font-size: 14px;
+    transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 /* -------------------------------
@@ -174,11 +215,18 @@ input {
     font-size: 16px;
     margin-top: 10px;
     border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 /* Hover effect */
 .submit-btn:hover {
     background: #198754;
+    transform: scale(1.02);
+}
+
+/* Click effect */
+.submit-btn:active {
+    transform: scale(0.98);
 }
 
 /* -------------------------------
@@ -192,6 +240,7 @@ input {
     text-align: center;
     color: #20c997;
     padding: 50px;
+    transition: opacity 0.3s ease-in-out;
 }
 
 /* -------------------------------
@@ -273,26 +322,63 @@ input {
     </div>
 
     <!-- Personal Info Step -->
-    <div class="step-section" id="personal-info">
+    <form class="step-section" id="personal-info">
         <h4>Tell us about yourself</h4>
+    
         <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" required>
+            <label for="first-name">First Name</label>
+            <input type="text" id="first-name" name="first_name" required>
         </div>
+    
         <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" required>
+            <label for="last-name">Last Name</label>
+            <input type="text" id="last-name" name="last_name" required>
         </div>
+    
         <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" required>
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" name="dob" required>
         </div>
+    
         <div class="form-group">
-            <label>Billing Address</label>
-            <input type="text" required>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required>
         </div>
-        <button class="submit-btn" id="next-payment">Next: Payment</button>
-    </div>
+    
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+    
+        <h5>Billing Address</h5>
+    
+        <div class="form-group">
+            <label for="address-line1">Address Line 1</label>
+            <input type="text" id="address-line1" name="address_line1" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="address-line2">Address Line 2 (Optional)</label>
+            <input type="text" id="address-line2" name="address_line2">
+        </div>
+    
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" required>
+        </div>
+    
+        <div class="form-group">
+            <label for="postcode">Postcode</label>
+            <input type="text" id="postcode" name="postcode" required>
+        </div>
+    
+        <button type="submit" class="submit-btn" id="next-payment">Next: Payment</button>
+    </form>    
 
     <!-- Payment Step -->
     <div class="step-section payment-section" id="payment-section">
@@ -331,26 +417,77 @@ input {
     🚀 Happy Learning!  
 </div>
 
-<!-- JavaScript -->
 <script>
 document.querySelectorAll(".package").forEach(item => {
     item.addEventListener("click", function() {
+        // Remove selection from other packages
         document.querySelectorAll(".package").forEach(p => p.classList.remove("selected"));
+        
+        // Add selection with animation
         this.classList.add("selected");
-        document.getElementById("personal-info").style.display = "block";
+        this.style.transform = "scale(1.05)";
+        setTimeout(() => {
+            this.style.transform = "scale(1)";
+        }, 200);
+
+        // Fade-in effect for personal info section
+        const personalInfo = document.getElementById("personal-info");
+        personalInfo.style.opacity = 0;
+        personalInfo.style.display = "block";
+        setTimeout(() => {
+            personalInfo.style.opacity = 1;
+        }, 200);
     });
 });
 
-document.getElementById("next-payment").addEventListener("click", function() {
-    document.getElementById("personal-info").style.display = "none";
-    document.getElementById("payment-section").style.display = "block";
+document.getElementById("next-payment").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default form submission (if needed)
+
+    const personalInfo = document.getElementById("personal-info");
+    const paymentSection = document.getElementById("payment-section");
+
+    // Fade out personal info
+    personalInfo.style.opacity = 0;
+    setTimeout(() => {
+        personalInfo.style.display = "none";
+
+        // Fade in payment section
+        paymentSection.style.display = "block";
+        setTimeout(() => {
+            paymentSection.style.opacity = 1;
+        }, 200);
+    }, 300);
 });
 
 function applyPromoCode() {
-    if (document.getElementById("promo-code").value.trim() === "CI25MP3") {
-        document.getElementById("card-payment").style.display = "none";
+    const promoInput = document.getElementById("promo-code");
+    const cardPayment = document.getElementById("card-payment");
+    const promoMessage = document.getElementById("promo-message");
+
+    if (promoInput.value.trim() === "CI25MP3") {
+        cardPayment.style.opacity = 0;
+        setTimeout(() => {
+            cardPayment.style.display = "none";
+        }, 300);
+
+        promoMessage.innerText = "Promo code applied! Card payment hidden.";
+        promoMessage.style.color = "green";
+        promoMessage.style.opacity = 1;
+    } else {
+        promoMessage.innerText = "Invalid promo code. Try again!";
+        promoMessage.style.color = "red";
+        promoMessage.style.opacity = 1;
     }
 }
+
+// Ensure promo message is hidden initially
+document.addEventListener("DOMContentLoaded", () => {
+    const promoMessage = document.createElement("p");
+    promoMessage.id = "promo-message";
+    promoMessage.style.opacity = 0;
+    promoMessage.style.transition = "opacity 0.3s ease";
+    document.getElementById("promo-code").insertAdjacentElement("afterend", promoMessage);
+});
 </script>
 
 {% endblock %}
