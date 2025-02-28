@@ -1,15 +1,17 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, DateField
+from wtforms import StringField, PasswordField, DateField, SubmitField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from brainery_data import mongo
 from brainery_data.models import User
 
-# Initialize Blueprint for Register
+# Initialize Blueprint for Register Routes
 register = Blueprint('register', __name__)
 
-# Define the Registration Form here instead of importing it
+# Define the Registration Form
+
+
 class RegisterForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])
     last_name = StringField('Last Name', validators=[DataRequired()])
@@ -21,8 +23,20 @@ class RegisterForm(FlaskForm):
     city = StringField('City', validators=[DataRequired()])
     country = StringField('Country', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=6)])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField('Password', validators=[
+                             DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Confirm Password', validators=[
+                                     DataRequired(), EqualTo('password')])
+    submit = SubmitField("Register")
+
+# Define the Login Form here since there is no separate forms.py
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
+
 
 @register.route('/register', methods=['GET', 'POST'])
 def register_user():
@@ -33,7 +47,8 @@ def register_user():
         # Extract data from form
         first_name = form.first_name.data
         last_name = form.last_name.data
-        username = f"{first_name} {last_name}"  # Combine first and last name to form a username
+        # Combine first and last name to form a username
+        username = f"{first_name} {last_name}"
         email = form.email.data
         password = form.password.data
         confirm_password = form.confirm_password.data
@@ -65,7 +80,7 @@ def register_user():
             "postcode": form.postcode.data,
             "dob": form.dob.data
         })
-        
+
         user.save(mongo)  # Pass mongo here when saving
 
         flash("Registration successful! Please log in.", 'success')
