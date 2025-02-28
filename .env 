@@ -1,2 +1,0 @@
-MONGO_URI=mongodb://localhost:27017/brainery  # Local MongoDB
-SECRET_KEY=your_secret_key
