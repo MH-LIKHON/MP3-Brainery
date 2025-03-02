@@ -3,304 +3,303 @@
 {% block content %}
 
 <style>
-/* =======================================================
+    /* =======================================================
    REGISTER PAGE
    ======================================================= */
 
-/* -------------------------------
+    /* -------------------------------
    Global Resets
    ------------------------------- */
-/* Reset default margins and paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-}
+    /* Reset default margins and paddings */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
 
-/* Body Styling */
-body {
-    background: #f8f9fa;
-}
+    /* Body Styling */
+    body {
+        background: #f8f9fa;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Page Layout
    ------------------------------- */
-/* Page container for register form */
-.register-container {
-    max-width: 700px;
-    margin: 50px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
+    /* Page container for register form */
+    .register-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
 
-/* Smooth fade-in effect */
-.register-container.show {
-    opacity: 1;
-    transform: translateY(0);
-}
+    /* Smooth fade-in effect */
+    .register-container.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-.register-container.hidden {
-    opacity: 0;
-    transform: translateY(-10px);
-}
+    .register-container.hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Titles
    ------------------------------- */
-/* Register Page Title */
-.register-container h2 {
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+    /* Register Page Title */
+    .register-container h2 {
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Package Selection Layout
    ------------------------------- */
-/* Package selection container */
-.package-selection {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-}
+    /* Package selection container */
+    .package-selection {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Package Cards
    ------------------------------- */
-/* Individual package card */
-.package {
-    flex: 1;
-    padding: 20px;
-    background: #fff;
-    border: 2px solid #20c997;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    min-width: 200px;
-    position: relative;
-}
+    /* Individual package card */
+    .package {
+        flex: 1;
+        padding: 20px;
+        background: #fff;
+        border: 2px solid #20c997;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        min-width: 200px;
+        position: relative;
+    }
 
-/* Hover effect & selection */
-.package:hover,
-.package.selected {
-    background: #20c997;
-    color: white;
-    transform: scale(1.05);
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
-}
+    /* Hover effect & selection */
+    .package:hover,
+    .package.selected {
+        background: #20c997;
+        color: white;
+        transform: scale(1.05);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+    }
 
-/* Small pulse effect when selected */
-.package.selected::after {
-    content: "✔";
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: white;
-}
+    /* Small pulse effect when selected */
+    .package.selected::after {
+        content: "✔";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Form Sections
    ------------------------------- */
-/* Smooth fade-in effect */
-.step-section {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
+    /* Smooth fade-in effect */
+    .step-section {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
 
-.step-section.active {
-    display: block;
-    opacity: 1;
-}
+    .step-section.active {
+        display: block;
+        opacity: 1;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Form Input Fields
    ------------------------------- */
-/* Form group wrapper */
-.form-group {
-    margin-bottom: 15px;
-    position: relative;
-}
+    /* Form group wrapper */
+    .form-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
 
-/* Input Labels */
-label {
-    font-weight: bold;
-    display: block;
-}
+    /* Input Labels */
+    label {
+        font-weight: bold;
+        display: block;
+    }
 
-/* Input Fields */
-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
+    /* Input Fields */
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
 
-/* Input focus effect */
-input:focus {
-    border-color: #20c997;
-    box-shadow: 0px 0px 8px rgba(32, 201, 151, 0.3);
-    outline: none;
-}
+    /* Input focus effect */
+    input:focus {
+        border-color: #20c997;
+        box-shadow: 0px 0px 8px rgba(32, 201, 151, 0.3);
+        outline: none;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Payment Section
    ------------------------------- */
-/* Smooth fade-in effect */
-.payment-section {
-    display: none;
-    opacity: 0;
-    transition: opacity 0.4s ease-in-out;
-}
+    /* Smooth fade-in effect */
+    .payment-section {
+        display: none;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
 
-.payment-section.active {
-    display: block;
-    opacity: 1;
-}
+    .payment-section.active {
+        display: block;
+        opacity: 1;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Promo Code Section
    ------------------------------- */
-/* Promo code input */
-.promo-code input {
-    width: 70%;
-    display: inline-block;
-}
+    /* Promo code input */
+    .promo-code input {
+        width: 70%;
+        display: inline-block;
+    }
 
-/* Promo code apply button */
-.promo-code button {
-    width: 28%;
-    background: #20c997;
-    color: white;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
+    /* Promo code apply button */
+    .promo-code button {
+        width: 28%;
+        background: #20c997;
+        color: white;
+        border: none;
+        padding: 8px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+    }
 
-/* Hover effect */
-.promo-code button:hover {
-    background: #198754;
-}
+    /* Hover effect */
+    .promo-code button:hover {
+        background: #198754;
+    }
 
-/* Promo Message */
-#promo-message {
-    margin-top: 5px;
-    font-size: 14px;
-    transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
-}
+    /* Promo Message */
+    #promo-message {
+        margin-top: 5px;
+        font-size: 14px;
+        transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Submit Button
    ------------------------------- */
-/* Main submit button */
-.submit-btn {
-    background: #20c997;
-    color: white;
-    border: none;
-    padding: 12px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
-}
+    /* Main submit button */
+    .submit-btn {
+        background: #20c997;
+        color: white;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        border-radius: 5px;
+        transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    }
 
-/* Hover effect */
-.submit-btn:hover {
-    background: #198754;
-    transform: scale(1.02);
-}
+    /* Hover effect */
+    .submit-btn:hover {
+        background: #198754;
+        transform: scale(1.02);
+    }
 
-/* Click effect */
-.submit-btn:active {
-    transform: scale(0.98);
-}
+    /* Click effect */
+    .submit-btn:active {
+        transform: scale(0.98);
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Funny Confirmation Message
    ------------------------------- */
-/* Hidden by default */
-.success-message {
-    display: none;
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    color: #20c997;
-    padding: 50px;
-    transition: opacity 0.3s ease-in-out;
-}
+    /* Hidden by default */
+    .success-message {
+        display: none;
+        font-size: 22px;
+        font-weight: bold;
+        text-align: center;
+        color: #20c997;
+        padding: 50px;
+        transition: opacity 0.3s ease-in-out;
+    }
 
-/* -------------------------------
+    /* -------------------------------
    Mobile & Tablet View (Responsive)
    ------------------------------- */
-/* Adjust Navbar for Mobile (screens smaller than 768px) */
-@media (max-width: 768px) {
-    .register-container {
-        max-width: 95%;
-        padding: 20px;
+    /* Adjust Navbar for Mobile (screens smaller than 768px) */
+    @media (max-width: 768px) {
+        .register-container {
+            max-width: 95%;
+            padding: 20px;
+        }
+
+        .package-selection {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .package {
+            width: 100%;
+        }
+
+        input {
+            font-size: 14px;
+        }
+
+        .submit-btn {
+            font-size: 14px;
+            padding: 10px;
+        }
     }
 
-    .package-selection {
-        flex-direction: column;
-        gap: 10px;
-    }
+    /* Adjust Navbar for Mobile (screens smaller than 576px) */
+    @media (max-width: 480px) {
+        .register-container {
+            padding: 15px;
+        }
 
-    .package {
-        width: 100%;
-    }
+        h2 {
+            font-size: 22px;
+        }
 
-    input {
-        font-size: 14px;
+        .submit-btn {
+            font-size: 14px;
+        }
     }
-
-    .submit-btn {
-        font-size: 14px;
-        padding: 10px;
-    }
-}
-
-/* Adjust Navbar for Mobile (screens smaller than 576px) */
-@media (max-width: 480px) {
-    .register-container {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    .submit-btn {
-        font-size: 14px;
-    }
-}
-
 </style>
 
 <!-- Flash Messages -->
 {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="alert alert-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
+{% if messages %}
+<div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
 {% endwith %}
 
-<!-- Register Page -->
+<!-- Register Page Container -->
 <div class="register-container" id="register-form">
     <h2>Choose Your Brainery Plan</h2>
 
@@ -334,140 +333,244 @@ input:focus {
 
     <!-- Personal Info Step -->
     <form method="POST" action="{{ url_for('register.register_user') }}" class="step-section" id="personal-info">
-        {{ form.hidden_tag() }}  <!-- Automatically handles CSRF token -->
-    
+        {{ form.hidden_tag() }}
+
         <h4>Tell us about yourself</h4>
-    
+
         <div class="form-group">
             <label for="first-name">First Name</label>
-            {{ form.first_name(class="form-control", id="first-name", required=True) }}
+            {{ form.first_name(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="last-name">Last Name</label>
-            {{ form.last_name(class="form-control", id="last-name", required=True) }}
+            {{ form.last_name(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="dob">Date of Birth</label>
-            {{ form.dob(class="form-control", id="dob", required=True) }}
+            {{ form.dob(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="email">Email Address</label>
-            {{ form.email(class="form-control", id="email", required=True) }}
+            {{ form.email(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="phone">Phone Number</label>
-            {{ form.phone(class="form-control", id="phone", required=True) }}
+            {{ form.phone(class="form-control", required=True) }}
         </div>
-    
+
         <h5>Billing Address</h5>
-    
+
         <div class="form-group">
             <label for="address-line1">Address Line 1</label>
-            {{ form.address_line1(class="form-control", id="address-line1", required=True) }}
+            {{ form.address_line1(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="address-line2">Address Line 2 (Optional)</label>
-            {{ form.address_line2(class="form-control", id="address-line2") }}
+            {{ form.address_line2(class="form-control") }}
         </div>
-    
+
         <div class="form-group">
             <label for="city">City</label>
-            {{ form.city(class="form-control", id="city", required=True) }}
+            {{ form.city(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="country">Country</label>
-            {{ form.country(class="form-control", id="country", required=True) }}
+            {{ form.country(class="form-control", required=True) }}
         </div>
-    
+
         <div class="form-group">
             <label for="postcode">Postcode</label>
-            {{ form.postcode(class="form-control", id="postcode", required=True) }}
+            {{ form.postcode(class="form-control", required=True) }}
         </div>
-    
-        <button type="submit" class="submit-btn" id="next-payment">Next: Payment</button>
-    </form>    
+
+        <button type="button" class="submit-btn" id="next-payment">Next: Payment</button>
+    </form>
+
+    <!-- Payment Section -->
+    <form method="POST" id="payment-form" class="step-section payment-section">
+        <h4>Enter Payment Details</h4>
+
+        <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" name="card_number" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label>Expiry Date</label>
+            <input type="text" name="expiry_date" class="form-control" placeholder="MM/YY" required>
+        </div>
+
+        <div class="form-group">
+            <label>CVV</label>
+            <input type="text" name="cvv" class="form-control" required>
+        </div>
+
+        <!-- Promo Code -->
+        <div class="promo-code">
+            <input type="text" id="promo-code" placeholder="Enter promo code">
+            <button type="button" onclick="applyPromoCode()">Apply</button>
+            <p id="promo-message"></p>
+        </div>
+
+        <button type="submit" class="submit-btn">Complete Registration</button>
+    </form>
 </div>
 
 <!-- Funny Success Message -->
 <div class="success-message" id="success-message">
-    🎉 Woohoo! You’re now officially part of the **Brainery Family!**  
-    📬 Check your email for your account activation link.  
-    🤖 If you don’t see it, maybe it’s lost in the **Matrix** (or spam folder).  
-    🚀 Happy Learning!  
+    🎉 Woohoo! You’re now officially part of the **Brainery Family!**
+    📬 Check your email for your account activation link.
+    🤖 If you don’t see it, maybe it’s lost in the **Matrix** (or spam folder).
+    🚀 Happy Learning!
 </div>
 
 <script>
-// Handle package selection
-document.querySelectorAll(".package").forEach(item => {
-    item.addEventListener("click", function() {
-        // Remove selection from other packages
-        document.querySelectorAll(".package").forEach(p => p.classList.remove("selected"));
-        
-        // Add selection with animation
-        this.classList.add("selected");
-        this.style.transform = "scale(1.05)";
-        setTimeout(() => {
-            this.style.transform = "scale(1)";
-        }, 200);
+    // Step 1: Handle Plan Selection
+    document.querySelectorAll(".package").forEach(item => {
+        item.addEventListener("click", function () {
+            // Remove 'selected' class from all packages and apply to the clicked one
+            document.querySelectorAll(".package").forEach(p => p.classList.remove("selected"));
+            this.classList.add("selected");
 
-        // Show personal info section
-        const personalInfo = document.getElementById("personal-info");
-        personalInfo.style.opacity = 0;
-        personalInfo.style.display = "block";
+            // Show personal info form with fade-in effect
+            let personalInfo = document.getElementById("personal-info");
+            personalInfo.style.display = "block";
+            setTimeout(() => {
+                personalInfo.style.opacity = 1;
+            }, 200);
+
+            // Remove any existing hidden plan input to prevent duplicates
+            let existingPlanInput = document.querySelector("input[name='selected_plan']");
+            if (existingPlanInput) {
+                existingPlanInput.remove();
+            }
+
+            // Add a new hidden input storing the selected plan details
+            let planInput = document.createElement("input");
+            planInput.type = "hidden";
+            planInput.name = "selected_plan";
+            planInput.value = this.dataset.name + " - £" + this.dataset.price;
+            document.getElementById("personal-info").appendChild(planInput);
+        });
+    });
+
+    // Step 2: Ensure a plan is selected before proceeding
+    document.getElementById("next-payment").addEventListener("click", function (event) {
+        event.preventDefault(); // Prevent accidental form submission
+
+        let selectedPlan = document.querySelector(".package.selected");
+        if (!selectedPlan) {
+            alert("Please select a plan before proceeding.");
+            return;
+        }
+
+        // Step 3: Validate Required Fields in Personal Info Section
+        let requiredFields = document.querySelectorAll("#personal-info input[required]");
+        let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
+
+        if (emptyFields.length > 0) {
+            alert("Please fill in all required fields before proceeding.");
+            return;
+        }
+
+        // Hide Personal Info and Show Payment Form with smooth transition
+        document.getElementById("personal-info").style.opacity = 0;
         setTimeout(() => {
-            personalInfo.style.opacity = 1;
+            document.getElementById("personal-info").style.display = "none";
+            document.getElementById("payment-form").style.display = "block";
+            setTimeout(() => {
+                document.getElementById("payment-form").style.opacity = 1;
+            }, 200);
         }, 200);
     });
-});
 
-// Password validation
-document.getElementById("complete-registration").addEventListener("click", function(event) {
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
+    // Step 4: Promo Code Logic (Improved)
+    function applyPromoCode() {
+        const promoCodeInput = document.getElementById("promo-code").value.trim();
+        const promoMessage = document.getElementById("promo-message");
+        const paymentForm = document.querySelector(".payment-section");
 
-    if (password !== confirmPassword) {
-        event.preventDefault();
-        alert("Passwords do not match!");
+        if (promoCodeInput === "CI25MP3") {
+            promoMessage.innerText = "✅ Promo applied! Payment not required.";
+            promoMessage.style.color = "green";
+            paymentForm.style.display = "none"; // Hide payment section
+        } else {
+            promoMessage.innerText = "❌ Invalid promo code.";
+            promoMessage.style.color = "red";
+            paymentForm.style.display = "block"; // Ensure payment section is visible again
+        }
     }
-});
 
-// Promo code functionality
-function applyPromoCode() {
-    const promoInput = document.getElementById("promo-code");
-    const cardPayment = document.getElementById("card-payment");
-    const promoMessage = document.getElementById("promo-message");
+    // Step 4.1: Apply promo code on Enter key press
+    document.getElementById("promo-code").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission
+            applyPromoCode(); // Apply promo code when Enter is pressed
+        }
+    });
 
-    if (promoInput.value.trim() === "CI25MP3") {
-        cardPayment.style.opacity = 0;
+    // Step 4.2: Restore Payment Fields if Promo Code is Removed
+    document.getElementById("promo-code").addEventListener("input", function () {
+        const promoMessage = document.getElementById("promo-message");
+        const paymentForm = document.querySelector(".payment-section");
+
+        if (this.value.trim() !== "CI25MP3") {
+            promoMessage.innerText = ""; // Clear message when modifying input
+            paymentForm.style.display = "block"; // Show payment section again
+        }
+    });
+
+    // Step 5: Validate Payment Details (if required) and Submit Form
+    document.getElementById("payment-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        let promoCode = document.getElementById("promo-code").value.trim();
+
+        // If promo code is not applied, validate payment fields
+        if (promoCode !== "CI25MP3") {
+            let cardNumber = document.querySelector('input[name="card_number"]').value.trim();
+            let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
+            let cvv = document.querySelector('input[name="cvv"]').value.trim();
+
+            // Validate card number (basic length check)
+            if (!/^\d{16}$/.test(cardNumber)) {
+                alert("Please enter a valid 16-digit card number.");
+                return;
+            }
+
+            // Validate expiry date format MM/YY
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
+                alert("Please enter a valid expiry date in MM/YY format.");
+                return;
+            }
+
+            // Validate CVV (3 or 4 digits)
+            if (!/^\d{3,4}$/.test(cvv)) {
+                alert("Please enter a valid 3 or 4-digit CVV.");
+                return;
+            }
+        }
+
+        // Step 6: Show loading effect before showing success message
+        let submitButton = document.querySelector("#payment-form .submit-btn");
+        submitButton.innerText = "Processing...";
+        submitButton.disabled = true;
+
         setTimeout(() => {
-            cardPayment.style.display = "none";
-        }, 300);
-
-        promoMessage.innerText = "Promo code applied! Card payment hidden.";
-        promoMessage.style.color = "green";
-        promoMessage.style.opacity = 1;
-    } else {
-        promoMessage.innerText = "Invalid promo code. Try again!";
-        promoMessage.style.color = "red";
-        promoMessage.style.opacity = 1;
-    }
-}
-
-// Ensure promo message is hidden initially
-document.addEventListener("DOMContentLoaded", () => {
-    const promoMessage = document.createElement("p");
-    promoMessage.id = "promo-message";
-    promoMessage.style.opacity = 0;
-    promoMessage.style.transition = "opacity 0.3s ease";
-    document.getElementById("promo-code").insertAdjacentElement("afterend", promoMessage);
-});
+            document.getElementById("payment-form").style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById("payment-form").style.display = "none";
+                document.getElementById("success-message").style.display = "block";
+                document.getElementById("success-message").style.opacity = 1;
+            }, 200);
+        }, 2000); // Simulates a 2-second "processing" delay
+    });
 </script>
 
 {% endblock %}
- 
