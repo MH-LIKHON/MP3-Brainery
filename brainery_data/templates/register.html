@@ -229,6 +229,29 @@
         transform: scale(0.98);
     }
 
+    /* Loading Spinner for Button */
+    .spinner {
+        width: 15px;
+        height: 15px;
+        border: 2px solid white;
+        border-top-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        animation: spin 0.6s linear infinite;
+        margin-right: 5px;
+    }
+
+    /* Spinner for Button */
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     /* -------------------------------
    Funny Confirmation Message
    ------------------------------- */
@@ -389,6 +412,17 @@
             {{ form.postcode(class="form-control", required=True) }}
         </div>
 
+        <h5>Set Your Account Password</h5>
+        <div class="form-group">
+            <label for="password">Password</label>
+            {{ form.password(class="form-control", required=True) }}
+        </div>
+
+        <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            {{ form.confirm_password(class="form-control", required=True) }}
+        </div>
+
         <button type="button" class="submit-btn" id="next-payment">Next: Payment</button>
     </form>
 
@@ -418,159 +452,205 @@
             <p id="promo-message"></p>
         </div>
 
-        <button type="submit" class="submit-btn">Complete Registration</button>
+        <button type="submit" class="submit-btn" id="payment-submit-btn">Complete Registration</button>
     </form>
-</div>
 
-<!-- Funny Success Message -->
-<div class="success-message" id="success-message">
-    🎉 Woohoo! You’re now officially part of the **Brainery Family!**
-    📬 Check your email for your account activation link.
-    🤖 If you don’t see it, maybe it’s lost in the **Matrix** (or spam folder).
-    🚀 Happy Learning!
-</div>
+    <!-- Funny Success Message -->
+    <div class="success-message" id="success-message">
+        <h2>🎉 Woohoo! You’re now officially part of the Brainery Family! 🎓</h2>
+        <p>📬 Check your email for your account activation link.</p>
+        <p>🤖 If you don’t see it, maybe it’s lost in the <strong>Matrix</strong> (or spam folder).</p>
+        <p>🚀 Happy Learning!</p>
+    </div>
 
-<script>
-    // Step 1: Handle Plan Selection
-    document.querySelectorAll(".package").forEach(item => {
-        item.addEventListener("click", function () {
-            // Remove 'selected' class from all packages and apply to the clicked one
-            document.querySelectorAll(".package").forEach(p => p.classList.remove("selected"));
-            this.classList.add("selected");
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Step 1: Handle Plan Selection
+            document.querySelectorAll(".package").forEach(item => {
+                item.addEventListener("click", function () {
+                    document.querySelectorAll(".package").forEach(p => p.classList.remove("selected"));
+                    this.classList.add("selected");
 
-            // Show personal info form with fade-in effect
-            let personalInfo = document.getElementById("personal-info");
-            personalInfo.style.display = "block";
-            setTimeout(() => {
-                personalInfo.style.opacity = 1;
-            }, 200);
+                    let personalInfo = document.getElementById("personal-info");
+                    personalInfo.style.display = "block";
+                    setTimeout(() => {
+                        personalInfo.style.opacity = 1;
+                    }, 200);
 
-            // Remove any existing hidden plan input to prevent duplicates
-            let existingPlanInput = document.querySelector("input[name='selected_plan']");
-            if (existingPlanInput) {
-                existingPlanInput.remove();
+                    let existingPlanInput = document.querySelector("input[name='selected_plan']");
+                    if (existingPlanInput) {
+                        existingPlanInput.remove();
+                    }
+
+                    let planInput = document.createElement("input");
+                    planInput.type = "hidden";
+                    planInput.name = "selected_plan";
+                    planInput.value = this.dataset.name + " - £" + this.dataset.price;
+                    document.getElementById("personal-info").appendChild(planInput);
+                });
+            });
+
+            // Step 2: Ensure a plan is selected before proceeding
+            document.getElementById("next-payment").addEventListener("click", function (event) {
+                event.preventDefault();
+
+                let selectedPlan = document.querySelector(".package.selected");
+                if (!selectedPlan) {
+                    alert("Please select a plan before proceeding.");
+                    return;
+                }
+
+                let requiredFields = document.querySelectorAll("#personal-info input[required]");
+                let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
+
+                if (emptyFields.length > 0) {
+                    alert("Please fill in all required fields before proceeding.");
+                    return;
+                }
+
+                document.getElementById("personal-info").style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById("personal-info").style.display = "none";
+                    document.getElementById("payment-form").style.display = "block";
+                    setTimeout(() => {
+                        document.getElementById("payment-form").style.opacity = 1;
+                    }, 200);
+                }, 200);
+            });
+
+            // Step 3: Promo Code Logic (Fixed & Improved)
+            function applyPromoCode() {
+                const promoCodeInput = document.getElementById("promo-code").value.trim();
+                const promoMessage = document.getElementById("promo-message");
+                const submitBtn = document.querySelector("#payment-form .submit-btn");
+
+                // Payment fields
+                let cardNumber = document.querySelector('input[name="card_number"]');
+                let expiryDate = document.querySelector('input[name="expiry_date"]');
+                let cvv = document.querySelector('input[name="cvv"]');
+
+                if (promoCodeInput === "CI25MP3") {
+                    // ✅ Promo code applied → Disable payment fields (greyed out)
+                    promoMessage.innerText = "✅ Promo applied! No payment required.";
+                    promoMessage.style.color = "green";
+
+                    // Grey out fields by disabling them
+                    cardNumber.disabled = true;
+                    expiryDate.disabled = true;
+                    cvv.disabled = true;
+
+                    // Add greyed-out styling
+                    cardNumber.style.backgroundColor = "#e9ecef";
+                    expiryDate.style.backgroundColor = "#e9ecef";
+                    cvv.style.backgroundColor = "#e9ecef";
+
+                    // Change button text to "Complete Registration"
+                    submitBtn.innerText = "Complete Registration";
+                    submitBtn.disabled = false;
+                } else {
+                    // ❌ Invalid promo code → Show error and re-enable fields
+                    promoMessage.innerText = "❌ Invalid promo code.";
+                    promoMessage.style.color = "red";
+
+                    // Re-enable payment fields
+                    cardNumber.disabled = false;
+                    expiryDate.disabled = false;
+                    cvv.disabled = false;
+
+                    // Reset greyed-out styling
+                    cardNumber.style.backgroundColor = "";
+                    expiryDate.style.backgroundColor = "";
+                    cvv.style.backgroundColor = "";
+
+                    submitBtn.innerText = "Complete Registration";
+                }
             }
 
-            // Add a new hidden input storing the selected plan details
-            let planInput = document.createElement("input");
-            planInput.type = "hidden";
-            planInput.name = "selected_plan";
-            planInput.value = this.dataset.name + " - £" + this.dataset.price;
-            document.getElementById("personal-info").appendChild(planInput);
+            // Step 3.1: Apply promo code on "Enter" key press
+            document.getElementById("promo-code").addEventListener("keypress", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    applyPromoCode();
+                }
+            });
+
+            // Step 3.2: Apply promo code when clicking "Apply" button
+            document.querySelector(".promo-code button").addEventListener("click", function () {
+                applyPromoCode();
+            });
+
+            // Step 3.3: Restore Payment Fields if Promo Code is Removed
+            document.getElementById("promo-code").addEventListener("input", function () {
+                const promoMessage = document.getElementById("promo-message");
+                const submitBtn = document.querySelector("#payment-form .submit-btn");
+
+                let cardNumber = document.querySelector('input[name="card_number"]');
+                let expiryDate = document.querySelector('input[name="expiry_date"]');
+                let cvv = document.querySelector('input[name="cvv"]');
+
+                if (this.value.trim() !== "CI25MP3") {
+                    // Reset promo message
+                    promoMessage.innerText = "";
+
+                    // Re-enable payment fields
+                    cardNumber.disabled = false;
+                    expiryDate.disabled = false;
+                    cvv.disabled = false;
+
+                    // Reset greyed-out styling
+                    cardNumber.style.backgroundColor = "";
+                    expiryDate.style.backgroundColor = "";
+                    cvv.style.backgroundColor = "";
+
+                    submitBtn.innerText = "Complete Registration";
+                }
+            });
+
+            // Step 4: Validate Payment Details and Submit Form
+            document.getElementById("payment-form").addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                let promoCode = document.getElementById("promo-code").value.trim();
+                let submitButton = document.querySelector("#payment-form .submit-btn");
+
+                if (promoCode !== "CI25MP3") {
+                    let cardNumber = document.querySelector('input[name="card_number"]').value.trim();
+                    let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
+                    let cvv = document.querySelector('input[name="cvv"]').value.trim();
+
+                    if (!/^\d{16}$/.test(cardNumber)) {
+                        alert("Please enter a valid 16-digit card number.");
+                        return;
+                    }
+
+                    // **Updated Expiry Date Validation (Dynamic)**
+                    let currentYear = new Date().getFullYear().toString().slice(-2);
+                    const expiryRegex = new RegExp(`^(0[1-9]|1[0-2])\/(${currentYear}|[3-9][0-9])$`);
+                    if (!expiryRegex.test(expiryDate)) {
+                        alert("Please enter a valid expiry date in MM/YY format (e.g., 08/27).");
+                        return;
+                    }
+
+                    if (!/^\d{3,4}$/.test(cvv)) {
+                        alert("Please enter a valid 3 or 4-digit CVV.");
+                        return;
+                    }
+                }
+
+                // Step 5: Show loading effect before success message
+                submitButton.innerHTML = "<span class='spinner'></span> Processing...";
+                submitButton.disabled = true;
+
+                setTimeout(() => {
+                    document.getElementById("payment-form").style.opacity = 0;
+                    setTimeout(() => {
+                        document.getElementById("payment-form").style.display = "none";
+                        document.getElementById("success-message").style.display = "block";
+                        document.getElementById("success-message").style.opacity = 1;
+                    }, 200);
+                }, 2000);
+            });
         });
-    });
+    </script>
 
-    // Step 2: Ensure a plan is selected before proceeding
-    document.getElementById("next-payment").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent accidental form submission
-
-        let selectedPlan = document.querySelector(".package.selected");
-        if (!selectedPlan) {
-            alert("Please select a plan before proceeding.");
-            return;
-        }
-
-        // Step 3: Validate Required Fields in Personal Info Section
-        let requiredFields = document.querySelectorAll("#personal-info input[required]");
-        let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
-
-        if (emptyFields.length > 0) {
-            alert("Please fill in all required fields before proceeding.");
-            return;
-        }
-
-        // Hide Personal Info and Show Payment Form with smooth transition
-        document.getElementById("personal-info").style.opacity = 0;
-        setTimeout(() => {
-            document.getElementById("personal-info").style.display = "none";
-            document.getElementById("payment-form").style.display = "block";
-            setTimeout(() => {
-                document.getElementById("payment-form").style.opacity = 1;
-            }, 200);
-        }, 200);
-    });
-
-    // Step 4: Promo Code Logic (Improved)
-    function applyPromoCode() {
-        const promoCodeInput = document.getElementById("promo-code").value.trim();
-        const promoMessage = document.getElementById("promo-message");
-        const paymentForm = document.querySelector(".payment-section");
-
-        if (promoCodeInput === "CI25MP3") {
-            promoMessage.innerText = "✅ Promo applied! Payment not required.";
-            promoMessage.style.color = "green";
-            paymentForm.style.display = "none"; // Hide payment section
-        } else {
-            promoMessage.innerText = "❌ Invalid promo code.";
-            promoMessage.style.color = "red";
-            paymentForm.style.display = "block"; // Ensure payment section is visible again
-        }
-    }
-
-    // Step 4.1: Apply promo code on Enter key press
-    document.getElementById("promo-code").addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevent form submission
-            applyPromoCode(); // Apply promo code when Enter is pressed
-        }
-    });
-
-    // Step 4.2: Restore Payment Fields if Promo Code is Removed
-    document.getElementById("promo-code").addEventListener("input", function () {
-        const promoMessage = document.getElementById("promo-message");
-        const paymentForm = document.querySelector(".payment-section");
-
-        if (this.value.trim() !== "CI25MP3") {
-            promoMessage.innerText = ""; // Clear message when modifying input
-            paymentForm.style.display = "block"; // Show payment section again
-        }
-    });
-
-    // Step 5: Validate Payment Details (if required) and Submit Form
-    document.getElementById("payment-form").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent default form submission
-
-        let promoCode = document.getElementById("promo-code").value.trim();
-
-        // If promo code is not applied, validate payment fields
-        if (promoCode !== "CI25MP3") {
-            let cardNumber = document.querySelector('input[name="card_number"]').value.trim();
-            let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
-            let cvv = document.querySelector('input[name="cvv"]').value.trim();
-
-            // Validate card number (basic length check)
-            if (!/^\d{16}$/.test(cardNumber)) {
-                alert("Please enter a valid 16-digit card number.");
-                return;
-            }
-
-            // Validate expiry date format MM/YY
-            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
-                alert("Please enter a valid expiry date in MM/YY format.");
-                return;
-            }
-
-            // Validate CVV (3 or 4 digits)
-            if (!/^\d{3,4}$/.test(cvv)) {
-                alert("Please enter a valid 3 or 4-digit CVV.");
-                return;
-            }
-        }
-
-        // Step 6: Show loading effect before showing success message
-        let submitButton = document.querySelector("#payment-form .submit-btn");
-        submitButton.innerText = "Processing...";
-        submitButton.disabled = true;
-
-        setTimeout(() => {
-            document.getElementById("payment-form").style.opacity = 0;
-            setTimeout(() => {
-                document.getElementById("payment-form").style.display = "none";
-                document.getElementById("success-message").style.display = "block";
-                document.getElementById("success-message").style.opacity = 1;
-            }, 200);
-        }, 2000); // Simulates a 2-second "processing" delay
-    });
-</script>
-
-{% endblock %}
+    {% endblock %}
