@@ -446,6 +446,11 @@
 {% endwith %}
 {% endif %}
 
+<!-- Error Message Container -->
+<div id="error-container" style="display: none; text-align: center; color: red; font-size: 1.2em; margin-bottom: 20px;">
+</div>
+
+
 <!-- ✅ Show Registration Form Only if Not Success -->
 {% if not show_success %}
 <div class="register-container" id="register-form">
@@ -591,12 +596,11 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        console.log("✅ JavaScript Loaded! Waiting for user interaction...");
+        console.log("JavaScript Loaded! Waiting for user interaction...");
 
         /* =======================================================
-           SECTION 1: Element Selection & Validation
+           SECTION 1: Element Selection
         ======================================================= */
-
         let packages = document.querySelectorAll(".package");
         let selectedPlanInput = document.getElementById("selected_plan");
         let personalInfo = document.getElementById("personal-info");
@@ -605,48 +609,41 @@
         let submitButton = document.querySelector("#password-info .submit-btn");
         let successMessage = document.getElementById("success-message");
         let registerForm = document.getElementById("register-form");
-
-        let csrfToken = document.querySelector('input[name="csrf_token"]')?.value; // ✅ Get CSRF Token
+        let nextButton = document.querySelector("#payment-info .next-btn");
+        let errorMessageBox = document.getElementById("error-message-box");
 
         /* =======================================================
-           ✅ SECTION: Hide Registration Form After Successful Submission
+           SECTION 2: Reset Form on Page Reload
+        ======================================================= */
+        window.addEventListener("load", function () {
+            console.log("Resetting form on page reload...");
+            document.getElementById("registration-form")?.reset();
+        });
+
+        /* =======================================================
+           SECTION 3: Hide Registration Form After Successful Submission
         ======================================================= */
         if (successMessage && successMessage.classList.contains("show")) {
-            console.log("🎉 Registration was successful! Hiding the form...");
-            registerForm.style.display = "none"; // ✅ Hide the form completely
+            console.log("Registration successful! Hiding the form...");
+            registerForm.style.display = "none"; // Hide form
         }
 
         /* =======================================================
-           SECTION 2: Ensure CSRF Token is Added Once
-        ======================================================= */
-        let csrfInputExists = document.querySelector('input[name="csrf_token"]');
-        if (!csrfInputExists && csrfToken) {
-            let csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "csrf_token";
-            csrfInput.value = csrfToken;
-            personalInfo.appendChild(csrfInput);
-            console.log("✅ CSRF token added to the form.");
-        }
-
-        /* =======================================================
-           SECTION 3: Package Selection Handling
+           SECTION 4: Package Selection Handling
         ======================================================= */
         packages.forEach(package => {
             package.addEventListener("click", function () {
-                console.log("📦 Package Selected:", this.dataset.name);
+                console.log("Package Selected:", this.dataset.name);
 
                 // Remove 'selected' class from all packages
                 packages.forEach(p => p.classList.remove("selected"));
-
-                // Add 'selected' class to the clicked package
                 this.classList.add("selected");
 
-                // Update the hidden input field
+                // Update hidden input field
                 selectedPlanInput.value = `${this.dataset.name} - £${this.dataset.price}`;
-                console.log("📌 Selected Plan:", selectedPlanInput.value);
+                console.log("Selected Plan:", selectedPlanInput.value);
 
-                // Show the personal info form
+                // Show personal info form
                 personalInfo.style.display = "block";
                 setTimeout(() => { personalInfo.style.opacity = 1; }, 100);
                 personalInfo.scrollIntoView({ behavior: "smooth" });
@@ -654,38 +651,49 @@
         });
 
         /* =======================================================
-           SECTION 4: Step Navigation & Validation (Next Button)
+           SECTION 5: Field Validation & Error Handling
+        ======================================================= */
+        function showError(input, message) {
+            let errorSpan = input.parentElement.querySelector(".error-message");
+            if (!errorSpan) {
+                errorSpan = document.createElement("span");
+                errorSpan.classList.add("error-message");
+                errorSpan.style.color = "red";
+                input.parentElement.appendChild(errorSpan);
+            }
+            errorSpan.innerText = message;
+            input.style.border = "2px solid red";
+        }
+
+        function clearErrors() {
+            document.querySelectorAll(".error-message").forEach(el => el.remove());
+            document.querySelectorAll("input").forEach(el => el.style.border = "");
+        }
+
+        /* =======================================================
+           SECTION 6: Step Navigation & Validation (Next Button)
         ======================================================= */
         function nextStep(currentId, nextId) {
             let currentSection = document.getElementById(currentId);
             let nextSection = document.getElementById(nextId);
 
             if (!currentSection || !nextSection) {
-                console.error("❌ ERROR: Missing section IDs", currentId, nextId);
+                console.error("ERROR: Missing section IDs", currentId, nextId);
                 return;
             }
 
-            // ✅ Validate required fields before proceeding
+            clearErrors();
+
             let requiredFields = currentSection.querySelectorAll("input[required]");
             let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
 
             if (emptyFields.length > 0) {
-                alert("⚠️ Please fill in all required fields before proceeding.");
-                emptyFields.forEach(input => input.style.border = "2px solid red"); // Highlight missing fields
-                emptyFields[0].focus();  // Focus on the first missing field
-                return; // 🚨 Prevent navigation to next step
-            }
-
-            // ✅ Ensure a plan is selected before continuing
-            if (currentId === "personal-info" && !selectedPlanInput.value) {
-                alert("⚠️ Please select a plan before proceeding.");
+                emptyFields.forEach(input => showError(input, "⚠️ This field is required."));
+                emptyFields[0].focus();
                 return;
             }
 
-            // ✅ Reset border for filled fields
-            requiredFields.forEach(input => input.style.border = "");
-
-            console.log(`🔄 Transitioning from ${currentId} to ${nextId}`);
+            console.log(`Transitioning from ${currentId} to ${nextId}`);
 
             // Hide current section
             currentSection.style.opacity = 0;
@@ -699,66 +707,54 @@
             }, 200);
         }
 
-        // ✅ Attach `nextStep` to global scope (so it works in inline HTML)
         window.nextStep = nextStep;
 
         /* =======================================================
-           SECTION 5: Expiry Date Validation (03/25 and Onwards)
+           SECTION 7: Expiry Date Validation (March 2025 & Onwards)
         ======================================================= */
         function validateExpiryDate(expiryDate) {
             let [month, year] = expiryDate.split("/").map(Number);
             let currentDate = new Date();
-            let currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
-            let currentMonth = currentDate.getMonth() + 1; // Get current month (1-12)
+            let currentYear = currentDate.getFullYear() % 100;
+            let currentMonth = currentDate.getMonth() + 1;
 
-            if (
-                isNaN(month) || isNaN(year) || // Ensure valid numbers
-                month < 1 || month > 12 || // Month should be between 01-12
-                year < 25 || // Ensure year is 2025 or later
-                (year === 25 && month < 3) // If year is 2025, month should be March (03) or later
-            ) {
-                return false;
-            }
-
-            return true;
+            return !(isNaN(month) || isNaN(year) || month < 1 || month > 12 || year < 25 || (year === 25 && month < 3));
         }
 
         /* =======================================================
-           SECTION 6: Payment Form Submission & Validation
+           SECTION 8: Payment Form Submission & Validation
         ======================================================= */
         paymentForm.addEventListener("submit", function (event) {
             event.preventDefault();
-            console.log("💳 Processing Payment...");
+            console.log("Processing Payment...");
 
-            let promoCode = document.getElementById("promo-code")?.value.trim();
+            clearErrors();
+
             let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
 
-            if (promoCode !== "CI25MP3") {
-                let cardNumber = document.querySelector('input[name="card_number"]').value.trim();
-                let cvv = document.querySelector('input[name="cvv"]').value.trim();
-
-                if (!/^\d{16}$/.test(cardNumber)) {
-                    alert("❌ Please enter a valid 16-digit card number.");
-                    return;
-                }
-
-                if (!validateExpiryDate(expiryDate)) {
-                    alert("❌ Expiry date must be March 2025 (03/25) or later.");
-                    return;
-                }
-
-                if (!/^\d{3,4}$/.test(cvv)) {
-                    alert("❌ Enter a valid 3-4 digit CVV.");
-                    return;
-                }
+            if (!validateExpiryDate(expiryDate)) {
+                showError(document.querySelector('input[name="expiry_date"]'), "Expiry date must be March 2025 (03/25) or later.");
+                return;
             }
 
-            console.log("✅ Payment Validated. Moving to Password Section...");
+            console.log("Payment Validated. Moving to Password Section...");
             nextStep("payment-info", "password-info");
         });
 
         /* =======================================================
-           SECTION 7: Promo Code Handling
+           SECTION 9: Auto Reload on Error (After 15 Seconds)
+        ======================================================= */
+        if (errorMessageBox && errorMessageBox.innerText.trim() !== "") {
+            console.log("Error detected, hiding form...");
+            registerForm.style.display = "none";
+            setTimeout(() => {
+                console.log("Reloading page after 15 seconds...");
+                location.reload();
+            }, 15000);
+        }
+
+        /* =======================================================
+           SECTION 10: Promo Code Handling
         ======================================================= */
         function applyPromoCode() {
             const promoCodeInput = document.getElementById("promo-code")?.value.trim();
@@ -769,7 +765,7 @@
             let cvv = document.querySelector('input[name="cvv"]');
 
             if (promoCodeInput === "CI25MP3") {
-                promoMessage.innerText = "✅ Promo applied! No payment required.";
+                promoMessage.innerText = "Promo applied! No payment required.";
                 promoMessage.style.color = "green";
 
                 [cardNumber, expiryDate, cvv].forEach(field => {
@@ -777,11 +773,17 @@
                     field.style.backgroundColor = "#e9ecef";
                 });
 
-                submitButton.innerText = "Complete Registration";
-                submitButton.disabled = false;
+                nextButton.disabled = false; // Allow "Next" button
             } else {
-                promoMessage.innerText = "❌ Invalid promo code.";
+                promoMessage.innerText = "Invalid promo code.";
                 promoMessage.style.color = "red";
+
+                [cardNumber, expiryDate, cvv].forEach(field => {
+                    field.disabled = false;
+                    field.style.backgroundColor = "";
+                });
+
+                nextButton.disabled = true;
             }
         }
 
