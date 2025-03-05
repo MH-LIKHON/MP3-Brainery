@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
@@ -19,231 +20,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     <!-- Favicon -->
-    <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg" type="image/svg+xml">
+    <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg"
+        type="image/svg+xml">
 
     <!-- Custom CSS Test -->
-    <style>
-/* =======================================================
-   HEADER & FOOTER ALL PAGES
-   ======================================================= */
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-/* -------------------------------
-   Global Resets
-   ------------------------------- */
-/* Reset default margins and paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    {% block extra_head %}{% endblock %}
 
-/* Base styles for body */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
-    line-height: 1.6;
-}
+</head>
 
-/* Utility class for container max-width */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-/* -------------------------------
-   Top Bar
-   ------------------------------- */
-/* Top bar styling */
-.top-bar {
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-}
-
-/* Centering social icons */
-.social-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
-
-/* Styling for social media icons */
-.social-icons a {
-    font-size: 20px;
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-/* Hover effect for social icons */
-.social-icons a:hover {
-    color: #20c997;
-    transform: scale(1.2);
-}
-
-/* -------------------------------
-   Navbar
-   ------------------------------- */
-/* Navbar styling */
-.navbar {
-    background-color: #ffffff;
-    border-bottom: 1px solid #ddd;
-    position: sticky;
-    top: 0;
-    z-index: 1020;
-    padding: 10px 0;
-}
-
-/* Navbar Logo */
-.navbar-brand {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: bold;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-/* Logo Icon */
-.logo-icon {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-/* Hover effect for Logo */
-.navbar-brand:hover .logo-icon {
-    color: #20c997;
-    transform: scale(1.2);
-}
-
-/* Navbar Links */
-.navbar-nav .nav-link {
-    color: #333;
-    font-size: 16px;
-    transition: color 0.3s ease, transform 0.3s ease;
-    gap: 20px;
-}
-
-/* Hover effect for Navbar Links */
-.navbar-nav .nav-link:hover {
-    color: #20c997;
-    transform: scale(1.1);
-}
-
-/* -------------------------------
-   Footer Container
-   ------------------------------- */
-/* Footer styling */
-footer {
-    background-color: #f8f9fa;
-    padding: 20px 0;
-    text-align: center;
-    color: #333;
-}
-
-/* Footer Logo */
-footer .fa-brain {
-    font-size: 32px;
-    color: #333;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-/* Footer Hover Effect */
-footer .fa-brain:hover {
-    color: #20c997;
-    transform: scale(1.2);
-}
-
-/* Footer Text */
-.footer-text {
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-/* Footer Links */
-footer a {
-    color: #20c997;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-/* Hover effect for Footer Links */
-footer a:hover {
-    color: #333;
-}
-
-/* -------------------------------
-    Mobile & Tablet View (Responsive)
-    ------------------------------- */
-/* Adjust Navbar for Mobile (screens smaller than 1024px) */
-@media (max-width: 1024px) {
-    .navbar-collapse {
-        text-align: right;
-        padding-right: 20px;
-    }
-
-    .navbar-nav {
-        width: 100%;
-        text-align: right;
-    }
-
-    .navbar-nav .nav-item {
-        padding-right: 15px;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .navbar-nav .nav-item:hover {
-        transform: translateX(10px);
-    }
-}
-
-/* Adjust Navbar for Mobile (screens smaller than 768px) */
-@media (max-width: 768px) {
-    .social-icons {
-        gap: 10px;
-    }
-
-    .social-icons a {
-        font-size: 18px;
-    }
-
-    .navbar-brand {
-        font-size: 20px;
-    }
-
-    .hero-section h1 {
-        font-size: 2.5rem;
-    }
-
-    .hero-section p {
-        font-size: 1rem;
-    }
-}
-
-/* Adjust Navbar for Mobile (screens smaller than 576px) */
-@media (max-width: 576px) {
-    .hero-section {
-        height: 300px;
-    }
-
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-
-    .hero-section p {
-        font-size: 0.9rem;
-    }
-    
-    .hero-section .btn {
-        font-size: 16px;
-    }
-}
-    </style>
-
-{% block extra_head %}{% endblock %}
-
-  </head>
 <body>
     <!-- HEADER SECTION -->
     <header>
@@ -252,16 +38,26 @@ footer a:hover {
             <div class="container d-flex justify-content-center">
                 <div class="social-icons d-flex gap-3">
                     <a href="mailto:hello@brainery.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-                    <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a href="https://www.youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a href="https://www.pinterest.com" target="_blank" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
-                    <a href="https://www.snapchat.com" target="_blank" aria-label="Snapchat"><i class="fab fa-snapchat-ghost"></i></a>
-                    <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://www.telegram.org" target="_blank" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
-                    <a href="https://web.whatsapp.com" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.twitter.com" target="_blank" aria-label="Twitter"><i
+                            class="fab fa-twitter"></i></a>
+                    <a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i
+                            class="fab fa-linkedin"></i></a>
+                    <a href="https://www.youtube.com" target="_blank" aria-label="YouTube"><i
+                            class="fab fa-youtube"></i></a>
+                    <a href="https://www.pinterest.com" target="_blank" aria-label="Pinterest"><i
+                            class="fab fa-pinterest"></i></a>
+                    <a href="https://www.snapchat.com" target="_blank" aria-label="Snapchat"><i
+                            class="fab fa-snapchat-ghost"></i></a>
+                    <a href="https://www.tiktok.com" target="_blank" aria-label="TikTok"><i
+                            class="fab fa-tiktok"></i></a>
+                    <a href="https://www.telegram.org" target="_blank" aria-label="Telegram"><i
+                            class="fab fa-telegram"></i></a>
+                    <a href="https://web.whatsapp.com" target="_blank" aria-label="WhatsApp"><i
+                            class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
         </div>
@@ -269,20 +65,22 @@ footer a:hover {
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-              <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
+                <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
                     <i class="fas fa-brain fa-2x me-2 logo-icon"></i>
                     <span class="logo-text">Brainery</span>
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
-                      <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ url_for('register.register_user') }}">Register</a></li>                                       
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                href="{{ url_for('register.register_user') }}">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -306,31 +104,12 @@ footer a:hover {
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JS -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
 
-    <!-- Custom JS Test -->
-    <script>
-          $(document).ready(function () {
-        console.log("JavaScript Loaded!"); // Debugging step
-
-        // Toggle Navigation Menu on Small Screens
-        $(".navbar-toggler").click(function () {
-            $("#navbarNav").toggleClass("show");
-        });
-
-        // Smooth Scroll for Anchor Links
-        $("a[href^='#']").on("click", function (event) {
-            event.preventDefault();
-            $("html, body").animate({
-                scrollTop: $($.attr(this, "href")).offset().top
-            }, 500);
-        });
-    });
-    </script>
-
-{% block extra_scripts %}{% endblock %}
+    {% block extra_scripts %}{% endblock %}
 
 </body>
+
 </html>

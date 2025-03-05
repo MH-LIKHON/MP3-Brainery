@@ -1,0 +1,1194 @@
+/* =======================================================
+   HEADER & FOOTER ALL PAGES
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility class for container max-width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* -------------------------------
+   Top Bar
+   ------------------------------- */
+/* Top bar styling */
+.top-bar {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* Centering social icons */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Styling for social media icons */
+.social-icons a {
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for social icons */
+.social-icons a:hover {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* -------------------------------
+   Navbar
+   ------------------------------- */
+/* Navbar styling */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    padding: 10px 0;
+}
+
+/* Navbar Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Logo Icon */
+.logo-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for Logo */
+.navbar-brand:hover .logo-icon {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    gap: 20px;
+}
+
+/* Hover effect for Navbar Links */
+.navbar-nav .nav-link:hover {
+    color: #20c997;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Footer Container
+   ------------------------------- */
+/* Footer styling */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    color: #333;
+}
+
+/* Footer Logo */
+footer .fa-brain {
+    font-size: 32px;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Footer Hover Effect */
+footer .fa-brain:hover {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* Footer Text */
+.footer-text {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Footer Links */
+footer a {
+    color: #20c997;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect for Footer Links */
+footer a:hover {
+    color: #333;
+}
+
+/* -------------------------------
+    Mobile & Tablet View (Responsive)
+    ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .navbar-collapse {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        text-align: right;
+    }
+
+    .navbar-nav .nav-item {
+        padding-right: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-item:hover {
+        transform: translateX(10px);
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .social-icons {
+        gap: 10px;
+    }
+
+    .social-icons a {
+        font-size: 18px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .hero-section {
+        height: 300px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 0.9rem;
+    }
+
+    .hero-section .btn {
+        font-size: 16px;
+    }
+}
+
+
+
+
+/* =======================================================
+   HOME PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility class for container max-width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* -------------------------------
+   Hero Section Container
+   ------------------------------- */
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* -------------------------------
+   Background Video
+   ------------------------------- */
+/* Full-width background video */
+.video-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 70vh;
+    overflow: hidden;
+}
+
+/* Video Styling */
+#video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 70vh;
+    object-fit: cover;
+    rotate: 180deg;
+}
+
+/* -------------------------------
+   Hero Text
+   ------------------------------- */
+/* Hero Text Container */
+.hero-text {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    top: 20%;
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Small Title */
+.hero-text .small-title {
+    font-weight: 700;
+    color: #20c997;
+}
+
+/* Main Hero Heading */
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+/* Subtext */
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+/* Additional Subtext */
+.hero-text h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 70px;
+}
+
+/* -------------------------------
+   Hero Button
+   ------------------------------- */
+/* Hero Button Styling */
+.hero-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.hero-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Features Section Layout
+   ------------------------------- */
+/* Features Section */
+.feature-section {
+    padding: 60px 0;
+}
+
+/* Features Title */
+.feature-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* -------------------------------
+   Features Grid
+   ------------------------------- */
+/* Grid layout for features */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* -------------------------------
+   Feature Cards
+   ------------------------------- */
+/* Feature Card Styling */
+.feature-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.feature-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* -------------------------------
+   Feature Card Elements
+   ------------------------------- */
+/* Feature Icon */
+.feature-icon {
+    font-size: 40px;
+    color: #20c997;
+    margin-bottom: 15px;
+}
+
+/* Feature Title */
+.feature-card h5 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Feature Description */
+.feature-card p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* -------------------------------
+   Feature Card Button
+   ------------------------------- */
+/* Feature Button Styling */
+.feature-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.feature-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+
+    .hero-text h2 {
+        font-size: 2.5rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero-text {
+        top: 150px;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-section {
+        height: 80vh;
+    }
+
+    .hero-text h1 {
+        font-size: 1.3rem;
+    }
+
+    .hero-text h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1rem;
+    }
+
+    .hero-text {
+        top: 50px;
+    }
+}
+
+
+
+
+/* =======================================================
+   REGISTER PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Page Layout
+   ------------------------------- */
+/* Page container for register form */
+.register-container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Smooth fade-in effect */
+.register-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.register-container.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* -------------------------------
+   Titles
+   ------------------------------- */
+/* Register Page Title */
+.register-container h2 {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* -------------------------------
+   Package Selection Layout
+   ------------------------------- */
+/* Package selection container */
+.package-selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* -------------------------------
+   Package Cards
+   ------------------------------- */
+/* Individual package card */
+.package {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+    border: 2px solid #20c997;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 200px;
+    position: relative;
+}
+
+/* Hover effect & selection */
+.package:hover,
+.package.selected {
+    background: #20c997;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Small pulse effect when selected */
+.package.selected::after {
+    content: "✔";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* -------------------------------
+   Form Sections
+   ------------------------------- */
+/* Smooth fade-in effect */
+.step-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.step-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* -------------------------------
+   Form Input Fields
+   ------------------------------- */
+/* Form group wrapper */
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Input Labels */
+label {
+    font-weight: bold;
+    display: block;
+}
+
+/* Input Fields */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Input focus effect */
+input:focus {
+    border-color: #20c997;
+    box-shadow: 0px 0px 8px rgba(32, 201, 151, 0.3);
+    outline: none;
+}
+
+/* -------------------------------
+   Payment Section
+   ------------------------------- */
+/* Smooth fade-in effect */
+.payment-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.payment-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* -------------------------------
+   Promo Code Section
+   ------------------------------- */
+/* Promo code input */
+.promo-code input {
+    width: 70%;
+    display: inline-block;
+}
+
+/* Promo code apply button */
+.promo-code button {
+    width: 28%;
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.promo-code button:hover {
+    background: #198754;
+}
+
+/* Promo Message */
+#promo-message {
+    margin-top: 5px;
+    font-size: 14px;
+    transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* -------------------------------
+   All Button
+   ------------------------------- */
+/* Main submit button */
+.submit-btn {
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.submit-btn:hover {
+    background: #198754;
+    transform: scale(1.02);
+}
+
+/* Click effect */
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* Loading Spinner for Button */
+.spinner {
+    width: 15px;
+    height: 15px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.6s linear infinite;
+    margin-right: 5px;
+}
+
+/* Spinner for Button */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Style for next button - matching submit button */
+.next-btn {
+    background: #20c997;
+    /* Same color as submit button */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.next-btn:hover {
+    background: #198754;
+    /* Darker shade for hover */
+    transform: scale(1.02);
+}
+
+/* Click effect */
+.next-btn:active {
+    transform: scale(0.98);
+}
+
+/* -------------------------------
+   Step Sections - Smooth Transitions
+   ------------------------------- */
+.step-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Active step - Fades in smoothly */
+.step-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* -------------------------------
+   Funny Success Message
+   ------------------------------- */
+/* Initially hidden */
+.success-message {
+    display: none;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* When shown, smoothly appears */
+.success-message.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .register-container {
+        max-width: 95%;
+        padding: 20px;
+    }
+
+    .package-selection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .package {
+        width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .step-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .step-section.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .success-message {
+        font-size: 18px;
+        padding: 30px;
+    }
+
+    .register-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .next-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 480px) {
+    .register-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .package-selection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .package {
+        width: 100%;
+    }
+
+    .success-message {
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    .next-btn {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+}
+
+
+
+
+
+/* =======================================================
+   LOGIN PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Calibri', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Main Container
+   ------------------------------- */
+/* Page layout container */
+.main-container {
+    min-height: 70vh;
+    min-width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* -------------------------------
+   Login Form Box
+   ------------------------------- */
+/* Form wrapper styling */
+.form-container {
+    width: 400px;
+    height: auto;
+    display: grid;
+    position: relative;
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------------------
+   User Icon
+   ------------------------------- */
+/* Icon container */
+.icon {
+    position: absolute;
+    width: 70px;
+    font-size: 40px;
+    height: 70px;
+    display: grid;
+    place-content: center;
+    border: 1px solid #2a2a2a;
+    z-index: 1;
+    justify-self: center;
+    border-radius: 50%;
+    background: #0e0e0e;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Icon color */
+.icon .fa {
+    color: #a2a2a2;
+}
+
+/* -------------------------------
+   Form Layout
+   ------------------------------- */
+/* Form structure */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* -------------------------------
+   Titles and Messages
+   ------------------------------- */
+/* Form title */
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin: 50px 0 20px;
+    text-align: center;
+}
+
+/* Error and success messages */
+.msg {
+    color: #fa2929;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    min-height: 20px;
+}
+
+/* -------------------------------
+   Input Fields
+   ------------------------------- */
+/* Input field container */
+.field {
+    width: 100%;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Input field icons */
+.field .fa {
+    position: absolute;
+    font-size: 14px;
+    right: 10px;
+    bottom: 12px;
+}
+
+/* Text input styling */
+input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* -------------------------------
+   Action Links
+   ------------------------------- */
+/* Remember Me & Forgot Password */
+.action {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Checkbox label */
+.action label {
+    cursor: pointer;
+    color: #7d7d7d;
+}
+
+/* Checkbox */
+.action input {
+    width: auto;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #009688;
+}
+
+/* -------------------------------
+   Button Container
+   ------------------------------- */
+/* Wrapper for buttons */
+.btn-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* -------------------------------
+   Login Button
+   ------------------------------- */
+/* Button appearance */
+#login-btn {
+    padding: 12px 20px;
+    border: none;
+    background: #20c997;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+}
+
+/* Button hover effect */
+#login-btn:hover {
+    background: #17a489;
+}
+
+/* -------------------------------
+   Sign Up Link
+   ------------------------------- */
+/* Signup text */
+.signup {
+    color: #666;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .main-container {
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 350px;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+
+    .action {
+        font-size: 12px;
+    }
+
+    .signup {
+        font-size: 12px;
+    }
+
+    #login-btn {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .form-container {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .signup {
+        font-size: 11px;
+    }
+}
