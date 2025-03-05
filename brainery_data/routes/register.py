@@ -5,14 +5,13 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 from datetime import datetime
+import pymongo
 from brainery_data import mongo
-from brainery_data.models import User
-from brainery_data.routes.form import RegisterForm
 
 # ===========================
 # 🔹 LOGGING SETUP
 # ===========================
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.INFO)  # Change to DEBUG if needed
 
 # ===========================
 # 🔹 INITIALIZE BLUEPRINT
@@ -41,7 +40,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[
         DataRequired(),
         Length(min=6, message="Password must be at least 6 characters long."),
-        Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$',
+        Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$',
                message="Password must contain at least one uppercase letter, one digit, and one special character.")
     ])
     confirm_password = PasswordField('Confirm Password', validators=[
@@ -61,87 +60,107 @@ def register_user():
     """Handles User Registration"""
     form = RegisterForm()
 
-    print(f"🔎 Request method: {request.method}")
+    logging.info(f"🔎 Request method: {request.method}")
 
     if request.method == "POST":
-        print("✅ Received POST request!")  # ✅ Log when form submits
-        # ✅ Print raw data for debugging
-        print(f"🔹 Raw Form Data: {request.form}")
+        logging.info("✅ Received POST request!")
+        logging.info(f"🔹 Raw Form Data: {request.form}")
 
-    # ✅ Only validate form on POST request
-    if request.method == "POST" and form.validate_on_submit():
-        print("✅ Registration form submitted successfully!")
+        if form.validate_on_submit():
+            logging.info("✅ Registration form validated successfully!")
 
-        try:
-            first_name = form.first_name.data.strip()
-            last_name = form.last_name.data.strip()
-            username = f"{first_name} {last_name}"
-            email = form.email.data.strip().lower()
-            password = form.password.data.strip()
-            selected_plan = form.selected_plan.data.strip()
+            try:
+                # Extract form data
+                first_name = form.first_name.data.strip()
+                last_name = form.last_name.data.strip()
+                username = f"{first_name} {last_name}"
+                email = form.email.data.strip().lower()
+                password = form.password.data.strip()
+                selected_plan = form.selected_plan.data.strip() if form.selected_plan.data else None
 
-            print(
-                f"📌 Extracted Data - Username: {username}, Email: {email}, Plan: {selected_plan}")
+                logging.info(
+                    f"📌 Extracted Data - Username: {username}, Email: {email}, Plan: {selected_plan}")
 
-            if not selected_plan:
-                print("❌ No plan selected!")
-                flash("⚠️ Please select a plan before registering.", 'danger')
-                return redirect(url_for('register.register_user'))
+                # Check if a plan was selected
+                if not selected_plan:
+                    logging.error("❌ No plan selected!")
+                    flash("⚠️ Please select a plan before registering.", 'danger')
+                    return redirect(url_for('register.register_user'))
 
-            existing_user = mongo.db.users.find_one(
-                {"email": {"$regex": f"^{email}$", "$options": "i"}})
-            if existing_user:
-                print(f"❌ Email {email} already exists in DB!")
+                # Check if email already exists
+                existing_user = mongo.db.users.find_one({"email": email})
+
+                if existing_user:
+                    logging.warning(f"❌ Email {email} already exists in DB!")
+                    flash(
+                        "❌ This email is already registered. Try logging in instead.", 'danger')
+                    return redirect(url_for('register.register_user'))
+
+                # Convert Date of Birth to string format
+                dob_str = form.dob.data.strftime(
+                    "%Y-%m-%d") if form.dob.data else "N/A"
+
+                # Hash the password
+                hashed_password = generate_password_hash(
+                    password, method="pbkdf2:sha256")
+
+                # Create user data dictionary
+                user_data = {
+                    "username": username,
+                    "email": email,
+                    "password": hashed_password,
+                    "phone": form.phone.data.strip(),
+                    "address_line1": form.address_line1.data.strip(),
+                    "address_line2": form.address_line2.data.strip() if form.address_line2.data else None,
+                    "city": form.city.data.strip(),
+                    "country": form.country.data.strip(),
+                    "postcode": form.postcode.data.strip(),
+                    "dob": dob_str,
+                    "selected_plan": selected_plan,
+                    "created_at": datetime.utcnow()
+                }
+
+                # Insert the user data into the MongoDB database
+                logging.info("🔄 Attempting to insert user into MongoDB...")
+                insert_result = mongo.db.users.insert_one(user_data)
+
+                if insert_result.inserted_id:
+                    logging.info(
+                        f"✅ User {email} successfully saved in MongoDB!")
+                    flash(
+                        f"🎉 Registration successful! You selected: {selected_plan}.", 'success')
+
+                    # ✅ Redirect to Success Page
+                    return render_template('register.html', form=form, show_success=True)
+
+                else:
+                    logging.error("❌ MongoDB insert operation failed!")
+                    flash("❌ Registration failed. Please try again.", 'danger')
+                    return redirect(url_for('register.register_user'))
+
+            except pymongo.errors.DuplicateKeyError:
+                logging.warning(f"❌ Email {email} already exists!")
                 flash(
                     "❌ This email is already registered. Try logging in instead.", 'danger')
                 return redirect(url_for('register.register_user'))
-
-            # ✅ DEBUG: Ensure date of birth is being captured properly
-            if form.dob.data:
-                dob_str = form.dob.data.strftime("%Y-%m-%d")
-                print(f"📆 Date of Birth: {dob_str}")
-            else:
-                dob_str = "N/A"
-                print("⚠️ No Date of Birth provided!")
-
-            hashed_password = generate_password_hash(
-                password, method="pbkdf2:sha256")
-
-            # ✅ DEBUG: Confirm all extracted data before inserting into MongoDB
-            user_data = {
-                "username": username,
-                "email": email,
-                "password": hashed_password,
-                "phone": form.phone.data.strip(),
-                "address_line1": form.address_line1.data.strip(),
-                "address_line2": form.address_line2.data.strip() if form.address_line2.data else None,
-                "city": form.city.data.strip(),
-                "country": form.country.data.strip(),
-                "postcode": form.postcode.data.strip(),
-                "dob": dob_str,
-                "selected_plan": selected_plan,
-                "created_at": datetime.utcnow()
-            }
-
-            print("🔄 Attempting to insert user into MongoDB:", user_data)
-
-            # ✅ Attempt MongoDB Insertion
-            insert_result = mongo.db.users.insert_one(user_data)
-
-            if insert_result.inserted_id:
-                print(f"✅ User {email} successfully saved in MongoDB!")
-                flash(
-                    f"🎉 Registration successful! You selected: {selected_plan}. Please log in.", 'success')
-                return redirect(url_for('auth.login'))
-            else:
-                print("❌ MongoDB insert operation failed!")
+            except Exception as e:
+                logging.error(
+                    f"❌ Unexpected error during registration: {str(e)}")
                 flash("❌ Registration failed. Please try again.", 'danger')
+                return redirect(url_for('register.register_user'))
 
-        except Exception as e:
-            print(f"❌ Unexpected error during registration: {str(e)}")
-            flash("❌ Registration failed. Please try again.", 'danger')
-
-    else:
-        print("❌ Form validation skipped (GET request) or validation failed!")
+        else:
+            logging.warning(f"❌ Form validation failed! Errors: {form.errors}")
+            flash(f"❌ Form validation failed! Errors: {form.errors}", "danger")
 
     return render_template('register.html', form=form)
+
+# ===========================
+# 🔹 SUCCESS PAGE ROUTE
+# ===========================
+
+
+@register.route('/register/success', methods=['GET'])
+def success():
+    """Displays Registration Success Message"""
+    return render_template('register_success.html', title="Registration Successful")

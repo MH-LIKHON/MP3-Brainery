@@ -433,8 +433,6 @@
 
 
 <!-- Flash Messages -->
-{% if not show_success %}
-<!-- Flash Messages -->
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 <div class="flash-messages">
@@ -444,12 +442,9 @@
 </div>
 {% endif %}
 {% endwith %}
-{% endif %}
 
-<!-- ✅ Show Registration Form Only if Not Success -->
-{% if not show_success %}
+<!-- Register Page Container -->
 <div class="register-container" id="register-form">
-
     <h2>Choose Your Brainery Plan</h2>
 
     <!-- Package Selection -->
@@ -480,10 +475,10 @@
         </div>
     </div>
 
-    <!-- ✅ Multi-Step Registration Form -->
+    <!-- ✅ Single Form for Multi-Step Registration -->
     <form method="POST" id="registration-form">
-        {{ form.hidden_tag() }} <!-- ✅ CSRF Token -->
-        <input type="hidden" id="selected_plan" name="selected_plan" required>
+        {{ form.hidden_tag() }} <!-- ✅ CSRF Token (Only Once) -->
+        <input type="hidden" id="selected_plan" name="selected_plan">
 
         <!-- Step 1: Personal Info -->
         <div id="personal-info" class="step-section">
@@ -573,19 +568,15 @@
             <button type="submit" class="submit-btn">Complete Registration</button>
         </div>
     </form>
-</div>
-{% endif %}
 
-<!-- ✅ Funny Success Message (Shows Only After Success) -->
-{% if show_success %}
-<div class="success-message show" id="success-message"
-    style="text-align: center; margin: auto; max-width: 600px; padding: 20px;">
-    <h2>🎉 Woohoo! You’re now officially part of the Brainery Family! 🎓</h2>
-    <p>📬 Check your email for your account activation link.</p>
-    <p>🤖 If you don’t see it, maybe it’s lost in the <strong>Matrix</strong> (or spam folder).</p>
-    <p>🚀 Happy Learning!</p>
+    <!-- Funny Success Message -->
+    <div class="success-message hidden" id="success-message">
+        <h2>🎉 Woohoo! You’re now officially part of the Brainery Family! 🎓</h2>
+        <p>📬 Check your email for your account activation link.</p>
+        <p>🤖 If you don’t see it, maybe it’s lost in the <strong>Matrix</strong> (or spam folder).</p>
+        <p>🚀 Happy Learning!</p>
+    </div>
 </div>
-{% endif %}
 
 
 
@@ -604,33 +595,22 @@
         let passwordInfo = document.getElementById("password-info");
         let submitButton = document.querySelector("#password-info .submit-btn");
         let successMessage = document.getElementById("success-message");
-        let registerForm = document.getElementById("register-form");
 
         let csrfToken = document.querySelector('input[name="csrf_token"]')?.value; // ✅ Get CSRF Token
 
-        /* =======================================================
-           ✅ SECTION: Hide Registration Form After Successful Submission
-        ======================================================= */
-        if (successMessage && successMessage.classList.contains("show")) {
-            console.log("🎉 Registration was successful! Hiding the form...");
-            registerForm.style.display = "none"; // ✅ Hide the form completely
+        // ✅ Ensure hidden input for selected plan exists
+        if (!selectedPlanInput) {
+            console.warn("⚠️ WARNING: Missing #selected_plan! Creating it...");
+            selectedPlanInput = document.createElement("input");
+            selectedPlanInput.type = "hidden";
+            selectedPlanInput.id = "selected_plan";
+            selectedPlanInput.name = "selected_plan";
+            document.getElementById("personal-info").appendChild(selectedPlanInput);
+            console.log("✅ Created missing #selected_plan input field.");
         }
 
         /* =======================================================
-           SECTION 2: Ensure CSRF Token is Added Once
-        ======================================================= */
-        let csrfInputExists = document.querySelector('input[name="csrf_token"]');
-        if (!csrfInputExists && csrfToken) {
-            let csrfInput = document.createElement("input");
-            csrfInput.type = "hidden";
-            csrfInput.name = "csrf_token";
-            csrfInput.value = csrfToken;
-            personalInfo.appendChild(csrfInput);
-            console.log("✅ CSRF token added to the form.");
-        }
-
-        /* =======================================================
-           SECTION 3: Package Selection Handling
+           SECTION 2: Package Selection Handling
         ======================================================= */
         packages.forEach(package => {
             package.addEventListener("click", function () {
@@ -654,7 +634,7 @@
         });
 
         /* =======================================================
-           SECTION 4: Step Navigation & Validation (Next Button)
+           SECTION 3: Step Navigation & Validation (Next Button)
         ======================================================= */
         function nextStep(currentId, nextId) {
             let currentSection = document.getElementById(currentId);
@@ -673,12 +653,6 @@
                 alert("⚠️ Please fill in all required fields before proceeding.");
                 emptyFields.forEach(input => input.style.border = "2px solid red"); // Highlight missing fields
                 emptyFields[0].focus();  // Focus on the first missing field
-                return; // 🚨 Prevent navigation to next step
-            }
-
-            // ✅ Ensure a plan is selected before continuing
-            if (currentId === "personal-info" && !selectedPlanInput.value) {
-                alert("⚠️ Please select a plan before proceeding.");
                 return;
             }
 
@@ -703,7 +677,7 @@
         window.nextStep = nextStep;
 
         /* =======================================================
-           SECTION 5: Expiry Date Validation (03/25 and Onwards)
+           SECTION 4: Expiry Date Validation (03/25 and Onwards)
         ======================================================= */
         function validateExpiryDate(expiryDate) {
             let [month, year] = expiryDate.split("/").map(Number);
@@ -711,6 +685,7 @@
             let currentYear = currentDate.getFullYear() % 100; // Get last two digits of the year
             let currentMonth = currentDate.getMonth() + 1; // Get current month (1-12)
 
+            // Enforce expiry date should be **March 2025 (03/25) or later**
             if (
                 isNaN(month) || isNaN(year) || // Ensure valid numbers
                 month < 1 || month > 12 || // Month should be between 01-12
@@ -724,7 +699,7 @@
         }
 
         /* =======================================================
-           SECTION 6: Payment Form Submission & Validation
+           SECTION 5: Payment Form Submission & Validation
         ======================================================= */
         paymentForm.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -733,6 +708,7 @@
             let promoCode = document.getElementById("promo-code")?.value.trim();
             let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
 
+            // ✅ If promo is NOT applied, validate payment fields
             if (promoCode !== "CI25MP3") {
                 let cardNumber = document.querySelector('input[name="card_number"]').value.trim();
                 let cvv = document.querySelector('input[name="cvv"]').value.trim();
@@ -755,6 +731,20 @@
 
             console.log("✅ Payment Validated. Moving to Password Section...");
             nextStep("payment-info", "password-info");
+        });
+
+        /* =======================================================
+           SECTION 6: CSRF Token Fix for Form Submission
+        ======================================================= */
+        document.querySelectorAll("form").forEach(form => {
+            if (!form.querySelector('input[name="csrf_token"]')) {
+                let csrfInput = document.createElement("input");
+                csrfInput.type = "hidden";
+                csrfInput.name = "csrf_token";
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+                console.log("✅ CSRF token added to form:", form.id);
+            }
         });
 
         /* =======================================================
@@ -782,6 +772,13 @@
             } else {
                 promoMessage.innerText = "❌ Invalid promo code.";
                 promoMessage.style.color = "red";
+
+                [cardNumber, expiryDate, cvv].forEach(field => {
+                    field.disabled = false;
+                    field.style.backgroundColor = "";
+                });
+
+                submitButton.innerText = "Complete Registration";
             }
         }
 
