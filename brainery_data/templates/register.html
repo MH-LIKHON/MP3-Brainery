@@ -599,7 +599,7 @@
         console.log("JavaScript Loaded! Waiting for user interaction...");
 
         /* =======================================================
-           SECTION 1: Element Selection
+           ✅ SECTION 1: Element Selection
         ======================================================= */
         let packages = document.querySelectorAll(".package");
         let selectedPlanInput = document.getElementById("selected_plan");
@@ -612,8 +612,14 @@
         let nextButton = document.querySelector("#payment-info .next-btn");
         let errorMessageBox = document.getElementById("error-message-box");
 
+        let cardNumber = document.querySelector('input[name="card_number"]');
+        let expiryDate = document.querySelector('input[name="expiry_date"]');
+        let cvv = document.querySelector('input[name="cvv"]');
+        let promoCodeInput = document.getElementById("promo-code");
+        let promoMessage = document.getElementById("promo-message");
+
         /* =======================================================
-           SECTION 2: Reset Form on Page Reload
+           ✅ SECTION 2: Reset Form on Page Reload
         ======================================================= */
         window.addEventListener("load", function () {
             console.log("Resetting form on page reload...");
@@ -621,29 +627,26 @@
         });
 
         /* =======================================================
-           SECTION 3: Hide Registration Form After Successful Submission
+           ✅ SECTION 3: Hide Registration Form After Successful Submission
         ======================================================= */
         if (successMessage && successMessage.classList.contains("show")) {
             console.log("Registration successful! Hiding the form...");
-            registerForm.style.display = "none"; // Hide form
+            registerForm.style.display = "none";
         }
 
         /* =======================================================
-           SECTION 4: Package Selection Handling
+           ✅ SECTION 4: Package Selection Handling
         ======================================================= */
         packages.forEach(package => {
             package.addEventListener("click", function () {
                 console.log("Package Selected:", this.dataset.name);
 
-                // Remove 'selected' class from all packages
                 packages.forEach(p => p.classList.remove("selected"));
                 this.classList.add("selected");
 
-                // Update hidden input field
                 selectedPlanInput.value = `${this.dataset.name} - £${this.dataset.price}`;
                 console.log("Selected Plan:", selectedPlanInput.value);
 
-                // Show personal info form
                 personalInfo.style.display = "block";
                 setTimeout(() => { personalInfo.style.opacity = 1; }, 100);
                 personalInfo.scrollIntoView({ behavior: "smooth" });
@@ -651,7 +654,7 @@
         });
 
         /* =======================================================
-           SECTION 5: Field Validation & Error Handling
+           ✅ SECTION 5: Field Validation & Error Handling
         ======================================================= */
         function showError(input, message) {
             let errorSpan = input.parentElement.querySelector(".error-message");
@@ -671,7 +674,7 @@
         }
 
         /* =======================================================
-           SECTION 6: Step Navigation & Validation (Next Button)
+           ✅ SECTION 6: Step Navigation & Validation (Next Button)
         ======================================================= */
         function nextStep(currentId, nextId) {
             let currentSection = document.getElementById(currentId);
@@ -687,6 +690,13 @@
             let requiredFields = currentSection.querySelectorAll("input[required]");
             let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
 
+            let isPromoApplied = promoCodeInput.value.trim() === "CI25MP3";
+
+            // ✅ Skip validation of card fields if promo is applied
+            if (isPromoApplied && currentId === "payment-info") {
+                emptyFields = emptyFields.filter(input => !["card_number", "expiry_date", "cvv"].includes(input.name));
+            }
+
             if (emptyFields.length > 0) {
                 emptyFields.forEach(input => showError(input, "⚠️ This field is required."));
                 emptyFields[0].focus();
@@ -699,8 +709,6 @@
             currentSection.style.opacity = 0;
             setTimeout(() => {
                 currentSection.style.display = "none";
-
-                // Show next section
                 nextSection.style.display = "block";
                 setTimeout(() => { nextSection.style.opacity = 1; }, 100);
                 nextSection.scrollIntoView({ behavior: "smooth" });
@@ -710,82 +718,90 @@
         window.nextStep = nextStep;
 
         /* =======================================================
-           SECTION 7: Expiry Date Validation (March 2025 & Onwards)
+           ✅ SECTION 7: Expiry Date Validation (March 2025 & Onwards)
         ======================================================= */
         function validateExpiryDate(expiryDate) {
             let [month, year] = expiryDate.split("/").map(Number);
-            let currentDate = new Date();
-            let currentYear = currentDate.getFullYear() % 100;
-            let currentMonth = currentDate.getMonth() + 1;
-
             return !(isNaN(month) || isNaN(year) || month < 1 || month > 12 || year < 25 || (year === 25 && month < 3));
         }
 
         /* =======================================================
-           SECTION 8: Payment Form Submission & Validation
+           ✅ SECTION 8: Payment Form Submission & Validation
         ======================================================= */
         paymentForm.addEventListener("submit", function (event) {
             event.preventDefault();
-            console.log("Processing Payment...");
+            console.log("💳 Processing Payment...");
 
             clearErrors();
 
-            let expiryDate = document.querySelector('input[name="expiry_date"]').value.trim();
+            let isPromoApplied = promoCodeInput.value.trim() === "CI25MP3";
 
-            if (!validateExpiryDate(expiryDate)) {
-                showError(document.querySelector('input[name="expiry_date"]'), "Expiry date must be March 2025 (03/25) or later.");
-                return;
+            if (!isPromoApplied) {
+                if (!validateExpiryDate(expiryDate.value.trim())) {
+                    showError(expiryDate, "❌ Expiry date must be March 2025 (03/25) or later.");
+                    return;
+                }
+                if (!cardNumber.value.trim()) {
+                    showError(cardNumber, "❌ Card number is required.");
+                    return;
+                }
+                if (!cvv.value.trim()) {
+                    showError(cvv, "❌ CVV is required.");
+                    return;
+                }
             }
 
-            console.log("Payment Validated. Moving to Password Section...");
+            console.log("✅ Payment Validated. Moving to Password Section...");
             nextStep("payment-info", "password-info");
         });
 
         /* =======================================================
-           SECTION 9: Auto Reload on Error (After 15 Seconds)
-        ======================================================= */
-        if (errorMessageBox && errorMessageBox.innerText.trim() !== "") {
-            console.log("Error detected, hiding form...");
-            registerForm.style.display = "none";
-            setTimeout(() => {
-                console.log("Reloading page after 15 seconds...");
-                location.reload();
-            }, 15000);
-        }
-
-        /* =======================================================
-           SECTION 10: Promo Code Handling
+           ✅ SECTION 9: Promo Code Handling (Fully Fixed)
         ======================================================= */
         function applyPromoCode() {
-            const promoCodeInput = document.getElementById("promo-code")?.value.trim();
-            const promoMessage = document.getElementById("promo-message");
+            let promoCodeValue = promoCodeInput.value.trim();
+            let isValidPromo = promoCodeValue === "CI25MP3";
 
-            let cardNumber = document.querySelector('input[name="card_number"]');
-            let expiryDate = document.querySelector('input[name="expiry_date"]');
-            let cvv = document.querySelector('input[name="cvv"]');
-
-            if (promoCodeInput === "CI25MP3") {
-                promoMessage.innerText = "Promo applied! No payment required.";
+            if (isValidPromo) {
+                promoMessage.innerText = "✅ Promo applied! No payment required.";
                 promoMessage.style.color = "green";
 
+                // ✅ Disable card input fields, clear them, and allow Next button
                 [cardNumber, expiryDate, cvv].forEach(field => {
                     field.disabled = true;
                     field.style.backgroundColor = "#e9ecef";
+                    field.value = "";
+                    field.removeAttribute("required"); // Remove required when promo is applied
                 });
 
-                nextButton.disabled = false; // Allow "Next" button
+                nextButton.disabled = false;
             } else {
-                promoMessage.innerText = "Invalid promo code.";
+                promoMessage.innerText = "❌ Invalid promo code.";
                 promoMessage.style.color = "red";
 
+                // ✅ Re-enable card input fields and set them as required again
                 [cardNumber, expiryDate, cvv].forEach(field => {
                     field.disabled = false;
                     field.style.backgroundColor = "";
+                    field.setAttribute("required", "true"); // Reapply required when promo is removed
                 });
 
                 nextButton.disabled = true;
             }
         }
+
+        promoCodeInput.addEventListener("input", function () {
+            if (!promoCodeInput.value.trim()) {
+                [cardNumber, expiryDate, cvv].forEach(field => {
+                    field.disabled = false;
+                    field.style.backgroundColor = "";
+                    field.setAttribute("required", "true");
+                });
+
+                nextButton.disabled = true;
+                promoMessage.innerText = "";
+            }
+        });
 
         document.querySelector(".promo-code button")?.addEventListener("click", applyPromoCode);
     });
