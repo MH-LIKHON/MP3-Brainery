@@ -36,9 +36,11 @@ def create_app():
     # Initialize MongoDB
     try:
         mongo.init_app(app)
-        print("✅ Connected to MongoDB!")
+        # ✅ Test the MongoDB connection by running a simple query
+        mongo.db.users.find_one()
+        print("✅ MongoDB connection is active!")
     except Exception as e:
-        print(f"❌ Failed to connect to MongoDB: {e}")
+        print(f"❌ MongoDB connection failed: {e}")
 
     # Initialize CSRF protection
     csrf.init_app(app)

@@ -423,11 +423,12 @@
             {{ form.confirm_password(class="form-control", required=True) }}
         </div>
 
-        <button type="button" class="submit-btn" id="next-payment">Next: Payment</button>
+        <button type="submit" class="submit-btn" id="next-payment">Next: Payment</button>
     </form>
 
     <!-- Payment Section -->
     <form method="POST" id="payment-form" class="step-section payment-section">
+
         <h4>Enter Payment Details</h4>
 
         <div class="form-group">
@@ -478,9 +479,14 @@
                     }, 200);
 
                     let existingPlanInput = document.querySelector("input[name='selected_plan']");
-                    if (existingPlanInput) {
-                        existingPlanInput.remove();
+                    if (!existingPlanInput) {
+                        let planInput = document.createElement("input");
+                        planInput.type = "hidden";
+                        planInput.name = "selected_plan";
+                        planInput.id = "selected_plan";  // Ensure unique ID
+                        document.getElementById("personal-info").appendChild(planInput);
                     }
+                    existingPlanInput.value = this.dataset.name + " - £" + this.dataset.price;  // ✅ Always update value
 
                     let planInput = document.createElement("input");
                     planInput.type = "hidden";
@@ -494,12 +500,33 @@
             document.getElementById("next-payment").addEventListener("click", function (event) {
                 event.preventDefault();
 
+                // Get selected plan
                 let selectedPlan = document.querySelector(".package.selected");
+
                 if (!selectedPlan) {
                     alert("Please select a plan before proceeding.");
                     return;
                 }
 
+                let planName = selectedPlan.dataset.name;
+                let planPrice = selectedPlan.dataset.price;
+                let fullPlan = `${planName} - £${planPrice}`;
+
+                console.log("✅ Selected Plan:", fullPlan); // Debugging: Check if selected plan is captured
+
+                // Check if input field for selected_plan already exists
+                let existingPlanInput = document.querySelector("input[name='selected_plan']");
+                if (!existingPlanInput) {
+                    let planInput = document.createElement("input");
+                    planInput.type = "hidden";
+                    planInput.name = "selected_plan";
+                    planInput.value = fullPlan;
+                    document.getElementById("personal-info").appendChild(planInput);
+                } else {
+                    existingPlanInput.value = fullPlan; // Update the value if it already exists
+                }
+
+                // Validate required fields before proceeding
                 let requiredFields = document.querySelectorAll("#personal-info input[required]");
                 let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
 
@@ -508,6 +535,7 @@
                     return;
                 }
 
+                // Transition to payment form
                 document.getElementById("personal-info").style.opacity = 0;
                 setTimeout(() => {
                     document.getElementById("personal-info").style.display = "none";
@@ -517,6 +545,7 @@
                     }, 200);
                 }, 200);
             });
+
 
             // Step 3: Promo Code Logic
             function applyPromoCode() {
@@ -530,34 +559,27 @@
                 let cvv = document.querySelector('input[name="cvv"]');
 
                 if (promoCodeInput === "CI25MP3") {
-                    // ✅ Promo code applied → Disable payment fields (greyed out)
                     promoMessage.innerText = "✅ Promo applied! No payment required.";
                     promoMessage.style.color = "green";
 
-                    // Grey out fields by disabling them
                     cardNumber.disabled = true;
                     expiryDate.disabled = true;
                     cvv.disabled = true;
 
-                    // Add greyed-out styling
                     cardNumber.style.backgroundColor = "#e9ecef";
                     expiryDate.style.backgroundColor = "#e9ecef";
                     cvv.style.backgroundColor = "#e9ecef";
 
-                    // Change button text to "Complete Registration"
                     submitBtn.innerText = "Complete Registration";
                     submitBtn.disabled = false;
                 } else {
-                    // ❌ Invalid promo code → Show error and re-enable fields
                     promoMessage.innerText = "❌ Invalid promo code.";
                     promoMessage.style.color = "red";
 
-                    // Re-enable payment fields
                     cardNumber.disabled = false;
                     expiryDate.disabled = false;
                     cvv.disabled = false;
 
-                    // Reset greyed-out styling
                     cardNumber.style.backgroundColor = "";
                     expiryDate.style.backgroundColor = "";
                     cvv.style.backgroundColor = "";

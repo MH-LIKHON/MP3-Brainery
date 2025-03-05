@@ -4,9 +4,11 @@ from brainery_data import mongo
 
 dashboard = Blueprint("dashboard", __name__)
 
+
 @dashboard.route("/")
 @login_required
-def index():
+def dashboard_home():
     """Render the user dashboard."""
-    user_resources = list(mongo.db.resources.find({"user_id": current_user.id}))
+    user_resources = list(mongo.db.resources.find(
+        {"user_id": current_user.id}))
     return render_template("dashboard.html", resources=user_resources)

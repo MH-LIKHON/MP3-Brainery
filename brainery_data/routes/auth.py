@@ -3,9 +3,7 @@ from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from brainery_data.models import User
 from brainery_data import mongo
-
-# Import LoginForm from register.py
-from brainery_data.routes.register import LoginForm
+from brainery_data.routes.form import LoginForm  # ✅ Corrected Import Path
 
 # Initialize Blueprint for Authentication Routes
 auth = Blueprint("auth", __name__)
@@ -16,21 +14,29 @@ def login():
     """Authenticate user login."""
     form = LoginForm()  # Initialize the login form
 
-    if form.validate_on_submit():  # Check if the form is submitted and validated
-        email = form.email.data
-        password = form.password.data
+    if form.validate_on_submit():  # ✅ Validate only on form submission (POST)
+        email = form.email.data.strip().lower()  # Ensure email is lowercase & trimmed
+        password = form.password.data.strip()
 
-        # Retrieve user from database using email
-        # Ensure the method accepts mongo as an argument
-        user = User.find_by_email(email, mongo)
+        print(f"🔍 Login Attempt - Email: {email}")  # ✅ Debugging log
 
-        # Check if user exists and password is correct
-        if user and check_password_hash(user.password, password):
-            login_user(user)  # Log in the user
-            flash("Login successful!", "success")
-            return redirect(url_for("dashboard.index"))
-        else:
-            flash("Invalid email or password.", "danger")
+        try:
+            # ✅ Retrieve user from MongoDB
+            user_data = mongo.db.users.find_one({"email": email})
+
+            if user_data and check_password_hash(user_data["password"], password):
+                # Convert MongoDB user to User model
+                user_obj = User(user_data)
+                login_user(user_obj, remember=True)  # ✅ Keep user logged in
+                flash("✅ Login successful!", "success")
+                return redirect(url_for("dashboard.index"))
+            else:
+                flash("❌ Invalid email or password.", "danger")
+                print("❌ Login failed - Incorrect credentials")
+
+        except Exception as e:
+            print(f"❌ Error fetching user from MongoDB: {str(e)}")
+            flash("⚠️ Login system error. Please try again later.", "danger")
 
     return render_template("login.html", form=form)
 
@@ -40,5 +46,5 @@ def login():
 def logout():
     """Log out the current user."""
     logout_user()
-    flash("You have been logged out.", "info")
+    flash("✅ You have been logged out.", "info")
     return redirect(url_for("auth.login"))

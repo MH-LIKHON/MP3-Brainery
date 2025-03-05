@@ -275,7 +275,9 @@
         </div>
 
         <!-- Login Form -->
-        <form>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            {{ form.hidden_tag() }}
+
             <div class="title">Login to Brainery</div>
 
             <div class="msg"></div>
