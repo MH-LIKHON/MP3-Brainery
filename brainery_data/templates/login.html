@@ -5,8 +5,6 @@
 <!-- =======================================================
     External Stylesheets
     ======================================================= -->
-
-<!-- CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
 <!-- =======================================================
@@ -17,12 +15,12 @@
     <div class="form-container">
         <!-- User Icon -->
         <div class="icon">
-            <!-- Icon representing the user login -->
             <i class="fa fa-user"></i>
         </div>
 
         <!-- Login Form -->
         <form method="POST" action="{{ url_for('auth.login') }}">
+            <!-- CSRF Token -->
             {{ form.hidden_tag() }}
 
             <!-- Form Title -->
@@ -31,44 +29,51 @@
             <!-- Message Area -->
             <div class="msg"></div>
 
-            <!-- Username Field -->
+            <!-- Email Field -->
             <div class="field">
-                <!-- Input field for the username -->
-                <input type="text" id="uname" placeholder="Username">
-                <!-- Icon for the username field -->
+                <input type="email" id="email" name="email" placeholder="Email" required>
                 <i class="fa fa-user"></i>
             </div>
 
             <!-- Password Field -->
             <div class="field">
-                <!-- Input field for the password -->
-                <input type="password" id="pass" placeholder="Password">
-                <!-- Icon for the password field -->
+                <input type="password" id="pass" name="password" placeholder="Password" required>
                 <i class="fa fa-lock"></i>
             </div>
 
-            <!-- Remember Me & Forgot Password Options -->
+            <!-- Remember Me & Forgot Password -->
             <div class="action">
-                <!-- Remember me checkbox -->
-                <label>
-                    <input type="checkbox"> Remember me
-                </label>
-                <!-- Link for forgot password -->
-                <a href="#">Forgot password?</a>
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#" id="forgot-password-link">Forgot password?</a>
             </div>
 
             <!-- Login Button -->
             <div class="btn-container">
-                <!-- Submit button for logging in -->
                 <button type="submit" id="login-btn">Login</button>
             </div>
 
             <!-- Sign Up Link -->
             <div class="signup">
-                <!-- Link to register if the user doesn't have an account -->
                 Don't have an account? <a href="{{ url_for('register.register_user') }}">Sign up</a>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- =======================================================
+     RESET PASSWORD POPUP (Initially Hidden)
+     ======================================================= -->
+
+<div id="reset-password-popup" class="popup-container" style="display: none;">
+    <div class="popup">
+        <h3>Reset Password</h3>
+        <form id="reset-password-form">
+            <input type="email" id="reset-email" placeholder="Enter your email" required>
+            <input type="password" id="reset-new-password" placeholder="New Password" required>
+            <button type="submit">Reset Password</button>
+            <button type="button" id="close-popup">Cancel</button>
+        </form>
+        <p id="reset-message"></p>
     </div>
 </div>
 
