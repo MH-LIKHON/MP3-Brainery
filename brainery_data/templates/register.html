@@ -2,10 +2,16 @@
 
 {% block content %}
 
+<!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
 <!-- CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-<!-- Flash Messages -->
+<!-- =======================================================
+     FLASH MESSAGES
+     ======================================================= -->
 {% if not show_success %}
 <!-- Flash Messages -->
 {% with messages = get_flashed_messages(with_categories=true) %}
@@ -19,19 +25,26 @@
 {% endwith %}
 {% endif %}
 
-<!-- Error Message Container -->
+<!-- =======================================================
+     ERROR MESSAGE CONTAINER (For Displaying Errors)
+     ======================================================= -->
 <div id="error-container" style="display: none; text-align: center; color: red; font-size: 1.2em; margin-bottom: 20px;">
 </div>
 
-
-<!-- Show Registration Form Only if Not Success -->
+<!-- =======================================================
+     REGISTRATION FORM (Displayed Only If Not Successful)
+     ======================================================= -->
 {% if not show_success %}
 <div class="register-container" id="register-form">
 
+    <!-- Plan Selection Title -->
     <h2>Choose Your Brainery Plan</h2>
 
-    <!-- Package Selection -->
+    <!-- =======================================================
+         PACKAGE SELECTION (Available Subscription Plans)
+         ======================================================= -->
     <div class="package-selection">
+        <!-- Weekly Plan -->
         <div class="package" data-price="10" data-name="Weekly Plan">
             <h4>Weekly Plan - £10</h4>
             <ul>
@@ -40,6 +53,7 @@
                 <li>💬 Community Support</li>
             </ul>
         </div>
+        <!-- Monthly Plan -->
         <div class="package" data-price="30" data-name="Monthly Plan">
             <h4>Monthly Plan - £30</h4>
             <ul>
@@ -48,6 +62,7 @@
                 <li>💬 Priority Support</li>
             </ul>
         </div>
+        <!-- Annual Plan -->
         <div class="package" data-price="100" data-name="Annual Plan">
             <h4>Annual Plan - £100</h4>
             <ul>
@@ -58,39 +73,48 @@
         </div>
     </div>
 
-    <!-- Multi-Step Registration Form -->
+    <!-- =======================================================
+         MULTI-STEP REGISTRATION FORM (Three Steps)
+         ======================================================= -->
     <form method="POST" id="registration-form">
 
         <!-- CSRF Token -->
         {{ form.hidden_tag() }}
 
+        <!-- Hidden Input for Selected Plan -->
         <input type="hidden" id="selected_plan" name="selected_plan" required>
 
-        <!-- Step 1: Personal Info -->
+        <!-- STEP 1: PERSONAL INFO (User's Information) -->
         <div id="personal-info" class="step-section">
             <h4>Tell us about yourself</h4>
 
+            <!-- First Name Field -->
             <div class="form-group">
                 <label for="first_name">First Name</label>
                 {{ form.first_name(class="form-control", required=True) }}
             </div>
+            <!-- Last Name Field -->
             <div class="form-group">
                 <label for="last_name">Last Name</label>
                 {{ form.last_name(class="form-control", required=True) }}
             </div>
+            <!-- Date of Birth Field -->
             <div class="form-group">
                 <label for="dob">Date of Birth</label>
                 {{ form.dob(class="form-control", required=True) }}
             </div>
+            <!-- Email Address Field -->
             <div class="form-group">
                 <label for="email">Email Address</label>
                 {{ form.email(class="form-control", required=True) }}
             </div>
+            <!-- Phone Number Field -->
             <div class="form-group">
                 <label for="phone">Phone Number</label>
                 {{ form.phone(class="form-control", required=True) }}
             </div>
 
+            <!-- Billing Address -->
             <h5>Billing Address</h5>
             <div class="form-group">
                 <label for="address_line1">Address Line 1</label>
@@ -109,26 +133,31 @@
                 {{ form.postcode(class="form-control", required=True) }}
             </div>
 
+            <!-- Next Button for Transitioning to Payment Info -->
             <button type="button" class="next-btn" onclick="nextStep('personal-info', 'payment-info')">Next</button>
         </div>
 
-        <!-- Step 2: Payment Info -->
+        <!-- STEP 2: PAYMENT INFO (User's Payment Details) -->
         <div id="payment-info" class="step-section hidden">
             <h4>Enter Payment Details</h4>
 
+            <!-- Card Number Field -->
             <div class="form-group">
                 <label for="card_number">Card Number</label>
                 <input type="text" name="card_number" class="form-control" required>
             </div>
+            <!-- Expiry Date Field -->
             <div class="form-group">
                 <label for="expiry_date">Expiry Date</label>
                 <input type="text" name="expiry_date" class="form-control" placeholder="MM/YY" required>
             </div>
+            <!-- CVV Field -->
             <div class="form-group">
                 <label for="cvv">CVV</label>
                 <input type="text" name="cvv" class="form-control" required>
             </div>
 
+            <!-- Promo Code Input -->
             <div class="form-group promo-code">
                 <label for="promo-code">Promo Code (Optional)</label>
                 <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
@@ -136,28 +165,34 @@
                 <p id="promo-message"></p>
             </div>
 
+            <!-- Next Button for Transitioning to Password Info -->
             <button type="button" class="next-btn" onclick="nextStep('payment-info', 'password-info')">Next</button>
         </div>
 
-        <!-- Step 3: Password Info -->
+        <!-- STEP 3: PASSWORD INFO (Set Account Password) -->
         <div id="password-info" class="step-section hidden">
             <h4>Set Your Account Password</h4>
+            <!-- Password Field -->
             <div class="form-group">
                 <label for="password">Password</label>
                 {{ form.password(class="form-control", required=True) }}
             </div>
+            <!-- Confirm Password Field -->
             <div class="form-group">
                 <label for="confirm_password">Confirm Password</label>
                 {{ form.confirm_password(class="form-control", required=True) }}
             </div>
 
+            <!-- Submit Button to Complete Registration -->
             <button type="submit" class="submit-btn">Complete Registration</button>
         </div>
     </form>
 </div>
 {% endif %}
 
-<!-- Funny Success Message (Shows Only After Success) -->
+<!-- =======================================================
+     SUCCESS MESSAGE
+     ======================================================= -->
 {% if show_success %}
 <div class="success-message show" id="success-message"
     style="text-align: center; margin: auto; max-width: 600px; padding: 20px;">
@@ -167,6 +202,10 @@
     <p>🚀 Happy Learning!</p>
 </div>
 {% endif %}
+
+<!-- =======================================================
+    External JavaScript Libraries
+    ======================================================= -->
 
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/register.js') }}"></script>

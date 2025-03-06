@@ -2,14 +2,22 @@
 
 {% block content %}
 
+<!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
 <!-- CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-<!-- Login Form -->
+<!-- =======================================================
+     LOGIN FORM (User Authentication)
+     ======================================================= -->
+
 <div class="main-container">
     <div class="form-container">
         <!-- User Icon -->
         <div class="icon">
+            <!-- Icon representing the user login -->
             <i class="fa fa-user"></i>
         </div>
 
@@ -17,42 +25,56 @@
         <form method="POST" action="{{ url_for('auth.login') }}">
             {{ form.hidden_tag() }}
 
+            <!-- Form Title -->
             <div class="title">Login to Brainery</div>
 
+            <!-- Message Area -->
             <div class="msg"></div>
 
             <!-- Username Field -->
             <div class="field">
+                <!-- Input field for the username -->
                 <input type="text" id="uname" placeholder="Username">
+                <!-- Icon for the username field -->
                 <i class="fa fa-user"></i>
             </div>
 
             <!-- Password Field -->
             <div class="field">
+                <!-- Input field for the password -->
                 <input type="password" id="pass" placeholder="Password">
+                <!-- Icon for the password field -->
                 <i class="fa fa-lock"></i>
             </div>
 
-            <!-- Remember Me & Forgot Password -->
+            <!-- Remember Me & Forgot Password Options -->
             <div class="action">
+                <!-- Remember me checkbox -->
                 <label>
                     <input type="checkbox"> Remember me
                 </label>
+                <!-- Link for forgot password -->
                 <a href="#">Forgot password?</a>
             </div>
 
             <!-- Login Button -->
             <div class="btn-container">
+                <!-- Submit button for logging in -->
                 <button type="submit" id="login-btn">Login</button>
             </div>
 
             <!-- Sign Up Link -->
             <div class="signup">
+                <!-- Link to register if the user doesn't have an account -->
                 Don't have an account? <a href="{{ url_for('register.register_user') }}">Sign up</a>
             </div>
         </form>
     </div>
 </div>
+
+<!-- =======================================================
+    SECTION 6: External JavaScript Libraries
+    ======================================================= -->
 
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>

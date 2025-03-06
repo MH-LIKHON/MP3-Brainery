@@ -2,15 +2,21 @@
 
 {% block content %}
 
+<!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
 <!-- CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
 <!-- =======================================================
      HERO SECTION (Dynamic Background)
      ======================================================= -->
+
 <section class="hero-section">
     <!-- Background Video -->
     <div class="video-wrap">
+        <!-- Video background element -->
         <video autoplay playsinline loop muted id="video-bg">
             <source src="https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4" type="video/mp4">
         </video>
@@ -18,9 +24,13 @@
 
     <!-- Hero Text -->
     <div class="hero-text">
+        <!-- Hero section title -->
         <h2 class="small-title">Welcome to Brainery</h2>
+        <!-- Main heading for the hero section -->
         <h1>Where Creativity & Strategy Meet</h1>
+        <!-- Subheading with additional description -->
         <h3>Your journey to success begins here</h3>
+        <!-- Call-to-action button -->
         <a href="#" class="hero-btn">Get Started</a>
     </div>
 </section>
@@ -28,40 +38,53 @@
 <!-- =======================================================
      FEATURES SECTION (Interactive Cards)
      ======================================================= -->
+
 <section class="feature-section">
     <div class="container">
+        <!-- Section Title -->
         <h2>Explore Features</h2>
+        <!-- Features Grid -->
         <div class="features-grid">
+            <!-- Feature Card 1: Explore Resources -->
             <div class="feature-card">
+                <!-- Icon for the feature -->
                 <i class="fas fa-book-open feature-icon"></i>
+                <!-- Title of the feature -->
                 <h5>Explore Resources</h5>
+                <!-- Short description of the feature -->
                 <p>Browse our vast collection of learning resources.</p>
+                <!-- Call-to-action button for this feature -->
                 <a href="#" class="feature-btn">Start Exploring</a>
             </div>
+            <!-- Feature Card 2: Contribute -->
             <div class="feature-card">
                 <i class="fas fa-upload feature-icon"></i>
                 <h5>Contribute</h5>
                 <p>Upload and manage your own resources.</p>
                 <a href="#" class="feature-btn">Get Started</a>
             </div>
+            <!-- Feature Card 3: Join the Community -->
             <div class="feature-card">
                 <i class="fas fa-users feature-icon"></i>
                 <h5>Join the Community</h5>
                 <p>Collaborate and grow together.</p>
                 <a href="#" class="feature-btn">Join Now</a>
             </div>
+            <!-- Feature Card 4: Interactive Courses -->
             <div class="feature-card">
                 <i class="fas fa-chalkboard-teacher feature-icon"></i>
                 <h5>Interactive Courses</h5>
                 <p>Learn with hands-on, interactive courses.</p>
                 <a href="#" class="feature-btn">View Courses</a>
             </div>
+            <!-- Feature Card 5: Live Workshops -->
             <div class="feature-card">
                 <i class="fas fa-video feature-icon"></i>
                 <h5>Live Workshops</h5>
                 <p>Participate in expert-led workshops.</p>
                 <a href="#" class="feature-btn">See Workshops</a>
             </div>
+            <!-- Feature Card 6: Career Guidance -->
             <div class="feature-card">
                 <i class="fas fa-user-tie feature-icon"></i>
                 <h5>Career Guidance</h5>

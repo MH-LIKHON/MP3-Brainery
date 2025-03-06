@@ -2,7 +2,11 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
+    <!-- =======================================================
+    Meta Tags and Head Elements
+    ======================================================= -->
+
+    <!-- Required meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -10,33 +14,40 @@
     <!-- Page Title -->
     <title>{% block title %}Brainery{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
+    <!-- Bootstrap CSS for styling and layout -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome -->
+    <!-- Font Awesome CSS for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
+    <!-- Custom CSS for website styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-    <!-- Favicon -->
+    <!-- Favicon for browser tab icon -->
     <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg"
         type="image/svg+xml">
 
-    <!-- Custom CSS Test -->
+    <!-- Additional Custom CSS (Test or Extra Styles) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
     {% block extra_head %}{% endblock %}
-
 </head>
 
 <body>
-    <!-- HEADER SECTION -->
+    <!-- =======================================================
+    Header Section (Navigation and Branding)
+    ======================================================= -->
+
     <header>
-        <!-- Top Bar -->
+        <!-- Top Bar (Social Media Icons) -->
         <div class="top-bar py-2">
             <div class="container d-flex justify-content-center">
                 <div class="social-icons d-flex gap-3">
+                    <!-- Social media icons for external links -->
                     <a href="mailto:hello@brainery.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
                     <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i
                             class="fab fa-facebook-f"></i></a>
@@ -62,19 +73,22 @@
             </div>
         </div>
 
-        <!-- Navbar -->
+        <!-- Navigation Bar (Links and Branding) -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
+                <!-- Branding: Logo and Name -->
                 <a class="navbar-brand d-flex align-items-center" href="{{ url_for('main.index') }}">
                     <i class="fas fa-brain fa-2x me-2 logo-icon"></i>
                     <span class="logo-text">Brainery</span>
                 </a>
 
+                <!-- Navbar toggle button for mobile view -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+                <!-- Navbar Links (Home, Login, Register) -->
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
@@ -87,27 +101,36 @@
         </nav>
     </header>
 
-    <!-- MAIN CONTENT WILL BE INSERTED HERE -->
+    <!-- The content of each page will be inserted into this block -->
     {% block content %}{% endblock %}
 
-    <!-- FOOTER SECTION -->
+    <!-- =======================================================
+    Footer Section
+    ======================================================= -->
+
     <footer class="bg-light py-3 text-center">
         <div class="container">
+            <!-- Footer Icon -->
             <i class="fas fa-brain fa-2x"></i>
+            <!-- Footer Text -->
             <p class="footer-text mt-2">&copy; 2025 Brainery. All Rights Reserved.</p>
         </div>
     </footer>
 
-    <!-- jQuery -->
+    <!-- =======================================================
+    External JavaScript Libraries
+    ======================================================= -->
+
+    <!-- jQuery for handling DOM manipulation and AJAX requests -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS for responsive design and dynamic components -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- JavaScript -->
+    <!-- Custom JavaScript for page-specific functionality -->
     <script src="{{ url_for('static', filename='js/register.js') }}"></script>
 
+    <!-- Additional Scripts for page-specific needs -->
     {% block extra_scripts %}{% endblock %}
 
 </body>

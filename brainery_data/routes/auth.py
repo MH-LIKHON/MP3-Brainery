@@ -12,12 +12,15 @@ auth = Blueprint("auth", __name__)
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """Authenticate user login."""
+    print("🔍 Reached login function.")
     form = LoginForm()  # Initialize the login form
 
     if form.validate_on_submit():  # ✅ Validate only on form submission (POST)
         email = form.email.data.strip().lower()  # Ensure email is lowercase & trimmed
         password = form.password.data.strip()
 
+        print(
+            f"🔍 Attempting to log in user: {user_obj.username} (ID: {user_obj.id})")
         print(f"🔍 Login Attempt - Email: {email}")  # ✅ Debugging log
 
         try:
@@ -27,9 +30,22 @@ def login():
             if user_data and check_password_hash(user_data["password"], password):
                 # Convert MongoDB user to User model
                 user_obj = User(user_data)
-                login_user(user_obj, remember=True)  # ✅ Keep user logged in
+                login_user(user_obj, remember=True)  # ✅ Keep user logged
+                if current_user.is_authenticated:
+                    print(
+                        f"✅ User logged in successfully: {current_user.username} (ID: {current_user.id})")
+
+                else:
+                    print("❌ User login failed! Flask-Login session not active.")
+
+                print(
+                    f"✅ User logged in successfully: {user_obj.username} (ID: {user_obj.id})")
+
+                print(
+                    f"🔍 Flask-Login session active? {current_user.is_authenticated}")
+
                 flash("✅ Login successful!", "success")
-                return redirect(url_for("dashboard.index"))
+                return redirect(url_for("dashboard.dashboard_home"))
             else:
                 flash("❌ Invalid email or password.", "danger")
                 print("❌ Login failed - Incorrect credentials")
