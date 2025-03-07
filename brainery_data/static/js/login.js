@@ -70,32 +70,58 @@ closePopup.addEventListener("click", function () {
 
 // Handle Reset Password Form Submission
 resetForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission
 
+    // ✅ Extract user inputs
     const emailValue = resetEmail.value.trim();
     const newPasswordValue = resetNewPassword.value.trim();
 
+    // ✅ Validate inputs
     if (!emailValue || !newPasswordValue) {
         resetMessage.innerText = "❌ Please fill in all fields.";
+        resetMessage.style.color = "red";
         return;
     }
 
+    // ✅ Fetch CSRF token from meta tag
+    const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+
+    // ✅ Send request to Flask backend with CSRF token
     fetch("/auth/reset_password", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "X-CSRFToken": csrfToken  // ✅ Include CSRF Token
+        },
         body: JSON.stringify({ email: emailValue, new_password: newPasswordValue })
     })
-        .then(response => response.json())
+        .then(response => {
+            console.log("🔍 Response Status:", response.status);
+
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text); });
+            }
+            return response.json();
+        })
         .then(data => {
+            console.log("🔍 Response Data:", data);
+
             if (data.message) {
                 resetMessage.innerText = "✅ " + data.message;
+                resetMessage.style.color = "green";
+
+                // ✅ Auto-close popup after success
                 setTimeout(() => { resetPopup.style.display = "none"; }, 2000);
             } else {
-                resetMessage.innerText = "❌ " + data.error;
+                resetMessage.innerText = "❌ " + (data.error || "Unknown error");
+                resetMessage.style.color = "red";
             }
         })
         .catch(error => {
-            console.error("Error:", error);
-            resetMessage.innerText = "❌ Something went wrong. Try again.";
+            console.error("❌ ERROR:", error);
+
+            resetMessage.innerText = "❌ CSRF error: Refresh the page and try again.";
+            resetMessage.style.color = "red";
         });
 });

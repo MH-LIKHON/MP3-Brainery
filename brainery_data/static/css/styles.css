@@ -1140,10 +1140,99 @@ a {
 }
 
 /* -------------------------------
+   Password Reset Popup
+   ------------------------------- */
+
+/* Background overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+    /* Initially hidden */
+}
+
+/* Show overlay when popup is active */
+.popup-container.active~.overlay {
+    display: block;
+}
+
+/* Popup container */
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 350px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 10px;
+    z-index: 1001;
+    display: none;
+}
+
+/* Popup title */
+.popup h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Input fields */
+.popup input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Buttons */
+.popup button {
+    width: 100%;
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+/* Button hover effect */
+.popup button:hover {
+    background: #17a589;
+}
+
+/* Close button */
+.popup button#close-popup {
+    background: #dc3545;
+}
+
+/* Close button hover effect */
+.popup button#close-popup:hover {
+    background: #c82333;
+}
+
+/* -------------------------------
    Mobile & Tablet View (Responsive)
    ------------------------------- */
-/* Adjust Navbar for Mobile (screens smaller than 768px) */
+
 @media (max-width: 768px) {
+    .popup-container {
+        width: 90%;
+        /* Make popup responsive */
+    }
+
     .main-container {
         margin-top: 20px;
         padding: 20px;
@@ -1177,7 +1266,6 @@ a {
     }
 }
 
-/* Adjust Navbar for Mobile (screens smaller than 576px) */
 @media (max-width: 576px) {
     .form-container {
         width: 100%;

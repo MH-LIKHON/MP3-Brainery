@@ -2,6 +2,25 @@ $(document).ready(function () {
     console.log("Dashboard Loaded!");
 
     // ==============================
+    // 🔹 Sidebar Toggle Functionality (Slider Style)
+    // ==============================
+    // Sidebar Toggle Button Functionality
+    $(".sidebar-toggle").click(function () {
+        let sidebar = $(".sidebar");
+
+        // Toggle sidebar class
+        sidebar.toggleClass("collapsed");
+    });
+
+    // Ensure sidebar loads collapsed initially
+    $(".sidebar").addClass("collapsed");
+
+    // Ensure sidebar loads collapsed with correct icon
+    $(".sidebar").addClass("collapsed");
+    $(".sidebar-toggle i").removeClass("fa-angle-double-left").addClass("fa-angle-double-right");
+
+
+    // ==============================
     // 🔹 Load Wikipedia Study Content
     // ==============================
     function loadStudyContent(subject) {
@@ -34,7 +53,7 @@ $(document).ready(function () {
         let topicTitle = $(this).data("title");
 
         $.ajax({
-            url: "/save_topic",
+            url: "/dashboard/save_topic",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify({ title: topicTitle }),
@@ -64,7 +83,7 @@ $(document).ready(function () {
                         </li>`;
                 });
             } else {
-                savedHtml = "<p>No saved topics yet.</p>";
+                savedHtml = "<p class='text-center text-muted'>No saved topics yet.</p>";
             }
 
             $("#saved-topics").html(savedHtml);
@@ -120,3 +139,20 @@ $(document).ready(function () {
     // Load saved topics on page load
     loadSavedTopics();
 });
+
+
+// ==============================
+// 🔹 Logout Function
+// ==============================
+function logout() {
+    $.ajax({
+        url: "/auth/logout",
+        type: "GET",
+        success: function () {
+            window.location.href = "/auth/login"; // Redirect to login page
+        },
+        error: function () {
+            alert("Logout failed. Please try again.");
+        }
+    });
+}

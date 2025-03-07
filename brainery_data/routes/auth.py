@@ -31,36 +31,31 @@ def login():
         password = form.password.data.strip()
 
         try:
-            # Retrieve user from MongoDB (case-insensitive email search)
+            # ✅ Retrieve user from MongoDB (case-insensitive search)
             user_data = mongo.db.users.find_one(
                 {"email": {"$regex": f"^{email}$", "$options": "i"}}
             )
 
+            # ✅ Validate password and log in user
             if user_data and check_password_hash(user_data["password"], password):
-                # Create a User object from database data
                 user_obj = User(user_data)
-
-                # Log in the user and set session
                 login_user(user_obj, remember=True)
 
-                flash("Login successful!", "success")
-
-                # ✅ Fixed: Redirect to the correct dashboard
+                flash("✅ Login successful!", "success")
                 return redirect(url_for("dashboard.dashboard_main"))
-            else:
-                # Display error message for incorrect credentials
-                flash("Invalid email or password.", "danger")
+
+            flash("❌ Invalid email or password.", "danger")
 
         except Exception as e:
             print(f"❌ Login Error: {e}")
-            flash("Login system error. Please try again later.", "danger")
+            flash("⚠️ Login system error. Please try again later.", "danger")
 
     return render_template("login.html", form=form)
-
 
 # ==============================================
 # User Logout Route
 # ==============================================
+
 
 @auth.route("/logout")
 @login_required
@@ -69,39 +64,65 @@ def logout():
     Log out the current user and redirect to login page.
     """
     logout_user()
-    flash("You have been logged out.", "info")
+    flash("✅ You have been logged out.", "info")
     return redirect(url_for("auth.login"))
-
 
 # ==============================================
 # Password Reset Route
 # ==============================================
 
+
 @auth.route("/reset_password", methods=["POST"])
 def reset_password():
     """
     Reset a user's password.
-    - Expects JSON with 'email' and 'new_password'.
-    - Hashes the new password before saving.
-    - Updates the password in MongoDB.
+    - Logs incoming request headers and data for debugging.
+    - Ensures request contains valid JSON.
+    - Updates the password securely in MongoDB.
     """
-    data = request.get_json()
-    email = data.get("email")
-    new_password = data.get("new_password")
 
+    # ✅ Log the Request Headers & Data
+    print(f"🔍 Incoming Request Headers: {request.headers}")
+    # Log raw data
+    print(f"🔍 Incoming Request Data: {request.get_data(as_text=True)}")
+
+    # ✅ Check if the request is JSON
+    if not request.is_json:
+        print("❌ ERROR: Request is NOT JSON")
+        return jsonify({"error": "Request must be JSON"}), 400
+
+    try:
+        # ✅ Parse JSON Data
+        data = request.get_json()
+        email = data.get("email", "").strip().lower()
+        new_password = data.get("new_password", "").strip()
+
+    except Exception as e:
+        print(f"❌ ERROR: JSON Parsing Failed - {e}")
+        return jsonify({"error": "Invalid JSON format"}), 400
+
+    # ✅ Validate Fields
     if not email or not new_password:
+        print("❌ ERROR: Missing email or password")
         return jsonify({"error": "Email and new password are required."}), 400
 
-    # Hash the new password before storing
+    # ✅ Password Strength Check
+    if len(new_password) < 6:
+        print("❌ ERROR: Password too short")
+        return jsonify({"error": "Password must be at least 6 characters long."}), 400
+
+    # ✅ Hash Password
     hashed_password = generate_password_hash(new_password)
 
-    # Update the password in MongoDB
+    # ✅ Update MongoDB
     result = mongo.db.users.update_one(
         {"email": {"$regex": f"^{email}$", "$options": "i"}},
         {"$set": {"password": hashed_password}}
     )
 
     if result.matched_count == 0:
+        print("❌ ERROR: User not found")
         return jsonify({"error": "User not found."}), 404
 
+    print("✅ SUCCESS: Password reset successful")
     return jsonify({"message": "Password reset successful."}), 200
