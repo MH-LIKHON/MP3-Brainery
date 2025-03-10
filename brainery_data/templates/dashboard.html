@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title>Brainery Dashboard</title>
 
   <!-- Bootstrap CSS for styling and layout -->
@@ -16,294 +18,14 @@
   <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg"
     type="image/svg+xml">
 
-  <!-- Custom CSS -->
+  <!-- Custom CSS for website styling -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
   <!-- PDF.js (For Viewing PDFs) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.14.305/pdf.min.js"></script>
-
-  <style>
-    /* General Styles */
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* Centers horizontally */
-      justify-content: center;
-      /* Centers vertically */
-      padding: 20px;
-      height: 100vh;
-      /* Full viewport height */
-    }
-
-    /* User Info */
-    #username {
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    /* Subject List - Center inside Sidebar */
-    #subject-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* Align items horizontally */
-      justify-content: center;
-      /* Center items inside */
-      gap: 10px;
-    }
-
-    /* Subject Items */
-    .subject-item {
-      width: 90%;
-      /* Ensures buttons are uniform */
-      padding: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    .subject-item:hover {
-      background-color: #495057;
-      transform: scale(1.05);
-    }
-
-    /* Logout Button */
-    .btn-danger {
-      width: 100%;
-      font-size: 16px;
-    }
-
-    /* Main Content */
-    .dashboard-content {
-      flex-grow: 1;
-      padding: 20px;
-    }
-
-    /* Study Content Box */
-    #study-content {
-      height: 70vh;
-      overflow-y: auto;
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-    }
-
-    /* PDF Viewer Modal */
-    #pdfViewer .modal-content {
-      border-radius: 10px;
-    }
-
-    #pdfFrame {
-      width: 100%;
-      height: 500px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px;
-      }
-
-      .subject-item {
-        display: inline-block;
-        width: 100%;
-        margin-bottom: 5px;
-      }
-
-      .btn-danger {
-        width: auto;
-      }
-    }
-
-
-
-
-
-
-    /* =====================================================
-   🔹 Sidebar Styles (Collapsible with Animation)
-   ===================================================== */
-    .sidebar {
-      width: 280px;
-      /* Adjusted width for better layout */
-      height: 100vh;
-      position: fixed;
-      left: 0;
-      top: 0;
-      background-color: #343a40;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 20px 0;
-      transition: transform 0.3s ease-in-out;
-      z-index: 1000;
-      /* Ensure sidebar is above main content */
-    }
-
-    /* Sidebar Starts Collapsed */
-    .sidebar.collapsed {
-      transform: translateX(-280px);
-    }
-
-    /* =====================================================
-   🔹 Sidebar Toggle Button (Lip Style)
-   ===================================================== */
-    .sidebar-toggle {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: -15px;
-      width: 15px;
-      /* Slim lip style */
-      height: 80px;
-      background-color: #ff9d00;
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    /* When Sidebar is Collapsed */
-    .sidebar.collapsed .sidebar-toggle {
-      right: -15px;
-    }
-
-    /* Ensure Sidebar Toggle Button is Clickable on Mobile */
-    @media (max-width: 768px) {
-      .sidebar {
-        transform: translateX(-280px);
-        /* Ensure it starts hidden */
-        position: fixed;
-      }
-
-      .sidebar-toggle {
-        right: -20px;
-        width: 20px;
-        height: 100px;
-        background-color: #ff9d00;
-      }
-
-      /* Ensure Sidebar Opens Fully */
-      .sidebar:not(.collapsed) {
-        transform: translateX(0);
-      }
-    }
-
-    /* =====================================================
-   🔹 Main Content Styling (Fixing Alignment on Mobile)
-   ===================================================== */
-    .dashboard-content {
-      flex-grow: 1;
-      padding: 20px;
-      transition: margin-left 0.3s ease-in-out;
-    }
-
-    /* When Sidebar is Expanded */
-    .sidebar:not(.collapsed)~.dashboard-content {
-      margin-left: 280px;
-      /* Push content when sidebar is open */
-    }
-
-    /* On Mobile - Center Content */
-    @media (max-width: 768px) {
-      .dashboard-content {
-        margin-left: 0;
-        /* Keep content centered */
-        text-align: center;
-      }
-    }
-
-    /* =====================================================
-   🔹 User Name Section (At the Top)
-   ===================================================== */
-    #username {
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    /* =====================================================
-   🔹 Subject List (Centered Vertically)
-   ===================================================== */
-    #subject-list {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex-grow: 1;
-      width: 100%;
-      gap: 10px;
-    }
-
-    /* Subject Button Style */
-    .subject-item {
-      text-align: left;
-      white-space: nowrap;
-      width: 90%;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 5px;
-      transition: 0.3s;
-      background: #6c757d;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .subject-item:hover {
-      background-color: #495057;
-      transform: scale(1.05);
-    }
-
-    /* =====================================================
-   🔹 Saved Topics Section (Properly Positioned)
-   ===================================================== */
-    #saved-topics {
-      font-size: 18px;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    #saved-topics i {
-      color: #dc3545;
-    }
-
-    /* =====================================================
-   🔹 Logout Button (Fixed at Bottom)
-   ===================================================== */
-    .btn-danger {
-      width: 100%;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-top: auto;
-    }
-  </style>
-
-
 </head>
 
 <body class="bg-light">
@@ -347,13 +69,14 @@
       </ul>
 
       <!-- Saved Topics -->
-      <h5 class="text-center mt-3">📌 Saved Topics</h5>
+      <h5 class="text-center mt-3">
+        <button id="load-saved-topics" class="btn btn-primary">📌 Saved Topics</button>
+      </h5>
       <ul id="saved-topics" class="list-group px-2"></ul>
 
       <!-- Logout Button -->
       <button onclick="logout()" class="btn btn-danger mt-auto mb-3">🚪 Logout</button>
     </aside>
-
 
     <!-- Main Content -->
     <main class="flex-grow-1 p-4">
@@ -379,10 +102,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Saved Topics Section -->
-  <h3 class="mt-4">📌 Saved Topics</h3>
-  <ul id="saved-topics" class="list-group"></ul>
 
   <!-- JavaScript -->
   <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>

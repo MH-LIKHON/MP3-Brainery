@@ -72,3 +72,15 @@ def create_app():
     app.register_blueprint(resource, url_prefix="/resource")
 
     return app
+
+
+def test_db():
+    try:
+        # Try fetching one document from MongoDB
+        test_data = mongo.db.saved_topics.find_one()
+        if test_data:
+            return jsonify({"message": "Database connection successful!", "sample_data": str(test_data)}), 200
+        else:
+            return jsonify({"message": "Database connected, but no data found!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

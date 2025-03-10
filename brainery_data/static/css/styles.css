@@ -1226,7 +1226,7 @@ a {
 /* -------------------------------
    Mobile & Tablet View (Responsive)
    ------------------------------- */
-
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
 @media (max-width: 768px) {
     .popup-container {
         width: 90%;
@@ -1266,6 +1266,7 @@ a {
     }
 }
 
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
 @media (max-width: 576px) {
     .form-container {
         width: 100%;
@@ -1278,5 +1279,311 @@ a {
 
     .signup {
         font-size: 11px;
+    }
+}
+
+
+
+
+
+/* =======================================================
+   DASHBOARD PAGE STYLING
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* -------------------------------
+   Body Styling
+   ------------------------------- */
+/* Set background color */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Sidebar Container
+   ------------------------------- */
+/* Sidebar layout and positioning */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* Sidebar Collapsed State */
+/* Hides sidebar when collapsed */
+.sidebar.collapsed {
+    transform: translateX(-280px);
+}
+
+/* -------------------------------
+   Sidebar Toggle Button
+   ------------------------------- */
+/* Button to toggle sidebar visibility */
+.sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+    width: 15px;
+    height: 80px;
+    background-color: #ff9d00;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Toggle when Collapsed */
+.sidebar.collapsed .sidebar-toggle {
+    right: -15px;
+}
+
+/* -------------------------------
+   Username Styling
+   ------------------------------- */
+/* Centered username display */
+#username {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* -------------------------------
+   Subject List Layout
+   ------------------------------- */
+/* Structure for subject list */
+#subject-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    gap: 10px;
+}
+
+/* -------------------------------
+   Subject Button Styling
+   ------------------------------- */
+/* Appearance of subject buttons */
+.subject-item {
+    text-align: left;
+    white-space: nowrap;
+    width: 90%;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+    background: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+.subject-item:hover {
+    background-color: #495057;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Saved Topics Styling
+   ------------------------------- */
+/* Layout and appearance of saved topics */
+#saved-topics {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+/* Saved Topics Icon */
+#saved-topics i {
+    color: #dc3545;
+}
+
+/* -------------------------------
+   Saved Topics Button Styling
+   ------------------------------- */
+/* Saved Topics Button */
+#load-saved-topics {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+#load-saved-topics:hover {
+    background-color: #20c997;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Saved Topics List Items
+   ------------------------------- */
+/* Saved Topics Button */
+#load-saved-topics {
+    display: block;
+    width: fit-content;
+    max-width: 90%;
+    margin: 10px auto;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+#load-saved-topics:hover {
+    background-color: #20c997;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Logout Button Styling
+   ------------------------------- */
+/* Styles for logout button */
+.btn-danger {
+    width: 80%;
+    max-width: 250px;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto;
+    border-radius: 8px;
+}
+
+/* -------------------------------
+   Main Content Layout
+   ------------------------------- */
+/* Dashboard content structure */
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar Expanded State */
+/* Pushes content when sidebar is open */
+.sidebar:not(.collapsed)~.dashboard-content {
+    margin-left: 280px;
+}
+
+/* -------------------------------
+   Study Box Styling
+   ------------------------------- */
+/* Appearance of study content */
+#study-content {
+    height: 70vh;
+    overflow-y: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+   ------------------------------- */
+/* Adjustments for screens smaller than 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-280px);
+        position: fixed;
+    }
+
+    .sidebar-toggle {
+        right: -20px;
+        width: 20px;
+        height: 100px;
+        background-color: #ff9d00;
+    }
+
+    .sidebar:not(.collapsed) {
+        transform: translateX(0);
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .subject-item {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #saved-topics {
+        font-size: 16px;
+    }
+
+    #load-saved-topics {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    #saved-topics .list-group-item {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Adjustments for screens smaller than 576px */
+@media (max-width: 576px) {
+    .subject-item {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    #saved-topics {
+        font-size: 14px;
     }
 }

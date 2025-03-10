@@ -1,49 +1,83 @@
 $(document).ready(function () {
-    console.log("Dashboard Loaded!");
+    console.log("✅ Dashboard Loaded!");
+
+    // Get CSRF token from meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     // ==============================
-    // 🔹 Sidebar Toggle Functionality (Slider Style)
+    // 🔹 Sidebar Toggle Functionality
     // ==============================
-    // Sidebar Toggle Button Functionality
     $(".sidebar-toggle").click(function () {
-        let sidebar = $(".sidebar");
-
-        // Toggle sidebar class
-        sidebar.toggleClass("collapsed");
+        $(".sidebar").toggleClass("collapsed");
     });
 
-    // Ensure sidebar loads collapsed initially
     $(".sidebar").addClass("collapsed");
 
-    // Ensure sidebar loads collapsed with correct icon
-    $(".sidebar").addClass("collapsed");
-    $(".sidebar-toggle i").removeClass("fa-angle-double-left").addClass("fa-angle-double-right");
+    // Function to hide the sidebar when an option is selected
+    function autoCollapseSidebar() {
+        $(".sidebar").addClass("collapsed");
+    }
 
+    // ==============================
+    // 🔹 Show Toast Notification
+    // ==============================
+    function showToast(message, type = "success") {
+        let toastContainer = $("#toast-container");
+        if (toastContainer.length === 0) {
+            $("body").append('<div id="toast-container" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;"></div>');
+            toastContainer = $("#toast-container");
+        }
+
+        let toastHtml = `<div class="toast align-items-center text-white bg-${type} border-0 show" role="alert" aria-live="assertive" aria-atomic="true" style="margin-bottom: 10px;">
+                            <div class="d-flex">
+                                <div class="toast-body">${message}</div>
+                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                        </div>`;
+
+        toastContainer.append(toastHtml);
+        setTimeout(() => $(".toast").first().remove(), 3000);
+    }
 
     // ==============================
     // 🔹 Load Wikipedia Study Content
     // ==============================
-    function loadStudyContent(subject) {
-        $("#subject-title").text(subject);
+    function loadStudyContent(topicId = null, subject = null) {
+        $("#subject-title").text(subject || "📌 Saved Topic");
         $("#study-content").html("<p>Loading study materials...</p>");
 
-        let wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(subject)}`;
-
-        $.getJSON(wikiUrl, function (data) {
-            if (data.type === "standard") {
-                let contentHtml = `
-                    <h3>${data.title}</h3>
-                    <p>${data.extract}</p>
-                    <button class="btn btn-success save-topic" data-title="${data.title}">💾 Save Topic</button>
-                    <a href="${data.content_urls.desktop.page}" target="_blank" class="btn btn-primary">Read More on Wikipedia</a>
-                `;
-                $("#study-content").html(contentHtml);
-            } else {
-                $("#study-content").html("<p>No study material found for this subject.</p>");
-            }
-        }).fail(function () {
-            $("#study-content").html("<p>Error loading study materials. Try again later.</p>");
-        });
+        if (subject) {
+            let wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(subject)}`;
+            $.getJSON(wikiUrl, function (data) {
+                if (data.type === "standard") {
+                    let contentHtml = `
+                        <h3>${data.title}</h3>
+                        <p>${data.extract}</p>
+                        <button class="btn btn-success btn-sm save-topic" data-title="${data.title}">💾</button>
+                        <a href="${data.content_urls.desktop.page}" target="_blank" class="btn btn-primary btn-sm">Read More</a>
+                    `;
+                    $("#study-content").html(contentHtml);
+                } else {
+                    $("#study-content").html("<p>No study material found for this subject.</p>");
+                }
+            }).fail(function () {
+                $("#study-content").html("<p>Error loading study materials. Try again later.</p>");
+            });
+        } else {
+            $.getJSON(`/dashboard/get_topic/${topicId}`, function (data) {
+                if (data) {
+                    let contentHtml = `
+                        <h3>${data.title}</h3>
+                        <p>Saved topic content will be displayed here.</p>
+                    `;
+                    $("#study-content").html(contentHtml);
+                } else {
+                    $("#study-content").html("<p>Error: Topic not found.</p>");
+                }
+            }).fail(function () {
+                $("#study-content").html("<p>Error loading saved topic.</p>");
+            });
+        }
     }
 
     // ==============================
@@ -52,14 +86,23 @@ $(document).ready(function () {
     $(document).on("click", ".save-topic", function () {
         let topicTitle = $(this).data("title");
 
+        if (!topicTitle) {
+            showToast("❌ Error: Topic title is missing!", "danger");
+            return;
+        }
+
         $.ajax({
             url: "/dashboard/save_topic",
             method: "POST",
             contentType: "application/json",
+            headers: { "X-CSRFToken": csrfToken },
             data: JSON.stringify({ title: topicTitle }),
             success: function (response) {
-                alert(response.message);
-                loadSavedTopics(); // Reload saved topics
+                showToast("✅ " + response.message);
+                loadSavedTopics();
+            },
+            error: function (xhr) {
+                showToast("❌ Error: Could not save the topic.", "danger");
             }
         });
     });
@@ -68,27 +111,56 @@ $(document).ready(function () {
     // 🔹 Load Saved Topics (READ)
     // ==============================
     function loadSavedTopics() {
-        $.getJSON("/get_saved_topics", function (data) {
-            let savedHtml = "";
+        $("#subject-title").text("📌 Saved Topics");
+
+        $.getJSON("/dashboard/saved_topics", function (data) {
+            let savedHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
 
             if (data.length > 0) {
                 data.forEach(function (topic) {
+                    let savedDate = topic.timestamp
+                        ? new Date(topic.timestamp).toLocaleString()
+                        : "Unknown Date";
+
                     savedHtml += `
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span class="topic-title">${topic.title}</span>
-                            <div>
-                                <button class="btn btn-warning btn-sm edit-topic" data-id="${topic._id}" data-title="${topic.title}">✏️ Edit</button>
-                                <button class="btn btn-danger btn-sm delete-topic" data-id="${topic._id}">❌ Delete</button>
+                        <div class="col">
+                            <div class="card shadow-sm p-3 d-flex flex-column justify-content-between">
+                                <div class="card-body text-center">
+                                    <h6 class="fw-bold mb-2">${topic.title}</h6>
+                                    <p class="text-muted small mb-1">
+                                        <i class="fa-solid fa-calendar-days"></i> ${savedDate}
+                                    </p>
+                                    <button class="btn btn-success btn-sm open-topic mt-2" data-id="${topic._id}">
+                                        🔗 Open
+                                    </button>
+                                </div>
+                                <div class="d-flex justify-content-between px-2 mt-1">
+                                    <button class="btn edit-topic border-0" data-id="${topic._id}" 
+                                        style="color: #FFC107; font-size: 22px;">✏️</button>
+                                    <button class="btn delete-topic border-0" data-id="${topic._id}" 
+                                        style="color: #DC3545; font-size: 26px;">❌</button>
+                                </div>
                             </div>
-                        </li>`;
+                        </div>`;
                 });
             } else {
-                savedHtml = "<p class='text-center text-muted'>No saved topics yet.</p>";
+                savedHtml += "<p class='text-center text-muted'>No saved topics yet.</p>";
             }
 
-            $("#saved-topics").html(savedHtml);
+            savedHtml += "</div>";
+            $("#study-content").html(savedHtml);
+        }).fail(function () {
+            showToast("❌ Error: Could not load saved topics.", "danger");
         });
+
+        autoCollapseSidebar();
     }
+
+    // ✅ Fix for Open Topic Button
+    $(document).on("click", ".open-topic", function () {
+        let topicId = $(this).data("id");
+        loadStudyContent(topicId);
+    });
 
     // ==============================
     // 🔹 Rename a Topic (UPDATE)
@@ -100,13 +172,17 @@ $(document).ready(function () {
 
         if (newTitle && newTitle !== currentTitle) {
             $.ajax({
-                url: `/update_topic/${topicId}`,
+                url: `/dashboard/update_topic/${topicId}`,
                 method: "PUT",
                 contentType: "application/json",
+                headers: { "X-CSRFToken": csrfToken },
                 data: JSON.stringify({ new_title: newTitle }),
                 success: function (response) {
-                    alert(response.message);
-                    loadSavedTopics(); // Reload saved topics
+                    showToast(response.message);
+                    loadSavedTopics();
+                },
+                error: function () {
+                    showToast("❌ Error: Could not update topic.", "danger");
                 }
             });
         }
@@ -119,40 +195,23 @@ $(document).ready(function () {
         let topicId = $(this).data("id");
 
         $.ajax({
-            url: `/delete_topic/${topicId}`,
+            url: `/dashboard/delete_topic/${topicId}`,
             method: "DELETE",
+            headers: { "X-CSRFToken": csrfToken },
             success: function (response) {
-                alert(response.message);
-                loadSavedTopics(); // Reload saved topics
+                showToast(response.message);
+                loadSavedTopics();
+            },
+            error: function () {
+                showToast("❌ Error: Could not delete topic.", "danger");
             }
         });
     });
 
-    // ==============================
-    // 🔹 Attach Click Event to Subject Items
-    // ==============================
     $(".subject-item").click(function () {
         let subject = $(this).data("subject");
         loadStudyContent(subject);
     });
 
-    // Load saved topics on page load
     loadSavedTopics();
 });
-
-
-// ==============================
-// 🔹 Logout Function
-// ==============================
-function logout() {
-    $.ajax({
-        url: "/auth/logout",
-        type: "GET",
-        success: function () {
-            window.location.href = "/auth/login"; // Redirect to login page
-        },
-        error: function () {
-            alert("Logout failed. Please try again.");
-        }
-    });
-}
