@@ -13,7 +13,6 @@ $(document).ready(function () {
 
     $(".sidebar").addClass("collapsed");
 
-    // Function to hide the sidebar when an option is selected
     function autoCollapseSidebar() {
         $(".sidebar").addClass("collapsed");
     }
@@ -40,45 +39,92 @@ $(document).ready(function () {
     }
 
     // ==============================
-    // 🔹 Load Wikipedia Study Content
+    // 🔹 Load Subjects (Main Categories)
     // ==============================
-    function loadStudyContent(topicId = null, subject = null) {
-        $("#subject-title").text(subject || "📌 Saved Topic");
-        $("#study-content").html("<p>Loading study materials...</p>");
+    function loadSubjects() {
+        $.getJSON("/dashboard/subjects", function (subjects) {
+            let subjectsHtml = `<div class="list-group">`;
 
-        if (subject) {
-            let wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(subject)}`;
-            $.getJSON(wikiUrl, function (data) {
-                if (data.type === "standard") {
-                    let contentHtml = `
-                        <h3>${data.title}</h3>
-                        <p>${data.extract}</p>
-                        <button class="btn btn-success btn-sm save-topic" data-title="${data.title}">💾</button>
-                        <a href="${data.content_urls.desktop.page}" target="_blank" class="btn btn-primary btn-sm">Read More</a>
-                    `;
-                    $("#study-content").html(contentHtml);
-                } else {
-                    $("#study-content").html("<p>No study material found for this subject.</p>");
-                }
-            }).fail(function () {
-                $("#study-content").html("<p>Error loading study materials. Try again later.</p>");
+            subjects.forEach(subject => {
+                subjectsHtml += `
+                    <button class="list-group-item list-group-item-action subject-item" data-id="${subject._id}">
+                        ${subject.icon} ${subject.name}
+                    </button>`;
             });
-        } else {
-            $.getJSON(`/dashboard/get_topic/${topicId}`, function (data) {
-                if (data) {
-                    let contentHtml = `
-                        <h3>${data.title}</h3>
-                        <p>Saved topic content will be displayed here.</p>
-                    `;
-                    $("#study-content").html(contentHtml);
-                } else {
-                    $("#study-content").html("<p>Error: Topic not found.</p>");
-                }
-            }).fail(function () {
-                $("#study-content").html("<p>Error loading saved topic.</p>");
-            });
-        }
+
+            subjectsHtml += `</div>`;
+            $("#subject-list").html(subjectsHtml);
+        }).fail(function () {
+            showToast("❌ Error: Could not load subjects.", "danger");
+        });
     }
+
+    // ==============================
+    // 🔹 Load Topics for a Subject
+    // ==============================
+    function loadTopics(subjectId) {
+        if (!subjectId) return;
+
+        $("#subject-title").text("📚 Loading Topics...");
+        $.getJSON(`/dashboard/topics/${subjectId}`, function (topics) {
+            let topicsHtml = `<div class="row row-cols-1 row-cols-md-2 g-3">`;
+
+            topics.forEach(topic => {
+                topicsHtml += `
+                    <div class="col">
+                        <div class="card shadow-sm p-3">
+                            <div class="card-body text-center">
+                                <h6 class="fw-bold mb-2">${topic.title}</h6>
+                                <p class="text-muted small">${topic.description}</p>
+                                <button class="btn btn-primary btn-sm view-topic" data-title="${topic.title}">🔍 View</button>
+                                <button class="btn btn-success btn-sm save-topic" data-title="${topic.title}">💾 Save</button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            topicsHtml += `</div>`;
+            $("#study-content").html(topicsHtml);
+            $("#subject-title").text("📌 Topics");
+        }).fail(function () {
+            showToast("❌ Error: Could not load topics.", "danger");
+        });
+    }
+
+    // ==============================
+    // 🔹 View Topic in Live Popup
+    // ==============================
+    $(document).on("click", ".view-topic", function () {
+        let topicTitle = $(this).data("title");
+        let wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topicTitle)}`;
+
+        $.getJSON(wikiUrl, function (data) {
+            if (data.type === "standard") {
+                let popupHtml = `
+                    <div class="modal fade" id="topicModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">${data.title}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>${data.extract}</p>
+                                    <a href="${data.content_urls.desktop.page}" target="_blank" class="btn btn-primary">Read More on Wikipedia</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+
+                $("body").append(popupHtml);
+                $("#topicModal").modal("show");
+            } else {
+                showToast("❌ No Wikipedia data found.", "danger");
+            }
+        }).fail(function () {
+            showToast("❌ Error: Could not load topic details.", "danger");
+        });
+    });
 
     // ==============================
     // 🔹 Save a Topic (CREATE)
@@ -97,12 +143,12 @@ $(document).ready(function () {
             contentType: "application/json",
             headers: { "X-CSRFToken": csrfToken },
             data: JSON.stringify({ title: topicTitle }),
-            success: function (response) {
-                showToast("✅ " + response.message);
+            success: function () {
+                showToast("✅ Topic saved!");
                 loadSavedTopics();
             },
-            error: function (xhr) {
-                showToast("❌ Error: Could not save the topic.", "danger");
+            error: function () {
+                showToast("❌ Error: Could not save topic.", "danger");
             }
         });
     });
@@ -117,7 +163,7 @@ $(document).ready(function () {
             let savedHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
 
             if (data.length > 0) {
-                data.forEach(function (topic) {
+                data.forEach(topic => {
                     let savedDate = topic.timestamp
                         ? new Date(topic.timestamp).toLocaleString()
                         : "Unknown Date";
@@ -130,15 +176,7 @@ $(document).ready(function () {
                                     <p class="text-muted small mb-1">
                                         <i class="fa-solid fa-calendar-days"></i> ${savedDate}
                                     </p>
-                                    <button class="btn btn-success btn-sm open-topic mt-2" data-id="${topic._id}">
-                                        🔗 Open
-                                    </button>
-                                </div>
-                                <div class="d-flex justify-content-between px-2 mt-1">
-                                    <button class="btn edit-topic border-0" data-id="${topic._id}" 
-                                        style="color: #FFC107; font-size: 22px;">✏️</button>
-                                    <button class="btn delete-topic border-0" data-id="${topic._id}" 
-                                        style="color: #DC3545; font-size: 26px;">❌</button>
+                                    <button class="btn btn-primary btn-sm view-topic mt-2" data-title="${topic.title}">🔍 View</button>
                                 </div>
                             </div>
                         </div>`;
@@ -156,62 +194,20 @@ $(document).ready(function () {
         autoCollapseSidebar();
     }
 
-    // ✅ Fix for Open Topic Button
-    $(document).on("click", ".open-topic", function () {
-        let topicId = $(this).data("id");
-        loadStudyContent(topicId);
+    // ✅ Load Subjects on Page Load
+    loadSubjects();
+
+    // ✅ Load Topics when Subject is Clicked
+    $(document).on("click", ".subject-item", function () {
+        let subjectId = $(this).data("id");
+        loadTopics(subjectId);
     });
 
-    // ==============================
-    // 🔹 Rename a Topic (UPDATE)
-    // ==============================
-    $(document).on("click", ".edit-topic", function () {
-        let topicId = $(this).data("id");
-        let currentTitle = $(this).data("title");
-        let newTitle = prompt("Enter new name for the topic:", currentTitle);
-
-        if (newTitle && newTitle !== currentTitle) {
-            $.ajax({
-                url: `/dashboard/update_topic/${topicId}`,
-                method: "PUT",
-                contentType: "application/json",
-                headers: { "X-CSRFToken": csrfToken },
-                data: JSON.stringify({ new_title: newTitle }),
-                success: function (response) {
-                    showToast(response.message);
-                    loadSavedTopics();
-                },
-                error: function () {
-                    showToast("❌ Error: Could not update topic.", "danger");
-                }
-            });
-        }
+    // ✅ Load Saved Topics on Button Click
+    $("#load-saved-topics").click(function () {
+        loadSavedTopics();
     });
 
-    // ==============================
-    // 🔹 Delete a Topic (DELETE)
-    // ==============================
-    $(document).on("click", ".delete-topic", function () {
-        let topicId = $(this).data("id");
-
-        $.ajax({
-            url: `/dashboard/delete_topic/${topicId}`,
-            method: "DELETE",
-            headers: { "X-CSRFToken": csrfToken },
-            success: function (response) {
-                showToast(response.message);
-                loadSavedTopics();
-            },
-            error: function () {
-                showToast("❌ Error: Could not delete topic.", "danger");
-            }
-        });
-    });
-
-    $(".subject-item").click(function () {
-        let subject = $(this).data("subject");
-        loadStudyContent(subject);
-    });
-
+    // ✅ Load Saved Topics on Page Load
     loadSavedTopics();
 });
