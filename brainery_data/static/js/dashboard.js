@@ -39,92 +39,52 @@ $(document).ready(function () {
     }
 
     // ==============================
-    // 🔹 Load Subjects (Main Categories)
+    // 🔹 Load Subjects into Sidebar
     // ==============================
     function loadSubjects() {
         $.getJSON("/dashboard/subjects", function (subjects) {
-            let subjectsHtml = `<div class="list-group">`;
-
+            let subjectHtml = "";
             subjects.forEach(subject => {
-                subjectsHtml += `
-                    <button class="list-group-item list-group-item-action subject-item" data-id="${subject._id}">
-                        ${subject.icon} ${subject.name}
-                    </button>`;
+                subjectHtml += `<li class="list-group-item list-group-item-action subject-item" data-id="${subject._id}">${subject.icon} ${subject.name}</li>`;
             });
-
-            subjectsHtml += `</div>`;
-            $("#subject-list").html(subjectsHtml);
-        }).fail(function () {
-            showToast("❌ Error: Could not load subjects.", "danger");
+            $("#subject-list").html(subjectHtml);
+        }).fail(() => {
+            showToast("❌ Error loading subjects.", "danger");
         });
     }
 
     // ==============================
     // 🔹 Load Topics for a Subject
     // ==============================
+    $(document).on("click", ".subject-item", function () {
+        let subjectId = $(this).data("id");
+        $("#subject-title").text("📚 Topics");
+        loadTopics(subjectId);
+        autoCollapseSidebar();
+    });
+
     function loadTopics(subjectId) {
-        if (!subjectId) return;
-
-        $("#subject-title").text("📚 Loading Topics...");
         $.getJSON(`/dashboard/topics/${subjectId}`, function (topics) {
-            let topicsHtml = `<div class="row row-cols-1 row-cols-md-2 g-3">`;
-
+            let topicHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
             topics.forEach(topic => {
-                topicsHtml += `
+                topicHtml += `
                     <div class="col">
                         <div class="card shadow-sm p-3">
                             <div class="card-body text-center">
                                 <h6 class="fw-bold mb-2">${topic.title}</h6>
                                 <p class="text-muted small">${topic.description}</p>
-                                <button class="btn btn-primary btn-sm view-topic" data-title="${topic.title}">🔍 View</button>
-                                <button class="btn btn-success btn-sm save-topic" data-title="${topic.title}">💾 Save</button>
+                                <button class="btn btn-info btn-sm read-topic mt-2" data-title="${topic.title}">🔗 Read More</button>
+                                <button class="btn btn-success btn-sm save-topic mt-2" data-title="${topic.title}">💾 Save</button>
                             </div>
                         </div>
                     </div>`;
             });
-
-            topicsHtml += `</div>`;
-            $("#study-content").html(topicsHtml);
-            $("#subject-title").text("📌 Topics");
-        }).fail(function () {
-            showToast("❌ Error: Could not load topics.", "danger");
+            topicHtml += `</div>`;
+            $("#study-content").html(topicHtml);
+        }).fail(() => {
+            showToast("❌ Error loading topics.", "danger");
         });
     }
-
-    // ==============================
-    // 🔹 View Topic in Live Popup
-    // ==============================
-    $(document).on("click", ".view-topic", function () {
-        let topicTitle = $(this).data("title");
-        let wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(topicTitle)}`;
-
-        $.getJSON(wikiUrl, function (data) {
-            if (data.type === "standard") {
-                let popupHtml = `
-                    <div class="modal fade" id="topicModal" tabindex="-1">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">${data.title}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>${data.extract}</p>
-                                    <a href="${data.content_urls.desktop.page}" target="_blank" class="btn btn-primary">Read More on Wikipedia</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-
-                $("body").append(popupHtml);
-                $("#topicModal").modal("show");
-            } else {
-                showToast("❌ No Wikipedia data found.", "danger");
-            }
-        }).fail(function () {
-            showToast("❌ Error: Could not load topic details.", "danger");
-        });
-    });
 
     // ==============================
     // 🔹 Save a Topic (CREATE)
@@ -132,7 +92,7 @@ $(document).ready(function () {
     $(document).on("click", ".save-topic", function () {
         let topicTitle = $(this).data("title");
 
-        if (!topicTitle) {
+        if (!topicTitle || topicTitle.trim() === "") {
             showToast("❌ Error: Topic title is missing!", "danger");
             return;
         }
@@ -143,40 +103,39 @@ $(document).ready(function () {
             contentType: "application/json",
             headers: { "X-CSRFToken": csrfToken },
             data: JSON.stringify({ title: topicTitle }),
-            success: function () {
-                showToast("✅ Topic saved!");
-                loadSavedTopics();
+            success: function (response) {
+                showToast("✅ " + response.message);
+                loadSavedTopics(); // Refresh saved topics after saving
             },
-            error: function () {
-                showToast("❌ Error: Could not save topic.", "danger");
+            error: function (xhr) {
+                let errorMessage = xhr.responseJSON?.error || "Could not save the topic.";
+                showToast("❌ Error: " + errorMessage, "danger");
             }
         });
     });
 
     // ==============================
-    // 🔹 Load Saved Topics (READ)
+    // 🔹 Load Saved Topics on Login
     // ==============================
     function loadSavedTopics() {
         $("#subject-title").text("📌 Saved Topics");
 
-        $.getJSON("/dashboard/saved_topics", function (data) {
+        $.getJSON("/dashboard/saved_topics", function (savedTopics) {
             let savedHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
 
-            if (data.length > 0) {
-                data.forEach(topic => {
-                    let savedDate = topic.timestamp
-                        ? new Date(topic.timestamp).toLocaleString()
-                        : "Unknown Date";
+            if (savedTopics.length > 0) {
+                savedTopics.forEach(topic => {
+                    let savedDate = topic.timestamp ? new Date(topic.timestamp).toLocaleString() : "Unknown Date";
 
                     savedHtml += `
                         <div class="col">
-                            <div class="card shadow-sm p-3 d-flex flex-column justify-content-between">
+                            <div class="card shadow-sm p-3">
                                 <div class="card-body text-center">
                                     <h6 class="fw-bold mb-2">${topic.title}</h6>
-                                    <p class="text-muted small mb-1">
-                                        <i class="fa-solid fa-calendar-days"></i> ${savedDate}
-                                    </p>
-                                    <button class="btn btn-primary btn-sm view-topic mt-2" data-title="${topic.title}">🔍 View</button>
+                                    <p class="text-muted small"><i class="fa-solid fa-calendar-days"></i> ${savedDate}</p>
+                                    <button class="btn btn-success btn-sm open-topic mt-2" data-id="${topic._id}" data-wiki-title="${topic.wiki_title || topic.title}">🔗 Open</button>
+                                    <button class="btn edit-topic border-0" data-id="${topic._id}" style="color: #FFC107; font-size: 22px;">✏️</button>
+                                    <button class="btn delete-topic border-0" data-id="${topic._id}" style="color: #DC3545; font-size: 26px;">❌</button>
                                 </div>
                             </div>
                         </div>`;
@@ -187,27 +146,127 @@ $(document).ready(function () {
 
             savedHtml += "</div>";
             $("#study-content").html(savedHtml);
-        }).fail(function () {
-            showToast("❌ Error: Could not load saved topics.", "danger");
+        }).fail(() => {
+            showToast("❌ Error loading saved topics.", "danger");
         });
 
         autoCollapseSidebar();
     }
 
-    // ✅ Load Subjects on Page Load
+    // ==============================
+    // 🔹 Open a Saved Topic
+    // ==============================
+    $(document).on("click", ".read-topic", function () {
+        let topicTitle = $(this).data("title");
+
+        if (!topicTitle) {
+            showToast("❌ Error: No topic title provided!", "danger");
+            return;
+        }
+
+        let wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(topicTitle)}`;
+        $("#wikiContent").attr("src", wikiUrl);
+        $("#wikiModalLabel").text(topicTitle);
+        $("#wikiModal").modal("show");
+    });
+
+
+    // ==============================
+    // 🔹 Edit a Saved Topic
+    // ==============================
+    $(document).on("click", ".edit-topic", function () {
+        let topicId = $(this).data("id");
+        let newTitle = prompt("Enter new name for the topic:");
+
+        if (newTitle) {
+            $.ajax({
+                url: `/dashboard/update_topic/${topicId}`,
+                method: "PUT",
+                contentType: "application/json",
+                headers: { "X-CSRFToken": csrfToken },
+                data: JSON.stringify({ new_title: newTitle }),
+                success: function (response) {
+                    showToast(response.message);
+                    loadSavedTopics();
+                },
+                error: function () {
+                    showToast("❌ Error updating topic.", "danger");
+                }
+            });
+        }
+    });
+
+    // ==============================
+    // 🔹 Delete a Saved Topic
+    // ==============================
+    $(document).on("click", ".delete-topic", function () {
+        let topicId = $(this).data("id");
+
+        $.ajax({
+            url: `/dashboard/delete_topic/${topicId}`,
+            method: "DELETE",
+            headers: { "X-CSRFToken": csrfToken },
+            success: function (response) {
+                showToast(response.message);
+                loadSavedTopics();
+            },
+            error: function () {
+                showToast("❌ Error deleting topic.", "danger");
+            }
+        });
+    });
+
+    // ==============================
+    // 🔹 Open Wikipedia Page in Popup Modal (For Subjects & Saved Topics)
+    // ==============================
+    $(document).on("click", ".open-topic", function () {
+        let wikiTitle = $(this).data("wiki-title");  // Use stored Wikipedia title
+
+        if (!wikiTitle) {
+            showToast("❌ Error: No Wikipedia title found!", "danger");
+            return;
+        }
+
+        // Generate Wikipedia URL
+        let wikiUrl = `https://en.wikipedia.org/wiki/${encodeURIComponent(wikiTitle)}`;
+
+        // Update the iframe source and show the modal
+        $("#wikiContent").attr("src", wikiUrl);
+        $("#wikiModalLabel").text(wikiTitle);
+        $("#wikiModal").modal("show");
+    });
+
+
+    // ==============================
+    // 🔹 Logout (Fixed)
+    // ==============================
+    $(document).on("click", "#logout-button", function () {
+        $.ajax({
+            url: "/dashboard/auth/logout",
+            method: "POST",
+            headers: { "X-CSRFToken": csrfToken },  // Ensure CSRF token is sent
+            success: function (response) {
+                showToast("✅ " + response.message);
+                setTimeout(() => {
+                    window.location.href = "/auth/login";  // Redirect after logout
+                }, 1000);
+            },
+            error: function () {
+                showToast("❌ Logout failed. Please try again.", "danger");
+            }
+        });
+    });
+
+    // ==============================
+    // 🔹 Handle "Saved Topics" Button Click
+    // ==============================
+    $(document).on("click", "#load-saved-topics", function () {
+        loadSavedTopics();  // Call the function to load saved topics
+    });
+
+
+
+    // Load subjects and saved topics on dashboard load
     loadSubjects();
-
-    // ✅ Load Topics when Subject is Clicked
-    $(document).on("click", ".subject-item", function () {
-        let subjectId = $(this).data("id");
-        loadTopics(subjectId);
-    });
-
-    // ✅ Load Saved Topics on Button Click
-    $("#load-saved-topics").click(function () {
-        loadSavedTopics();
-    });
-
-    // ✅ Load Saved Topics on Page Load
     loadSavedTopics();
 });
