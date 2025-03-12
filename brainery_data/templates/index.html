@@ -31,7 +31,7 @@
         <!-- Subheading with additional description -->
         <h3>Your journey to success begins here</h3>
         <!-- Call-to-action button -->
-        <a href="#" class="hero-btn">Get Started</a>
+        <a href="{{ url_for('register.register_user') }}" class="hero-btn">Get Started</a>
     </div>
 </section>
 
@@ -42,57 +42,68 @@
 <section class="feature-section">
     <div class="container">
         <!-- Section Title -->
-        <h2>Explore Features</h2>
+        <h2 class="text-center">Discover Brainery’s Features</h2>
+        <p class="text-center text-muted">Unlock endless opportunities for learning, growth, and collaboration.</p>
+
         <!-- Features Grid -->
         <div class="features-grid">
+
             <!-- Feature Card 1: Explore Resources -->
             <div class="feature-card">
-                <!-- Icon for the feature -->
                 <i class="fas fa-book-open feature-icon"></i>
-                <!-- Title of the feature -->
                 <h5>Explore Resources</h5>
-                <!-- Short description of the feature -->
-                <p>Browse our vast collection of learning resources.</p>
-                <!-- Call-to-action button for this feature -->
-                <a href="#" class="feature-btn">Start Exploring</a>
+                <p>Access an extensive library of high-quality learning materials.</p>
+                <a href="{{ url_for('register.register_user') }}" class="feature-btn">Start Exploring</a>
             </div>
+
             <!-- Feature Card 2: Contribute -->
             <div class="feature-card">
                 <i class="fas fa-upload feature-icon"></i>
                 <h5>Contribute</h5>
-                <p>Upload and manage your own resources.</p>
-                <a href="#" class="feature-btn">Get Started</a>
+                <p>Become a knowledge sharer and help others learn.</p>
+                <a href="#" class="feature-btn open-modal" data-type="contribute">Get Started</a>
             </div>
+
             <!-- Feature Card 3: Join the Community -->
             <div class="feature-card">
                 <i class="fas fa-users feature-icon"></i>
                 <h5>Join the Community</h5>
-                <p>Collaborate and grow together.</p>
-                <a href="#" class="feature-btn">Join Now</a>
+                <p>Connect, collaborate, and grow with like-minded learners.</p>
+                <a href="{{ url_for('register.register_user') }}" class="feature-btn">Join Now</a>
             </div>
+
             <!-- Feature Card 4: Interactive Courses -->
             <div class="feature-card">
                 <i class="fas fa-chalkboard-teacher feature-icon"></i>
                 <h5>Interactive Courses</h5>
                 <p>Learn with hands-on, interactive courses.</p>
-                <a href="#" class="feature-btn">View Courses</a>
+                <a href="#" class="feature-btn open-modal" data-type="courses">View Courses</a>
             </div>
+
             <!-- Feature Card 5: Live Workshops -->
             <div class="feature-card">
                 <i class="fas fa-video feature-icon"></i>
                 <h5>Live Workshops</h5>
-                <p>Participate in expert-led workshops.</p>
-                <a href="#" class="feature-btn">See Workshops</a>
+                <p>Engage in expert-led live sessions and interactive training.</p>
+                <a href="#" class="feature-btn open-modal" data-type="workshops">See Workshops</a>
             </div>
+
             <!-- Feature Card 6: Career Guidance -->
             <div class="feature-card">
                 <i class="fas fa-user-tie feature-icon"></i>
                 <h5>Career Guidance</h5>
                 <p>Get mentorship from professionals.</p>
-                <a href="#" class="feature-btn">Learn More</a>
+                <a href="#" class="feature-btn open-modal" data-type="career">Learn More</a>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Dynamic Modal Container (Populated by JS) -->
+<div id="dynamic-modal-container"></div>
+
+<!-- JavaScript -->
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 {% endblock %}

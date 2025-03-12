@@ -1,5 +1,5 @@
 import logging
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, DateField, SubmitField, HiddenField
@@ -60,17 +60,22 @@ def register_user():
     """Handles User Registration"""
     form = RegisterForm()
 
+    # ✅ Clear old flash messages before rendering the page
+    session.pop('_flashes', None)
+
     logging.info(f"🔎 Request method: {request.method}")
 
     if request.method == "POST":
         logging.info("✅ Received POST request!")
         logging.info(f"🔹 Raw Form Data: {request.form}")
 
+        # 🛠️ Clear previous flash messages before setting new ones
+        session.pop('_flashes', None)
+
         if form.validate_on_submit():
             logging.info("✅ Registration form validated successfully!")
 
             try:
-                # Extract form data
                 first_name = form.first_name.data.strip()
                 last_name = form.last_name.data.strip()
                 username = f"{first_name} {last_name}"
@@ -81,13 +86,11 @@ def register_user():
                 logging.info(
                     f"📌 Extracted Data - Username: {username}, Email: {email}, Plan: {selected_plan}")
 
-                # Check if a plan was selected
                 if not selected_plan:
                     logging.error("❌ No plan selected!")
                     flash("⚠️ Please select a plan before registering.", 'danger')
-                    return redirect(url_for('register.register_user'))
+                    return render_template('register.html', form=form)
 
-                # Check if email already exists
                 existing_user = mongo.db.users.find_one({"email": email})
 
                 if existing_user:
@@ -96,15 +99,11 @@ def register_user():
                         "❌ This email is already registered. Try logging in instead.", 'danger')
                     return redirect(url_for('register.register_user'))
 
-                # Convert Date of Birth to string format
                 dob_str = form.dob.data.strftime(
                     "%Y-%m-%d") if form.dob.data else "N/A"
-
-                # Hash the password
                 hashed_password = generate_password_hash(
                     password, method="pbkdf2:sha256")
 
-                # Create user data dictionary
                 user_data = {
                     "username": username,
                     "email": email,
@@ -120,7 +119,6 @@ def register_user():
                     "created_at": datetime.utcnow()
                 }
 
-                # Insert the user data into the MongoDB database
                 logging.info("🔄 Attempting to insert user into MongoDB...")
                 insert_result = mongo.db.users.insert_one(user_data)
 
@@ -130,7 +128,7 @@ def register_user():
                     flash(
                         f"🎉 Registration successful! You selected: {selected_plan}.", 'success')
 
-                    # ✅ Redirect to Success Page
+                    # ✅ Instead of redirecting to a missing success page, render `register.html`
                     return render_template('register.html', form=form, show_success=True)
 
                 else:
@@ -154,13 +152,3 @@ def register_user():
             flash(f"❌ Form validation failed! Errors: {form.errors}", "danger")
 
     return render_template('register.html', form=form)
-
-# ===========================
-# 🔹 SUCCESS PAGE ROUTE
-# ===========================
-
-
-@register.route('/register/success', methods=['GET'])
-def success():
-    """Displays Registration Success Message"""
-    return render_template('register_success.html', title="Registration Successful")

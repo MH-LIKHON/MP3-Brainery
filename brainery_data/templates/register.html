@@ -12,18 +12,19 @@
 <!-- =======================================================
      FLASH MESSAGES
      ======================================================= -->
-{% if not show_success %}
 <!-- Flash Messages -->
-{% with messages = get_flashed_messages(with_categories=true) %}
+{% with messages = get_flashed_messages(with_categories=True) %}
 {% if messages %}
-<div class="flash-messages">
+<div id="flash-messages">
     {% for category, message in messages %}
-    <div class="alert alert-{{ category }}">{{ message }}</div>
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     {% endfor %}
 </div>
 {% endif %}
 {% endwith %}
-{% endif %}
 
 <!-- =======================================================
      ERROR MESSAGE CONTAINER (For Displaying Errors)
@@ -206,6 +207,11 @@
 <!-- =======================================================
     External JavaScript Libraries
     ======================================================= -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>
+    emailjs.init("service_9fhnu4c"); // Initialize EmailJS with your Service ID
+</script>
 
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/register.js') }}"></script>
