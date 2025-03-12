@@ -207,10 +207,17 @@
 <!-- =======================================================
     External JavaScript Libraries
     ======================================================= -->
+<!-- EmailJS -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
+<!-- EmailJS Initialize -->
 <script>
-    emailjs.init("service_9fhnu4c"); // Initialize EmailJS with your Service ID
+    emailjs.init("service_9fhnu4c")
+        .then(() => console.log("✅ EmailJS Initialized Successfully!"))
+        .catch(error => {
+            console.error("❌ EmailJS Initialization Failed!", error);
+            alert("⚠ EmailJS failed to initialize. Check your API key.");
+        });
 </script>
 
 <!-- JavaScript -->

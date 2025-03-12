@@ -2,20 +2,38 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("JavaScript Loaded! Waiting for user interaction...");
 
     // ✅ Initialize EmailJS
-    emailjs.init("service_9fhnu4c");
-    console.log("✅ EmailJS Initialized!");
+    if (typeof emailjs !== "undefined" && emailjs.init) {
+        try {
+            emailjs.init("W2YSRyqhhCt5N8kVj");
+            console.log("✅ EmailJS Initialized Successfully!");
+        } catch (error) {
+            console.error("❌ EmailJS Initialization Failed!", error);
+            alert("⚠ EmailJS failed to initialize. Check your API key.");
+        }
+    } else {
+        console.error("❌ EmailJS is not loaded or undefined!");
+    }
 
     /* =======================================================
     SECTION 1: Element Selection
     ======================================================= */
     let packages = document.querySelectorAll(".package");
-    let selectedPlanInput = document.getElementById("selected_plan");
+    let selectedPlanInput = document.getElementById("selected_plan");  // Hidden input field for the selected plan
     let personalInfo = document.getElementById("personal-info");
     let paymentForm = document.getElementById("payment-info");
     let passwordInfo = document.getElementById("password-info");
     let submitButton = document.querySelector("#password-info .submit-btn");
     let successMessage = document.getElementById("success-message");
+
+    // Get the registration form correctly
     let registerForm = document.getElementById("registration-form");
+
+    if (!registerForm) {
+        console.error("❌ Registration form not found! Ensure the correct ID is used.");
+    } else {
+        console.log("✅ Registration form detected.");
+    }
+
     let nextButton = document.querySelector("#payment-info .next-btn");
     let errorMessageBox = document.getElementById("error-message-box");
 
@@ -29,8 +47,11 @@ document.addEventListener("DOMContentLoaded", function () {
     SECTION 2: Reset Form on Page Reload
     ======================================================= */
     window.addEventListener("load", function () {
-        console.log("Resetting form on page reload...");
-        registerForm?.reset();
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.has("success")) {
+            console.log("Resetting form on page reload...");
+            if (registerForm) registerForm.reset();
+        }
     });
 
     /* =======================================================
@@ -38,7 +59,11 @@ document.addEventListener("DOMContentLoaded", function () {
     ======================================================= */
     if (successMessage && successMessage.classList.contains("show")) {
         console.log("Registration successful! Hiding the form...");
-        registerForm.style.display = "none";
+        if (registerForm) {
+            registerForm.style.display = "none";  // ✅ Only hide if form exists
+        } else {
+            console.warn("⚠ Registration form not found. Skipping hide.");
+        }
     }
 
     setTimeout(() => {
@@ -54,14 +79,35 @@ document.addEventListener("DOMContentLoaded", function () {
     ======================================================= */
     packages.forEach(package => {
         package.addEventListener("click", function () {
-            console.log("Package Selected:", this.dataset.name);
+            console.log("✅ Package Clicked:", this.dataset.name);
+
+            // Remove 'selected' class from all packages
             packages.forEach(p => p.classList.remove("selected"));
+
+            // Highlight the selected package
             this.classList.add("selected");
-            selectedPlanInput.value = `${this.dataset.name} - £${this.dataset.price}`;
-            console.log("Selected Plan:", selectedPlanInput.value);
-            personalInfo.style.display = "block";
-            setTimeout(() => { personalInfo.style.opacity = 1; }, 100);
-            personalInfo.scrollIntoView({ behavior: "smooth" });
+
+            // Ensure selectedPlanInput exists before setting value
+            if (selectedPlanInput) {
+                if (selectedPlanInput) {
+                    selectedPlanInput.value = `${this.dataset.name} - £${this.dataset.price}`;
+                    console.log("✅ Selected Plan Updated in Hidden Input:", selectedPlanInput.value);
+                } else {
+                    console.error("❌ Error: selectedPlanInput element not found!");
+                }
+                console.log("✅ Selected Plan Updated:", selectedPlanInput.value);
+            } else {
+                console.error("❌ Error: selectedPlanInput element not found!");
+            }
+
+            // Ensure personalInfo exists before displaying
+            if (personalInfo) {
+                personalInfo.style.display = "block";
+                setTimeout(() => { personalInfo.style.opacity = 1; }, 100);
+                personalInfo.scrollIntoView({ behavior: "smooth" });
+            } else {
+                console.error("❌ personalInfo element not found!");
+            }
         });
     });
 
@@ -192,22 +238,86 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".promo-code button")?.addEventListener("click", applyPromoCode);
 
     /* =======================================================
-    SECTION 10: EmailJS - Send Registration Confirmation
+     SECTION 10: EmailJS - Send Registration Confirmation
     ======================================================= */
     function sendConfirmationEmail(name, email, selectedPlan) {
-        console.log("📩 Sending email via EmailJS...", { name, email, selectedPlan });
+        if (!email || email.trim() === "") {
+            console.error("❌ No recipient email provided! Aborting EmailJS call.");
+            return Promise.reject(new Error("Missing email field."));
+        }
 
-        emailjs.send("service_9fhnu4c", "template_0h7vmqw", {
-            name: name,
-            email: email,
-            selected_plan: selectedPlan
-        }).then(response => console.log("✅ Email sent!", response))
-            .catch(error => console.error("❌ Email failed:", error));
+        let emailParams = {
+            name: name || "User",
+            from_email: email,  // ✅ Ensure correct email key
+            selected_plan: selectedPlan || "No Plan Selected"
+        };
+
+        console.log("📧 Sending email with:", JSON.stringify(emailParams));
+
+        return emailjs.send("service_9fhnu4c", "template_0h7vmqw", emailParams)
+            .then(response => {
+                console.log("✅ Email successfully sent!", response);
+                return response;
+            })
+            .catch(error => {
+                console.error("❌ Email sending failed!", error);
+                return Promise.reject(error);
+            });
     }
 
+    /* =======================================================
+    SECTION 11: Handle Registration Form Submission
+    ======================================================= */
     registerForm.addEventListener("submit", function (event) {
         event.preventDefault();
-        sendConfirmationEmail(document.querySelector('input[name="first_name"]').value, document.querySelector('input[name="email"]').value, selectedPlanInput.value);
-        setTimeout(() => this.submit(), 1500);
+
+        const formData = new FormData(registerForm);
+        const formObject = Object.fromEntries(formData);
+
+        // Ensure email exists
+        let emailField = document.querySelector('input[name="email"]');
+        let emailValue = emailField ? emailField.value.trim() : "";
+
+        if (!emailValue) {
+            console.error("❌ Email field is missing or empty!");
+            alert("⚠ Please enter a valid email address.");
+            return;
+        }
+
+        // ✅ Get Full Name (First + Last Name)
+        let firstName = formObject.first_name || "";
+        let lastName = formObject.last_name || "";
+        let fullName = `${firstName} ${lastName}`.trim();
+
+        // ✅ Ensure Selected Plan is Captured
+        let selectedPlan = selectedPlanInput && selectedPlanInput.value.trim() !== ""
+            ? selectedPlanInput.value
+            : "No Plan Selected";
+
+        console.log("📧 Captured Email:", emailValue);
+        console.log("👤 Captured Name:", fullName);
+        console.log("📝 Captured Selected Plan:", selectedPlan);
+
+        // ✅ EmailJS Parameters
+        let emailParams = {
+            name: fullName,  // ✅ Full name instead of just first name
+            from_email: emailValue,  // ✅ Ensure correct email
+            selected_plan: selectedPlan  // ✅ Ensure correct plan is passed
+        };
+
+        console.log("📨 EmailJS Params:", emailParams);
+
+        // ✅ Send Email using EmailJS
+        sendConfirmationEmail(fullName, emailValue, selectedPlan)
+            .then(() => {
+                console.log("✅ Email sent successfully!");
+                window.location.href = "/register/register?success=true"; // ✅ Redirect with success flag
+            })
+            .catch((error) => {
+                console.error("❌ Email sending failed!", error);
+                alert("⚠ Email failed, but registration will proceed.");
+                window.location.href = "/register/register?success=true"; // ✅ Redirect regardless of email success
+            });
     });
+
 });

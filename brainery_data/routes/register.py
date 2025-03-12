@@ -128,8 +128,8 @@ def register_user():
                     flash(
                         f"🎉 Registration successful! You selected: {selected_plan}.", 'success')
 
-                    # ✅ Instead of redirecting to a missing success page, render `register.html`
-                    return render_template('register.html', form=form, show_success=True)
+                    # ✅ Redirect to show the success message
+                    return redirect(url_for('register.register_user', success="true"))
 
                 else:
                     logging.error("❌ MongoDB insert operation failed!")
@@ -151,4 +151,5 @@ def register_user():
             logging.warning(f"❌ Form validation failed! Errors: {form.errors}")
             flash(f"❌ Form validation failed! Errors: {form.errors}", "danger")
 
-    return render_template('register.html', form=form)
+    # ✅ Ensure success message appears if redirected
+    return render_template('register.html', form=form, show_success=request.args.get("success") == "true")
