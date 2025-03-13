@@ -133,11 +133,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const flashMessage = document.getElementById('flash-message');
 
     if (flashMessage) {
+        // Show the flash message if it's not already shown
+        flashMessage.style.display = 'block';
+
         setTimeout(function () {
-            flashMessage.style.opacity = '0'; // Fade-out
+            flashMessage.style.opacity = '0'; // Start fading out
+
+            // After the fade-out transition, hide the message
             setTimeout(function () {
-                flashMessage.style.display = 'none'; // Hide after fade-out
-            }, 500); // Wait for the fade-out transition
-        }, 1500); // Wait for 3 seconds
+                flashMessage.style.display = 'none'; // Hide after fading out
+            }, 500); // Wait for the fade-out transition (500ms)
+        }, 1500); // Wait for 1.5 seconds before starting the fade-out
     }
 });

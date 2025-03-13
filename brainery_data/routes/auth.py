@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from flask_login import login_user, logout_user, login_required, current_user
-from flask import flash, redirect, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from brainery_data.models import User
 from brainery_data import mongo
-from brainery_data.routes.form import LoginForm  # Import the login form
+from brainery_data.routes.form import LoginForm
+
 
 # ==============================================
 # Initialize Authentication Blueprint
@@ -42,7 +42,6 @@ def login():
                 user_obj = User(user_data)
                 login_user(user_obj, remember=True)
 
-                flash("✅ Login successful!", "success")
                 return redirect(url_for("dashboard.dashboard_main"))
 
             flash("❌ Invalid email or password.", "danger")
@@ -62,15 +61,25 @@ def login():
 @login_required
 def logout():
     """
-    Log out the current user and redirect to login page.
+    Log out the current user and redirect to the home page.
     """
-    logout_user()  # Logs out the current user
+    # Log the user out
+    logout_user()  # Log the user out
+
+    # Flash the logout message
     flash("✅ You have been logged out.", "info")
 
-    # Clear the session only during logout
-    session.pop('_flashes', None)
+    # Manually clear the session and flash messages
+    session.pop('_flashes', None)  # Manually remove flash messages
+    session.clear()  # Clear all session data
 
-    return redirect(url_for("auth.login"))
+    # Debugging session status
+    # Debug: Show session after clearing
+    print("🔴 Session after clearing:", session)
+
+    # Redirect to the home page (index)
+    return redirect(url_for("main.index"))
+
 
 # ==============================================
 # Password Reset Route
