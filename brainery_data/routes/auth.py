@@ -78,7 +78,7 @@ def logout():
     print("🔴 Session after clearing:", session)
 
     # Redirect to the home page (index)
-    return redirect(url_for("main.index"))
+    return redirect(url_for("auth.login"))
 
 
 # ==============================================
