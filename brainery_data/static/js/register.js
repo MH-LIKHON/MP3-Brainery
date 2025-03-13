@@ -1,47 +1,93 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("JavaScript Loaded! Waiting for user interaction...");
 
+    // ✅ Ensure EmailJS script is loaded before initializing
+    if (!window.emailjs) {
+        console.error("❌ EmailJS script not loaded. Make sure to include the script in your HTML.");
+        return;
+    }
+
     // ✅ Initialize EmailJS
-    if (typeof emailjs !== "undefined" && emailjs.init) {
-        try {
-            emailjs.init("W2YSRyqhhCt5N8kVj");
-            console.log("✅ EmailJS Initialized Successfully!");
-        } catch (error) {
-            console.error("❌ EmailJS Initialization Failed!", error);
-            alert("⚠ EmailJS failed to initialize. Check your API key.");
-        }
-    } else {
-        console.error("❌ EmailJS is not loaded or undefined!");
+    try {
+        emailjs.init("W2YSRyqhhCt5N8kVj");
+        console.log("✅ EmailJS Initialized Successfully!");
+    } catch (error) {
+        console.error("❌ EmailJS Initialization Failed!", error);
+        alert("⚠ EmailJS failed to initialize. Check your API key.");
     }
 
     /* =======================================================
     SECTION 1: Element Selection
     ======================================================= */
+
+    // ✅ Get all required elements safely
     let packages = document.querySelectorAll(".package");
     let selectedPlanInput = document.getElementById("selected_plan");  // Hidden input field for the selected plan
     let personalInfo = document.getElementById("personal-info");
     let paymentForm = document.getElementById("payment-info");
     let passwordInfo = document.getElementById("password-info");
-    let submitButton = document.querySelector("#password-info .submit-btn");
     let successMessage = document.getElementById("success-message");
+    let nextButton = document.querySelector("#payment-info .next-btn");
+    let errorMessageBox = document.getElementById("error-message-box");
+    let cardNumber = document.querySelector('input[name="card_number"]');
+    let expiryDate = document.querySelector('input[name="expiry_date"]');
+    let cvv = document.querySelector('input[name="cvv"]');
+    let promoCodeInput = document.getElementById("promo-code");
+    let promoMessage = document.getElementById("promo-message");
 
-    // Get the registration form correctly
-    let registerForm = document.getElementById("registration-form");
+    let registerForm = document.querySelector("form#registration-form");
 
+    if (!registerForm) {
+        console.error("❌ Registration form not found! Ensure the correct ID is used.");
+        return;  // Stop script execution if form is missing
+    } else {
+        console.log("✅ Registration form detected.");
+    }
+
+    // ✅ Ensure Submit Button exists before adding event listener
+    let submitButton = document.querySelector("#password-info .submit-btn");
+
+    if (submitButton) {
+        submitButton.addEventListener("click", function () {
+            console.log("✅ Submit button clicked!");
+        });
+    } else {
+        console.error("❌ Submit button not found! Ensure correct selector.");
+    }
+
+    // ✅ Ensure Registration Form exists before using it
     if (!registerForm) {
         console.error("❌ Registration form not found! Ensure the correct ID is used.");
     } else {
         console.log("✅ Registration form detected.");
     }
 
-    let nextButton = document.querySelector("#payment-info .next-btn");
-    let errorMessageBox = document.getElementById("error-message-box");
+    // ✅ Ensure Personal Info section exists before modifying it
+    if (!personalInfo) {
+        console.error("❌ Personal Info section not found!");
+    }
 
-    let cardNumber = document.querySelector('input[name="card_number"]');
-    let expiryDate = document.querySelector('input[name="expiry_date"]');
-    let cvv = document.querySelector('input[name="cvv"]');
-    let promoCodeInput = document.getElementById("promo-code");
-    let promoMessage = document.getElementById("promo-message");
+    // ✅ Ensure Payment Form exists before adding event listener
+    if (paymentForm) {
+        console.log("✅ Payment form detected.");
+    } else {
+        console.error("❌ Payment form not found! Check the form ID.");
+    }
+
+    // ✅ Ensure Next Button exists before using it
+    if (!nextButton) {
+        console.error("❌ Next button not found! Ensure the correct selector.");
+    }
+
+    // ✅ Ensure required fields exist before using them
+    if (!cardNumber) console.error("❌ Card number input not found!");
+    if (!expiryDate) console.error("❌ Expiry date input not found!");
+    if (!cvv) console.error("❌ CVV input not found!");
+    if (!promoCodeInput) console.error("❌ Promo code input not found!");
+    if (!promoMessage) console.error("❌ Promo message element not found!");
+    if (!errorMessageBox) console.error("❌ Error message box not found!");
+
+    console.log("✅ Element selection completed!");
 
     /* =======================================================
     SECTION 2: Reset Form on Page Reload
@@ -67,12 +113,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setTimeout(() => {
-        document.querySelectorAll(".alert").forEach(alert => {
-            alert.style.transition = "opacity 0.5s";
-            alert.style.opacity = "0";
-            setTimeout(() => alert.remove(), 500);
-        });
-    }, 5000);
+        let registerForm = document.querySelector("form#registration-form");
+
+        if (!registerForm) {
+            console.error("❌ Registration form still not found! Ensure the correct ID is used.");
+            return;
+        } else {
+            console.log("✅ Registration form detected.");
+        }
+    }, 500);
 
     /* =======================================================
     SECTION 4: Package Selection Handling
@@ -148,17 +197,21 @@ document.addEventListener("DOMContentLoaded", function () {
         let emptyFields = Array.from(requiredFields).filter(input => input.value.trim() === "");
 
         let isPromoApplied = promoCodeInput.value.trim() === "CI25MP3";
-        if (isPromoApplied && currentId === "payment-info") {
-            emptyFields = emptyFields.filter(input => !["card_number", "expiry_date", "cvv"].includes(input.name));
+
+        // ✅ Ensure only required fields are checked at each step
+        if (currentId === "personal-info" || currentId === "payment-info") {
+            if (isPromoApplied && currentId === "payment-info") {
+                emptyFields = emptyFields.filter(input => !["card_number", "expiry_date", "cvv"].includes(input.name));
+            }
+
+            if (emptyFields.length > 0) {
+                emptyFields.forEach(input => showError(input, "This field is required."));
+                emptyFields[0].focus();
+                return;
+            }
         }
 
-        if (emptyFields.length > 0) {
-            emptyFields.forEach(input => showError(input, "This field is required."));
-            emptyFields[0].focus();
-            return;
-        }
-
-        console.log(`Transitioning from ${currentId} to ${nextId}`);
+        console.log(`🚀 Moving from ${currentId} to ${nextId}`);
         currentSection.style.opacity = 0;
         setTimeout(() => {
             currentSection.style.display = "none";
@@ -167,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
             nextSection.scrollIntoView({ behavior: "smooth" });
         }, 200);
     }
+
 
     window.nextStep = nextStep;
 
@@ -238,85 +292,180 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".promo-code button")?.addEventListener("click", applyPromoCode);
 
     /* =======================================================
-     SECTION 10: EmailJS - Send Registration Confirmation
+    SECTION 10: Email Availability Check (AJAX)
     ======================================================= */
-    function sendConfirmationEmail(name, email, selectedPlan) {
-        if (!email || email.trim() === "") {
-            console.error("❌ No recipient email provided! Aborting EmailJS call.");
-            return Promise.reject(new Error("Missing email field."));
-        }
+    const emailInput = document.querySelector('input[name="email"]');
 
-        let emailParams = {
-            name: name || "User",
-            from_email: email,  // ✅ Ensure correct email key
-            selected_plan: selectedPlan || "No Plan Selected"
-        };
+    // Identify the Next button within the "Personal Info" section only
+    const personalInfoSection = document.getElementById("personal-info");
+    const nextButtonPersonalInfo = personalInfoSection ? personalInfoSection.querySelector(".next-btn") : null;
 
-        console.log("📧 Sending email with:", JSON.stringify(emailParams));
+    if (!emailInput || !registerForm || !nextButtonPersonalInfo) {
+        console.error("❌ Missing email input, registration form, or Next button in Personal Info section.");
+    } else {
+        emailInput.addEventListener("input", function () {
+            let emailValue = emailInput.value.trim();
 
-        return emailjs.send("service_9fhnu4c", "template_0h7vmqw", emailParams)
-            .then(response => {
-                console.log("✅ Email successfully sent!", response);
-                return response;
+            // ✅ Remove previous error messages before checking
+            let existingError = emailInput.parentElement.querySelector(".error-message");
+            if (existingError) existingError.remove();
+
+            if (emailValue === "") {
+                emailInput.style.border = "";
+                nextButtonPersonalInfo.disabled = true; // ✅ Disable only the Personal Info Next button when empty
+                return;
+            }
+
+            console.log(`📧 Checking email: ${emailValue}`);
+
+            fetch("/register/check_email", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: emailValue })
             })
-            .catch(error => {
-                console.error("❌ Email sending failed!", error);
-                return Promise.reject(error);
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Server error.");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("✅ Server Response:", data);
+
+                    // ✅ Remove old error messages before adding a new one
+                    let oldError = emailInput.parentElement.querySelector(".error-message");
+                    if (oldError) oldError.remove();
+
+                    let errorSpan = document.createElement("span");
+                    errorSpan.classList.add("error-message");
+                    errorSpan.style.color = "red";
+                    errorSpan.innerHTML = `❌ This email is already registered. Try logging in instead.`;
+
+                    if (data.exists) {
+                        emailInput.style.border = "2px solid red";
+                        emailInput.parentElement.appendChild(errorSpan);
+
+                        // ✅ Disable only the "Next" button in the Personal Info section
+                        nextButtonPersonalInfo.disabled = true;
+                        registerForm.querySelector("button[type='submit']").disabled = true;
+                    } else {
+                        emailInput.style.border = "";
+                        nextButtonPersonalInfo.disabled = false; // ✅ Enable Personal Info Next button when email is valid
+                        registerForm.querySelector("button[type='submit']").disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error("❌ Error checking email:", error);
+
+                    let errorSpan = document.createElement("span");
+                    errorSpan.classList.add("error-message");
+                    errorSpan.style.color = "orange";
+                    errorSpan.innerHTML = "⚠ Unable to check email. Please try again.";
+
+                    emailInput.style.border = "2px solid orange";
+                    emailInput.parentElement.appendChild(errorSpan);
+
+                    nextButtonPersonalInfo.disabled = true; // ✅ Keep Next button disabled in case of an error
+                });
+        });
     }
 
     /* =======================================================
-    SECTION 11: Handle Registration Form Submission
+    SECTION 11: EmailJS - Send Registration Confirmation
+    ======================================================= */
+
+    let emailSent = false; // ✅ Prevents duplicate emails
+
+    function sendConfirmationEmail(name, email, selectedPlan) {
+        return new Promise((resolve, reject) => {
+            console.log("📨 Preparing to send confirmation email...");
+
+            if (!emailjs || !emailjs.send) {
+                console.error("❌ EmailJS is not loaded. Aborting email send.");
+                reject(new Error("EmailJS is not available."));
+                return;
+            }
+
+            if (!email || email.trim() === "") {
+                console.error("❌ No recipient email provided! Aborting EmailJS call.");
+                reject(new Error("Missing email field."));
+                return;
+            }
+
+            let emailParams = {
+                name: name || "User",
+                from_email: email,
+                selected_plan: selectedPlan || "No Plan Selected"
+            };
+
+            console.log("📧 Sending email with parameters:", emailParams);
+
+            emailjs.send("service_9fhnu4c", "template_0h7vmqw", emailParams)
+                .then(response => {
+                    console.log("✅ Email successfully sent!", response);
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.error("❌ Email sending failed!", error);
+                    console.error("🔎 Full Error Response:", error);
+                    console.error("📨 Failed Email Parameters:", JSON.stringify(emailParams));
+                    alert("⚠ Email sending failed. Check console for details.");
+                    reject(error);
+                });
+
+        });
+    }
+
+    /* =======================================================
+       SECTION 12: Handle Registration Form Submission
     ======================================================= */
     registerForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+        event.preventDefault(); // ✅ Prevent default form submission
+
+        if (this.dataset.submitted === "true") {
+            console.warn("⚠ Form already submitted. Preventing duplicate submission.");
+            return;
+        }
+        this.dataset.submitted = "true"; // ✅ Mark form as submitted
+
+        console.log("🚀 Proceeding with registration...");
 
         const formData = new FormData(registerForm);
         const formObject = Object.fromEntries(formData);
 
-        // Ensure email exists
-        let emailField = document.querySelector('input[name="email"]');
-        let emailValue = emailField ? emailField.value.trim() : "";
+        console.log("📌 Form Data to be sent:", formObject);
 
-        if (!emailValue) {
-            console.error("❌ Email field is missing or empty!");
-            alert("⚠ Please enter a valid email address.");
-            return;
-        }
+        fetch("/register/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString(),
+        })
+            .then(response => response.json())
+            .then(jsonData => {
+                if (jsonData.success) {
+                    console.log("✅ User successfully registered in MongoDB!");
 
-        // ✅ Get Full Name (First + Last Name)
-        let firstName = formObject.first_name || "";
-        let lastName = formObject.last_name || "";
-        let fullName = `${firstName} ${lastName}`.trim();
+                    // Call EmailJS function **before redirecting**
+                    sendConfirmationEmail(formObject.first_name, formObject.email, formObject.selected_plan)
+                        .then(() => {
+                            window.location.href = "/register/register?success=true";
+                        })
+                        .catch(error => {
+                            console.error("❌ Email sending failed:", error);
+                            alert("⚠ Registration completed but confirmation email failed.");
+                            window.location.href = "/register/register?success=true";
+                        });
 
-        // ✅ Ensure Selected Plan is Captured
-        let selectedPlan = selectedPlanInput && selectedPlanInput.value.trim() !== ""
-            ? selectedPlanInput.value
-            : "No Plan Selected";
-
-        console.log("📧 Captured Email:", emailValue);
-        console.log("👤 Captured Name:", fullName);
-        console.log("📝 Captured Selected Plan:", selectedPlan);
-
-        // ✅ EmailJS Parameters
-        let emailParams = {
-            name: fullName,  // ✅ Full name instead of just first name
-            from_email: emailValue,  // ✅ Ensure correct email
-            selected_plan: selectedPlan  // ✅ Ensure correct plan is passed
-        };
-
-        console.log("📨 EmailJS Params:", emailParams);
-
-        // ✅ Send Email using EmailJS
-        sendConfirmationEmail(fullName, emailValue, selectedPlan)
-            .then(() => {
-                console.log("✅ Email sent successfully!");
-                window.location.href = "/register/register?success=true"; // ✅ Redirect with success flag
+                } else {
+                    console.error("❌ Registration failed:", jsonData.message);
+                    alert(`⚠ Registration failed: ${jsonData.message}`);
+                    this.dataset.submitted = "false"; // ✅ Reset submission flag if error
+                }
             })
-            .catch((error) => {
-                console.error("❌ Email sending failed!", error);
-                alert("⚠ Email failed, but registration will proceed.");
-                window.location.href = "/register/register?success=true"; // ✅ Redirect regardless of email success
+            .catch(error => {
+                console.error("❌ Unexpected error:", error);
+                alert("⚠ Unexpected error. Please try again.");
+                this.dataset.submitted = "false"; // ✅ Reset submission flag if error
             });
     });
 

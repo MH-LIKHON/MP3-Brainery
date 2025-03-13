@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ Feature Modal System Loaded!");
 
+    // Get the register page URL from the hidden input in index.html
+    const registerUrl = document.getElementById("register-url")?.value || "/register";
+
     // Modal Content for Each Feature
     const modalContent = {
         contribute: {
@@ -36,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li>✔ Career guidance & resume-building support</li>
                 </ul>
                 <div class="text-center">
-                    <a href="/register" class="feature-btn mt-3">Join Now</a>
+                    <a href="${registerUrl}" class="feature-btn mt-3">Join Now</a>
                 </div>
             `
         },
@@ -70,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </ul>
                 <p>Leverage Brainery's resources to **fast-track your professional journey**.</p>
                 <div class="text-center mt-3">
-                    <a href="/register" class="feature-btn">Join Brainery Now</a>
+                    <a href="${registerUrl}" class="feature-btn">Join Brainery Now</a>
                 </div>
             `
         }
