@@ -125,3 +125,19 @@ resetForm.addEventListener("submit", function (event) {
             resetMessage.style.color = "red";
         });
 });
+
+/* =======================================================
+SECTION 6: Auto-hide Flash Message
+======================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+    const flashMessage = document.getElementById('flash-message');
+
+    if (flashMessage) {
+        setTimeout(function () {
+            flashMessage.style.opacity = '0'; // Fade-out
+            setTimeout(function () {
+                flashMessage.style.display = 'none'; // Hide after fade-out
+            }, 500); // Wait for the fade-out transition
+        }, 1500); // Wait for 3 seconds
+    }
+});
