@@ -392,8 +392,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
+            // ✅ Extract first and last name from the form (Modify this according to your form structure)
+            let firstName = document.querySelector('input[name="first_name"]')?.value || "";
+            let lastName = document.querySelector('input[name="last_name"]')?.value || "";
+            let fullName = `${firstName} ${lastName}`.trim();
+
             let emailParams = {
-                name: name || "User",
+                first_name: firstName,
+                to_name: fullName,
                 from_email: email,
                 selected_plan: selectedPlan || "No Plan Selected"
             };
