@@ -469,8 +469,6 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 | **Footer Overlapping Content** | The footer covered some content on smaller screens. | Fixed by adding `padding-bottom` to ensure proper spacing. |  
 | **Broken Registration Form Validation** | Some required fields were not being validated correctly. | Fixed by ensuring Flask-WTF correctly processes all form fields. |  
 | **User Dashboard Slow Load Times** | The dashboard took a long time to fetch study topics. | Fixed by implementing **pagination and lazy loading** for improved performance. |  
-| **Session Not Expiring Properly** | Users remained logged in even after logging out in another tab. | Fixed by enforcing `SESSION_COOKIE_SECURE` and `SESSION_COOKIE_HTTPONLY`. |  
-| **Rate Limiting Not Implemented** | No restriction on login attempts, allowing brute-force attacks. | Fixed by integrating `Flask-Limiter` to restrict failed login attempts. |  
 | **Search Bar Not Displaying Correctly** | The search bar was hidden under some UI elements on mobile. | Fixed by adjusting **CSS positioning** to ensure proper visibility. |  
 | **Hero Video Not Autoplaying on iOS** | The background video on the home page did not autoplay in Safari. | Fixed by adding `playsinline` and `muted` attributes to the video tag. |  
 | **User Passwords Stored in Plaintext** | Security vulnerability where passwords were not hashed. | Fixed by implementing `bcrypt` for password hashing. |  
@@ -668,8 +666,3 @@ Brainery was built using a combination of **open-source technologies, libraries,
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance! 🚀
 
 Special thanks to Miguel for their guidance throughout the project.
----
-
-## ✨ Star This Project!
-If you found Brainery helpful, **please give it a star** ⭐ on GitHub!
-
