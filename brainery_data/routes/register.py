@@ -6,9 +6,9 @@ import logging
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash
 from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, DateField, SubmitField, HiddenField
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 from flask_wtf.csrf import CSRFProtect
-from wtforms import PasswordField, SubmitField, StringField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from datetime import datetime
 import pymongo
 from brainery_data import mongo, csrf
@@ -63,7 +63,7 @@ class RegisterForm(FlaskForm):
     postcode = StringField('Postcode', validators=[DataRequired()])
 
     # Selected subscription plan
-    selected_plan = StringField('Selected Plan', validators=[DataRequired()])
+    selected_plan = HiddenField('Selected Plan', validators=[DataRequired()])
 
     # User's password
     password = PasswordField('Password', validators=[
@@ -72,9 +72,14 @@ class RegisterForm(FlaskForm):
         Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$',
                message="Password must contain at least one uppercase letter, one digit, and one special character.")
     ])
+    confirm_password = PasswordField('Confirm Password', validators=[
+        DataRequired(),
+        EqualTo('password', message="Passwords must match.")
+    ])
 
-    # Submit button to register form
-    submit = SubmitField("Register")
+
+# Submit button to register form
+submit = SubmitField("Register")
 
 # =======================================================
 # Check Email Exists Route (AJAX)

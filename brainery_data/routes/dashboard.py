@@ -38,34 +38,29 @@ def dashboard_main():
     return render_template("dashboard.html")
 
 # =======================================================
-# Retrieve Topics by Subject ID
+# Retrieve All Subjects
 # =======================================================
 
 
-@dashboard.route("/")
+@dashboard.route("/subjects", methods=["GET"])
 @login_required
-def get_topics(subject_id):
-    """Fetch topics for a specific subject."""
-
-    # Validate provided subject ID
-    if not ObjectId.is_valid(subject_id):
-        return jsonify({"error": "Invalid Subject ID"}), 400
+def get_subjects():
+    """Fetch all subjects from the database."""
 
     try:
-        # Fetch topics from the database
-        topics = list(mongo.db.topics.find(
-            {"subject_id": ObjectId(subject_id)}))
+        # Retrieve subjects from database
+        subjects = list(mongo.db.subjects.find())
 
-        # Convert ObjectIds to strings for JSON serialization
-        for topic in topics:
-            topic["_id"] = str(topic["_id"])
+        # Convert ObjectId to string for JSON serialization
+        for subject in subjects:
+            subject["_id"] = str(subject["_id"])
 
-        # Return topics as JSON response
-        return jsonify(topics), 200
+        # Return subjects as JSON response
+        return jsonify(subjects), 200
 
     except Exception as e:
         # Log error details for debugging
-        print(f"🔍 Error fetching topics: {e}")
+        print(f"🚨 Error Fetching Subjects: {e}")
         return jsonify({"error": "Internal Server Error"}), 500
 
 # =======================================================
@@ -73,30 +68,31 @@ def get_topics(subject_id):
 # =======================================================
 
 
-@dashboard.route("/subjects/<subject_id>/topics", methods=["GET"])
+@dashboard.route("/topics/<subject_id>", methods=["GET"])
 @login_required
 def get_topics(subject_id):
     """Fetch topics for a specific subject."""
 
-    # Validate Subject ID
+    # Validate Subject ID format
     if not ObjectId.is_valid(subject_id):
         return jsonify({"error": "Invalid Subject ID"}), 400
 
     try:
-        # Fetch topics from the database
+        # Fetch topics from database matching subject ID
         topics = list(mongo.db.topics.find(
             {"subject_id": ObjectId(subject_id)}))
 
         # Convert ObjectIds to strings for JSON serialization
         for topic in topics:
             topic["_id"] = str(topic["_id"])
+            topic["subject_id"] = str(topic["subject_id"])
 
         # Return topics as JSON response
         return jsonify(topics), 200
 
     except Exception as e:
         # Log error details for debugging
-        print(f"🔍 Error retrieving topics: {e}")
+        print(f"🚨 Error Fetching Topics: {e}")
         return jsonify({"error": "Internal Server Error"}), 500
 
 # =======================================================
@@ -134,33 +130,33 @@ def get_topic(topic_id):
         return jsonify({"error": "Internal Server Error"}), 500
 
 # =======================================================
-# Save a New Topic (CREATE)
+# Save a New Topic
 # =======================================================
 
 
 @dashboard.route("/save_topic", methods=["POST"])
 @login_required
 def save_topic():
-    """Save a new topic to the user's account."""
+    """Save a topic to the user's account."""
 
     # Log received data from JavaScript
-    print("🔍 Received Data from JS:", data)
-
-    # Validate incoming request data
-    if not data or "title" not in data:
-        return jsonify({"error": "Invalid data - Title missing"}), 400
-
-    # Retrieve and validate topic title
-    topic_title = data["title"].strip()
-    if not topic_title:
-        return jsonify({"error": "Invalid data - Title missing"}), 400
-
     try:
+        data = request.get_json()
+        print("🔍 Received Data from JS:", data)
+
+        # Validate incoming request data
+        if not data or "title" not in data:
+            return jsonify({"error": "Invalid data - Title missing"}), 400
+
+        # Retrieve and validate topic title
+        topic_title = data["title"].strip()
+        if not topic_title:
+            return jsonify({"error": "Invalid data - Title missing"}), 400
+
         # Check if the topic already exists in user's saved topics
-        existing_topic = mongo.db.saved_topics.find_one({
-            "title": topic_title,
-            "user_id": str(current_user.id)
-        })
+        existing_topic = mongo.db.saved_topics.find_one(
+            {"user_id": str(current_user.id), "title": topic_title}
+        )
 
         # Return error if topic already saved
         if existing_topic:
