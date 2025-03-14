@@ -10,9 +10,9 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
     - [Key Features](#key-features)  
     - [Why Choose Brainery?](#why-choose-brainery)  
 
-2. **[Live Site](#https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)**  
+2. **[Live Site](#live-site)**  
 
-3. **[Repository](#https://github.com/MH-LIKHON/MP3-Brainery.git)**  
+3. **[Repository](#github-repository)**  
 
 4. **[User Experience (UX)](#user-experience-ux)**  
     - [Project Goals](#project-goals)  
@@ -565,7 +565,7 @@ This project uses **GitHub Actions** to **automatically deploy to Heroku** whene
 
 ### **🚀 Accessing the Live Application**
 Once deployment was successful, the app was accessible at:  
-🔗 **[mp3-brainery.herokuapp.com](https://mp3-brainery.herokuapp.com/)**  
+🔗 [**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
 
 ---
 
