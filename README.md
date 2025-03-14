@@ -4,84 +4,84 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ---
 
-## 📌 Table of Contents
+## **📌 Table of Contents**
 
-1. **[Project Overview](#project-overview)**  
-    - [Key Features](#key-features)  
-    - [Why Choose Brainery?](#why-choose-brainery)  
+1. **[Project Overview](#-project-overview)**  
+   - [Key Features](#-key-features)  
+   - [Why Choose Brainery?](#-why-brainery)  
 
-2. **[Live Site](#live-site)**  
+2. **[Live Site](#-live-site)**  
 
-3. **[Repository](#github-repository)**  
+3. **[Repository](#-repository)**  
 
-4. **[User Experience (UX)](#user-experience-ux)**  
-    - [Project Goals](#project-goals)  
-    - [User Stories](#user-stories)  
-    - [Design](#design)  
-        - [Colour Scheme](#colour-scheme)  
-        - [Typography](#typography)  
-        - [Imagery & UI Elements](#imagery-ui-elements)  
+4. **[User Experience (UX)](#-user-experience-ux)**  
+   - [Project Goals](#-project-goals)  
+   - [User Stories](#-user-stories)  
+   - [Design](#-design)  
+     - [Colour Scheme](#-colour-scheme)  
+     - [Typography](#-typography)  
+     - [Imagery & UI Elements](#-imagery--ui-elements)  
 
-5. **[Wireframes](#wireframes)**  
-    - [Home Page Wireframe](#home-page-wireframe)  
-    - [Login Page Wireframe](#login-page-wireframe)  
-    - [Register Page Wireframe](#register-page-wireframe)  
-    - [Dashboard Page Wireframe](#dashboard-page-wireframe)  
+5. **[Wireframes](#-wireframes)**  
+   - [Home Page Wireframe](#-home-page-wireframe)  
+   - [Login Page Wireframe](#-login-page-wireframe)  
+   - [Register Page Wireframe](#-register-page-wireframe)  
+   - [Dashboard Page Wireframe](#-dashboard-page-wireframe)  
 
-6. **[Features](#features)**  
-    - [Existing Features](#existing-features)  
-        - [Home Page](#home-page)  
-        - [User Authentication](#user-authentication)  
-        - [Study Topics Management](#study-topics-management)  
-        - [Public Resource Sharing](#public-resource-sharing)  
-        - [Search & Filter Functionality](#search-filter-functionality)  
-        - [User Dashboard](#user-dashboard)  
-        - [Security Features](#security-features)  
-        - [Mobile Responsive UI](#mobile-responsive-ui)  
-    - [Future Features](#future-features)  
-        - [Note-Taking System](#note-taking-system)  
-        - [Learning Progress Analytics](#learning-progress-analytics)  
-        - [Community Forum](#community-forum)  
-        - [Study Schedule Planner](#study-schedule-planner)  
-        - [File Upload for Study Materials](#file-upload-for-study-materials)  
-        - [Accessibility Enhancements](#accessibility-enhancements)  
+6. **[Features](#-features)**  
+   - [Existing Features](#-existing-features)  
+     - [Home Page](#-home-page)  
+     - [User Authentication](#-user-authentication)  
+     - [Study Topics Management](#-study-topics-management)  
+     - [Public Resource Sharing](#-public-resource-sharing)  
+     - [Search & Filter Functionality](#-search--filter-functionality)  
+     - [User Dashboard](#-user-dashboard)  
+     - [Security Features](#-security-features)  
+     - [Mobile Responsive UI](#-mobile-responsive-ui)  
+   - [Future Features](#-future-features)  
+     - [Note-Taking System](#-note-taking-system)  
+     - [Learning Progress Analytics](#-learning-progress-analytics)  
+     - [Community Forum](#-community-forum)  
+     - [Study Schedule Planner](#-study-schedule-planner)  
+     - [File Upload for Study Materials](#-file-upload-for-study-materials)  
+     - [Accessibility Enhancements](#-accessibility-enhancements)  
 
-7. **[Technologies Used](#technologies-used)**  
-    - [Backend Technologies](#backend-technologies)  
-    - [Frontend Technologies](#frontend-technologies)  
-    - [Security and Authentication](#security-authentication)  
-    - [Responsive Design](#responsive-design)  
-    - [Version Control & Hosting](#version-control-hosting)  
+7. **[Technologies Used](#-technologies-used)**  
+   - [Backend Technologies](#-backend-technologies)  
+   - [Frontend Technologies](#-frontend-technologies)  
+   - [Security and Authentication](#-security-and-authentication)  
+   - [Responsive Design](#-responsive-design)  
+   - [Version Control & Hosting](#-version-control--hosting)  
 
-8. **[Testing](#testing)**  
-    - [Manual Testing](#manual-testing)  
-        - [Link Navigation](#link-navigation)  
-        - [Form Validation](#form-validation)  
-        - [Responsiveness Testing](#responsiveness-testing)  
-    - [Validation Testing](#validation-testing)  
-        - [HTML Validation](#html-validation)  
-        - [CSS Validation](#css-validation)  
-    - [Google Lighthouse Testing](#google-lighthouse-testing)  
-    - [User Testing](#user-testing)  
-        - [User Feedback](#user-feedback)  
-        - [Mobile Testing Results](#mobile-testing-results)  
+8. **[Testing](#-testing)**  
+   - [Manual Testing](#-manual-testing)  
+     - [Link Navigation](#-link-navigation)  
+     - [Form Validation](#-form-validation)  
+     - [Responsiveness Testing](#-responsiveness-testing)  
+   - [Validation Testing](#-validation-testing)  
+     - [HTML Validation](#-html-validation)  
+     - [CSS Validation](#-css-validation)  
+   - [Google Lighthouse Testing](#-google-lighthouse-testing)  
+   - [User Testing](#-user-testing)  
+     - [User Feedback](#-user-feedback)  
+     - [Mobile Testing Results](#-mobile-testing-results)  
 
-9. **[Bugs and Fixes](#bugs-and-fixes)**  
-    - [Common Bugs](#common-bugs)  
-    - [Solutions Implemented](#solutions-implemented)  
+9. **[Bugs and Fixes](#-bugs-and-fixes)**  
+   - [Common Bugs](#-common-bugs)  
+   - [Solutions Implemented](#-solutions-implemented)  
 
-10. **[Deployment](#deployment)**  
-    - [Deployment to GitHub Pages](#deployment-to-github-pages)  
-    - [Local Setup](#local-setup)  
+10. **[Deployment](#-deployment)**  
+    - [Deployment to Heroku](#-deployment-to-heroku)  
+    - [Local Setup](#-local-setup)  
 
-11. **[Credits](#credits)**  
-    - [Icons & Visual Assets](#icons-visual-assets)  
-    - [Media & Video Sources](#media-video-sources)  
-    - [Libraries & Frameworks](#libraries-frameworks)  
-    - [APIs & Integrations](#apis-integrations)  
-    - [Documentation References](#documentation-references)  
+11. **[Credits](#-credits)**  
+    - [Icons & Visual Assets](#-icons--visual-assets)  
+    - [Media & Video Sources](#-media--video-sources)  
+    - [Libraries & Frameworks](#-libraries--frameworks)  
+    - [APIs & Integrations](#-apis--integrations)  
+    - [Documentation References](#-documentation-references)  
 
-12. **[Acknowledgements](#acknowledgements)**  
+12. **[Acknowledgements](#-acknowledgements)**  
 
 ---
 
