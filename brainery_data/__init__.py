@@ -1,11 +1,24 @@
+"""
+Flask Application Factory - Initializes and Configures the Application
+"""
+
+# =======================================================
+# Module Imports - Core Dependencies & Libraries
+# =======================================================
+
+# Import necessary modules and dependencies
 import os
 from flask import Flask
 from flask_pymongo import PyMongo
 from flask_login import LoginManager
-from flask_wtf.csrf import CSRFProtect  # CSRF protection
-from dotenv import load_dotenv  # Load environment variables
-from bson.objectid import ObjectId  # Required for MongoDB user retrieval
-from brainery_data.models import User  # Import the User model
+from flask_wtf.csrf import CSRFProtect
+from dotenv import load_dotenv
+from bson.objectid import ObjectId
+from brainery_data.models import User
+
+# =======================================================
+# Environment Setup & Global Instances
+# =======================================================
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,43 +30,57 @@ csrf = CSRFProtect()
 
 
 def create_app():
-    """Application factory to create and configure the Flask app."""
+    """Create and configure the Flask application instance."""
+
+    # =======================================================
+    # Flask Application Initialization
+    # =======================================================
 
     app = Flask(__name__,
                 template_folder=os.path.join(
                     os.path.dirname(__file__), "templates"),
                 static_folder=os.path.join(os.path.dirname(__file__), "static"))
 
-    # Load MongoDB URI from environment
+    # =======================================================
+    # Configure MongoDB Connection
+    # =======================================================
+
+    # Load MongoDB URI and secret key from environment variables
     app.config["MONGO_URI"] = os.getenv("MONGO_URI")
     app.config["SECRET_KEY"] = os.getenv(
         "SECRET_KEY", "your_default_secret_key")
 
-    # Ensure MONGO_URI is properly loaded
+    # Ensure MongoDB URI is properly loaded
     if not app.config["MONGO_URI"]:
-        raise ValueError("❌ MONGO_URI is missing. Check your .env file.")
+        raise ValueError("MONGO_URI is missing. Check your .env file.")
 
-    # Initialize MongoDB
+    # Initialize MongoDB connection
     try:
         mongo.init_app(app)
-        # ✅ Test the MongoDB connection by running a simple query
-        mongo.db.users.find_one()
-        print("✅ MongoDB connection is active!")
+        mongo.db.users.find_one()  # Test MongoDB connection
+        print("MongoDB connection is active!")
     except Exception as e:
-        print(f"❌ MongoDB connection failed: {e}")
+        print(f"MongoDB connection failed: {e}")
 
-    # Initialize CSRF protection
+    # =======================================================
+    # Initialize Security Features
+    # =======================================================
+
+    # Enable CSRF protection for all form submissions
     csrf.init_app(app)
 
-    # Initialize Flask-Login
+    # Initialize Flask-Login for handling user authentication
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
     login_manager.login_message_category = "info"
 
-    # Flask-Login user loader function for MongoDB
+    # =======================================================
+    # Flask-Login User Loader
+    # =======================================================
+
     @login_manager.user_loader
     def load_user(user_id):
-        """Load user from MongoDB"""
+        """Retrieve user session from MongoDB by user ID."""
         try:
             user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
             if user_data:
@@ -63,18 +90,26 @@ def create_app():
             print(f"Error loading user: {e}")
             return None
 
-    # Register Blueprints
+    # =======================================================
+    # Register Flask Blueprints (Modular Routing)
+    # =======================================================
+
+    # Import route blueprints
     from brainery_data.routes.auth import auth
     from brainery_data.routes.dashboard import dashboard
     from brainery_data.routes.main import main
     from brainery_data.routes.register import register
     from brainery_data.routes.resource import resource
 
-    # Register all blueprints
+    # Register blueprints for different application modules
+    # Handles user authentication
     app.register_blueprint(auth, url_prefix="/auth")
+    # User dashboard routes
     app.register_blueprint(dashboard, url_prefix="/dashboard")
-    app.register_blueprint(main)
+    app.register_blueprint(main)  # Main page routes
+    # User registration routes
     app.register_blueprint(register, url_prefix="/register")
+    # Resource management routes
     app.register_blueprint(resource, url_prefix="/resource")
 
     return app

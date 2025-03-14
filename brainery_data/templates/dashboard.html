@@ -2,58 +2,92 @@
 <html lang="en">
 
 <head>
+  <!-- =======================================================
+    Meta Tags and Head Elements
+    ======================================================= -->
+
+  <!-- Required meta tags for character set and responsive design -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
+
+  <!-- Page Title -->
   <title>Brainery Dashboard</title>
 
-  <!-- Bootstrap CSS -->
+  <!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
+  <!-- Bootstrap CSS for styling and layout -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome Icons -->
+
+  <!-- Font Awesome CSS for icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
+
+  <!-- Custom CSS for additional styling -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-  <!-- jQuery -->
+
+  <!-- jQuery for handling DOM manipulation -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body class="bg-light">
   <div class="container-fluid vh-100 d-flex">
-    <!-- Sidebar -->
+    <!-- =======================================================
+        Sidebar Section
+        ======================================================= -->
+
     <aside class="sidebar bg-dark text-white collapsed">
+      <!-- Sidebar Toggle Button -->
       <button class="sidebar-toggle">☰</button>
+
+      <!-- Display Username -->
       <h3 id="username" class="text-uppercase text-center mt-3">{{ current_user.username }}</h3>
 
-      <!-- Subjects (Loaded via JS) -->
+      <!-- Subjects List (Dynamically Loaded) -->
       <ul id="subject-list" class="list-group mt-3"></ul>
 
-      <!-- Saved Topics -->
+      <!-- Saved Topics Section -->
       <h5 class="text-center mt-3">
         <button id="load-saved-topics" class="btn btn-primary">📌 Saved Topics</button>
       </h5>
       <ul id="saved-topic-list" class="list-group px-2"></ul>
 
-      <!-- Logout -->
+      <!-- Logout Button -->
       <button id="logout-button" class="btn btn-danger mt-auto mb-3">🚪 Logout</button>
     </aside>
 
-    <!-- Main Content -->
+    <!-- =======================================================
+        Main Content Section
+        ======================================================= -->
+
     <main class="flex-grow-1 p-4">
+      <!-- Display Selected Subject Title -->
       <h2 id="subject-title" class="mb-3">Select a Subject</h2>
+
+      <!-- Study Content Container -->
       <div id="study-content" class="bg-white p-4 border rounded" style="height: 70vh; overflow-y: auto;">
         <p class="text-muted">Study materials will appear here.</p>
       </div>
     </main>
   </div>
 
-  <!-- Wiki Content Modal -->
+  <!-- =======================================================
+    Wiki Content Modal
+    ======================================================= -->
+
   <div class="modal fade" id="wikiModal" tabindex="-1" aria-labelledby="wikiModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+          <!-- Modal Title -->
           <h5 class="modal-title" id="wikiModalLabel">Topic Details</h5>
+
+          <!-- Close Button -->
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
+
+        <!-- Modal Body with Embedded Wiki Content -->
         <div class="modal-body">
           <iframe id="wikiContent" src="" width="100%" height="500px" frameborder="0"></iframe>
         </div>
@@ -61,9 +95,16 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- =======================================================
+    External JavaScript Libraries
+    ======================================================= -->
+
+  <!-- Custom JavaScript for dashboard functionality -->
   <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+  <!-- Bootstrap JavaScript for responsive behavior -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
