@@ -10,9 +10,9 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
     - [Key Features](#key-features)  
     - [Why Choose Brainery?](#why-choose-brainery)  
 
-2. **[Live Site](#live-site)**  
+2. **[Live Site](#https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)**  
 
-3. **[Repository](#repository)**  
+3. **[Repository](#https://github.com/your-username/MP3-Brainery.git)**  
 
 4. **[User Experience (UX)](#user-experience-ux)**  
     - [Project Goals](#project-goals)  
@@ -86,7 +86,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 ---
 
 ## 🌐 Live Site
-[**Brainery - Live Site**](#) *(To be updated upon deployment)*
+[**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)*
 
 ---
 
@@ -501,11 +501,11 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ### **🚀 Deployment**
 
-This project was deployed using **GitHub Pages**, which provides a **free and reliable hosting platform** for static websites directly from a GitHub repository. Below are the **detailed steps** followed to **deploy Brainery** and make it accessible online.
+This project was deployed using **Heroku**, a **cloud platform** that enables deployment and scaling of Python applications easily. Below are the **detailed steps** followed to **deploy Brainery** and make it accessible online.
 
 ---
 
-### **Steps for Deployment on GitHub Pages**
+### **Steps for Deployment on Heroku**
 
 #### **1️⃣ Clone the Repository**
 To begin, I **cloned the project repository** to my local machine:
@@ -514,44 +514,63 @@ git clone https://github.com/your-username/MP3-Brainery.git
 ```
 
 #### **2️⃣ Navigate to the Project Directory**
-After cloning, I moved into the project folder:
 ```bash
 cd MP3-Brainery
 ```
 
-#### **3️⃣ Make Necessary Changes**
-- I made required updates to the project files using **VS Code**.
-- Any changes to **HTML, CSS, JavaScript, or Flask backend** were tested thoroughly before committing.
-
-#### **4️⃣ Commit and Push Changes to GitHub**
-Once the changes were verified, I staged and committed them:
+#### **3️⃣ Set Up a Virtual Environment (Optional for Local Development)**
 ```bash
-git add .
-git commit -m "Updated project for deployment"
-git push origin main
+python3 -m venv venv
+source venv/bin/activate  # For macOS/Linux
+venv\Scripts\activate     # For Windows
 ```
 
-#### **5️⃣ Deploy to GitHub Pages**
-I followed these steps to enable **GitHub Pages**:
-1. Navigated to **GitHub Repository** → **Settings**.
-2. Scrolled down to the **Pages** section in the sidebar.
-3. Under **Branch**, selected `main` as the source.
-4. Clicked **Save** to initiate deployment.
-
-#### **6️⃣ Wait for Deployment**
-- GitHub Pages automatically **processed the deployment**.
-- Within a few minutes, the site was **live and accessible**.
-
-#### **7️⃣ Access the Deployed Site**
-Once deployment was complete, the site was available at:
+#### **4️⃣ Install Dependencies**
+```bash
+pip install -r requirements.txt
 ```
-https://your-username.github.io/MP3-Brainery/
-```
+
+#### **5️⃣ Deploying to Heroku**
+This project uses **GitHub Actions** to **automatically deploy to Heroku** whenever changes are pushed to the repository.
+
+##### **🔹 Steps to Set Up Deployment:**
+1. **Connected GitHub Repository to Heroku**:
+   - Created a new Heroku app using:
+     ```bash
+     heroku create mp3-brainery
+     ```
+   - Set up GitHub Actions to automatically deploy changes.
+
+2. **Stored Environment Variables in Heroku**:
+   - Added `MONGO_URI` and `SECRET_KEY` to **Heroku Config Vars**:
+     ```bash
+     heroku config:set MONGO_URI="your-mongodb-connection-string"
+     heroku config:set SECRET_KEY="your-secret-key"
+     ```
+
+3. **Configured GitHub Actions for Continuous Deployment**:
+   - Created a GitHub Actions workflow in `.github/workflows/deploy.yml` to automate deployment.
+   - Secrets like `HEROKU_API_KEY` were stored in **GitHub Secrets**.
+
+4. **Pushed Changes to Trigger Deployment**:
+   - After making changes, I committed and pushed them:
+     ```bash
+     git add .
+     git commit -m "Deploying updated version to Heroku"
+     git push origin main
+     ```
+   - **GitHub Actions automatically deployed the updated version to Heroku**.
 
 ---
 
-### **Running the Project Locally**
-To run the project **locally** for development and testing, follow these steps:
+### **🚀 Accessing the Live Application**
+Once deployment was successful, the app was accessible at:  
+🔗 **[mp3-brainery.herokuapp.com](https://mp3-brainery.herokuapp.com/)**  
+
+---
+
+### **🔄 Running the Project Locally**
+To run the project **locally**, follow these steps:
 
 #### **1️⃣ Clone the Repository**
 ```bash
@@ -564,7 +583,6 @@ cd MP3-Brainery
 ```
 
 #### **3️⃣ Set Up a Virtual Environment**
-It is recommended to create a virtual environment to install dependencies:
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # For macOS/Linux
@@ -576,37 +594,40 @@ venv\Scripts\activate     # For Windows
 pip install -r requirements.txt
 ```
 
-#### **5️⃣ Run the Flask Application**
+#### **5️⃣ Set Environment Variables Locally**
+If testing locally, create a `.env` file and add:
+```
+MONGO_URI=your-mongodb-connection-string
+SECRET_KEY=your-secret-key
+```
+✅ **Note:** The `.env` file is ignored in `.gitignore` for security.
+
+#### **6️⃣ Run the Flask Application**
 ```bash
 python3 app.py
 ```
 
-#### **6️⃣ Open the Project in Your Browser**
+#### **7️⃣ Open the Project in Your Browser**
 - Once the server is running, open **http://127.0.0.1:5000** in a web browser.
 
 ---
 
-### **Benefits of Using GitHub Pages**
-#### ✅ **Free Hosting**
-- **GitHub Pages provides free hosting** for static sites, making it an ideal choice for personal projects and portfolios.
+### **🎯 Why Use Heroku Instead of GitHub Pages?**
+✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.  
+✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.  
+✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.  
+✅ **Free Tier Available** - Ideal for small projects with free database hosting options.  
 
-#### ✅ **Easy Deployment**
-- Simply **pushing changes to the `main` branch** automatically **redeploys the site** without manual intervention.
+---
 
-#### ✅ **Reliable Performance**
-- GitHub Pages runs on a **stable, globally distributed infrastructure**, ensuring fast and reliable site loading times.
-
-#### ✅ **Version Control Integration**
-- **All changes are tracked** using Git, allowing **seamless collaboration, rollbacks, and history tracking**.
-
-#### ✅ **Custom Domain Support**
-- Since I'm using **GitHub's paid version**, I can **assign a custom domain** for a **professional brand identity**.
-
-### **✅ Enhanced GitHub Features**  
-- This project is hosted on **GitHub’s paid plan**, which provides:  
-  - **Increased resource limits** for repositories.  
-  - **Better performance and reliability** for managing multiple large projects.  
-  - **Advanced security features** for private repositories.  
+### **✅ Next Steps**
+📌 **Commit and push the updated README file**:
+```bash
+git add README.md
+git commit -m "Updated Deployment section for Heroku"
+git push origin main
+```
+🎉 **Now your README is accurate!** Let me know if you need any edits! 🚀🔥
 
 ---
 
