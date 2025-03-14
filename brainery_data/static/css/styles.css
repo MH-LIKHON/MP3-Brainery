@@ -1388,7 +1388,6 @@ body {
     z-index: 1000;
 }
 
-/* Sidebar Collapsed State */
 /* Hides sidebar when collapsed */
 .sidebar.collapsed {
     transform: translateX(-280px);
