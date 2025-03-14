@@ -12,7 +12,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 2. **[Live Site](#https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)**  
 
-3. **[Repository](#https://github.com/your-username/MP3-Brainery.git)**  
+3. **[Repository](#https://github.com/MH-LIKHON/MP3-Brainery.git)**  
 
 4. **[User Experience (UX)](#user-experience-ux)**  
     - [Project Goals](#project-goals)  
@@ -86,12 +86,12 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 ---
 
 ## 🌐 Live Site
-[**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)*
+[**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
 
 ---
 
 ## 📂 Repository
-[**GitHub Repository**](https://github.com/your-username/MP3-Brainery.git)
+[**GitHub Repository**](https://github.com/MH-LIKHON/MP3-Brainery.git)
 
 ---
 
@@ -510,7 +510,7 @@ This project was deployed using **Heroku**, a **cloud platform** that enables de
 #### **1️⃣ Clone the Repository**
 To begin, I **cloned the project repository** to my local machine:
 ```bash
-git clone https://github.com/your-username/MP3-Brainery.git
+git clone https://github.com/MH-LIKHON/MP3-Brainery.git
 ```
 
 #### **2️⃣ Navigate to the Project Directory**
@@ -574,7 +574,7 @@ To run the project **locally**, follow these steps:
 
 #### **1️⃣ Clone the Repository**
 ```bash
-git clone https://github.com/your-username/MP3-Brainery.git
+git clone https://github.com/MH-LIKHON/MP3-Brainery.git
 ```
 
 #### **2️⃣ Navigate to the Project Directory**
