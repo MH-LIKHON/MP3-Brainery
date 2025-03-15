@@ -786,12 +786,15 @@ Special thanks to Miguel for their guidance throughout the project.
 ## 📌 Table of Contents
 
 1. **[Live Site](#-live-site)**  
+
 2. **[Repository](#-repository)**  
+
 3. **[Project Overview](#-project-overview)**  
    - [Key Features](#-key-features)  
    - [Pre-Project Planning](#-pre-project-planning)  
    - [Why Brainery?](#-why-brainery)  
    - [Platform Feature Ranking](#-platform-feature-ranking)  
+
 4. **[User Experience (UX)](#-user-experience-ux)**  
    - [Project Goals](#-project-goals)  
    - [User Stories](#-user-stories)  
@@ -799,11 +802,13 @@ Special thanks to Miguel for their guidance throughout the project.
      - [Colour Scheme](#-colour-scheme)  
      - [Typography](#-typography)  
      - [Imagery & UI Elements](#-imagery--ui-elements)  
+
 5. **[Wireframes](#-wireframes)**  
    - [Home Page Wireframe](#-home-page-wireframe)  
    - [Login Page Wireframe](#-login-page-wireframe)  
    - [Register Page Wireframe](#-register-page-wireframe)  
    - [Dashboard Page Wireframe](#-dashboard-page-wireframe)  
+
 6. **[Features](#-features)**  
    - [Existing Features](#-existing-features)  
      - [Home Page](#-home-page)  
@@ -823,6 +828,7 @@ Special thanks to Miguel for their guidance throughout the project.
      - [File Upload for Study Materials](#-file-upload-for-study-materials)  
      - [Accessibility Enhancements](#-accessibility-enhancements)  
 7. **[Technologies Used](#-technologies-used)**  
+
 8. **[Testing](#-testing)**  
    - [Manual Testing](#-manual-testing)  
      - [Testing Links, Forms, and Navigation](#-testing-links-forms-and-navigation)  
@@ -835,12 +841,15 @@ Special thanks to Miguel for their guidance throughout the project.
      - [HTML Validation](#-html-validation)  
      - [CSS Validation](#-css-validation)  
    - [Functional Testing (Live Site)](#-functional-testing-live-site)  
+
 9. **[Bugs and Fixes](#-bugs-and-fixes)**  
+
 10. **[Deployment](#-deployment)**  
     - [Steps for Deployment on Heroku](#-steps-for-deployment-on-heroku)  
     - [Accessing the Live Application](#-accessing-the-live-application)  
     - [Running the Project Locally](#-running-the-project-locally)  
     - [Why Use Heroku Instead of GitHub Pages?](#-why-use-heroku-instead-of-github-pages)  
+    
 11. **[Credits](#-credits)**  
     - [Icons & Visual Assets](#-icons--visual-assets)  
     - [Media & Video Sources](#-media--video-sources)  
