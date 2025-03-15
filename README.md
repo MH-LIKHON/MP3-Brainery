@@ -500,6 +500,24 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ---
 
+### **🛠️ Functional Testing (Live Site)**
+The following user features were tested manually on the deployed Heroku site:
+
+| **Feature**            | **Expected Behavior**                  | **Test Result** |
+|-----------------------|--------------------------------------|--------------|
+| **User Registration** | New users can sign up and receive a verification email | ✅ Working |
+| **User Login**        | Registered users can log in with valid credentials | ✅ Working |
+| **User Logout**       | Logged-in users can successfully log out | ✅ Working |
+| **Create Record**     | Users can add new records to the database | ✅ Working |
+| **Edit Record**       | Users can update existing records | ✅ Working |
+| **Delete Record**     | Users can delete records from the database | ✅ Working |
+| **Database Connection** | Data is properly stored in MongoDB | ✅ Working |
+| **Email Functionality** | Verification emails are sent and received | ✅ Working |
+
+📌 **All tests were performed manually by interacting with the live version of the site. The application successfully handled user authentication, CRUD operations, and data storage.**
+
+---
+
 ### **🛠️ Bugs and Fixes**  
 
 | **Bug** | **Issue** | **Fix** |  
@@ -740,3 +758,20 @@ Brainery was built using a combination of **open-source technologies, libraries,
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance! 🚀
 
 Special thanks to Miguel for their guidance throughout the project.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
