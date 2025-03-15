@@ -491,13 +491,13 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 All critical pages and associated stylesheets were validated using W3C tools to ensure compliance with modern web standards:
 
 - **HTML Validation:**  
-  - [Home Page Validation](assets/validation/home-html.png)  
-  - [Login Page Validation](assets/validation/login-html.png)  
-  - [Registration Validation](assets/validation/registration-html.png)  
-  - [Dashboard Validation](assets/validation/dashboard-html.png) 
+  - [Home Page Validation](assets/images/home-html.png)  
+  - [Login Page Validation](assets/images/login-html.png)  
+  - [Registration Validation](assets/images/registration-html.png)  
+  - [Dashboard Validation](assets/images/dashboard-html.png) 
 
 - **CSS Validation:**  
-  - [Stylesheet Validation](assets/validation/styles-css.png)
+  - [Stylesheet Validation](assets/images/styles-css.png)
 
 ---
 
