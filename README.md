@@ -31,10 +31,11 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 6. **[Features](#-features)**  
    - [Existing Features](#-existing-features)  
      - [Home Page](#-home-page)  
-     - [User Authentication](#-user-authentication)  
+     - [User Authentication](#-user-authentication)
+     - [User Registration](#-user-registration)
+     - [Registration Email](#registration-email)
      - [Study Topics Management](#-study-topics-management)  
      - [Public Resource Sharing](#-public-resource-sharing)  
-     - [Search & Filter Functionality](#-search--filter-functionality)  
      - [User Dashboard](#-user-dashboard)  
      - [Security Features](#-security-features)  
      - [Mobile Responsive UI](#-mobile-responsive-ui)  
@@ -252,17 +253,68 @@ brainery_data/static/images/
   - Features an **immersive hero video background** sourced from [Tactus Marketing](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4).
   - Smooth **fade-in animations** on the title and tagline enhance interactivity.
   - Call-to-action **"Get Started" button** directs users to the registration page.
-  - ![Hero Section](brainery_data/static/images/home-hero.png)
+  - Social icons have hover effect and linked to their pages.
+  - Nav menu and logo have animation effect.
+  - Features section with multiple cards and popup messages.
+  - ![Home Page](brainery_data/static/images/home.png)
+
+    - ![Hero Section](brainery_data/static/images/homehero.png)
+
+    - ![Features Section](brainery_data/static/images/homefeature.png)
+
+    - ![Features PopUp](brainery_data/static/images/homepopup.png)
+
+    - ![Logo](brainery_data/static/images/hoverlogo.png)
+
+    - ![Icons](brainery_data/static/images/hovericon.png)
 
 ---
 
 #### **🔑 User Authentication**
-- **Secure Login & Registration**
-  - Users can **register** using **email and a secure password**.
+- **Secure Login**
+  - Users can **login** using **email and a secure password**.
+  - Users can **reset password** using **email address, if registered**.
   - Flask-Login **manages session authentication**.
   - **CSRF protection** is implemented to prevent cross-site request forgery.
-  - ![Login Page](brainery_data/static/images/login-form.png)
-  - ![Register Page](brainery_data/static/images/register-form.png)
+  - ![Login Page](brainery_data/static/images/login.png)
+
+    - ![Empty Field Message](brainery_data/static/images/loginmessage1.png)
+
+    - ![Proceed Message](brainery_data/static/images/loginmessage3.png)
+
+    - ![Invalid Password or Email Message](brainery_data/static/images/loginmessage2.png)
+
+    - ![Password Reset](brainery_data/static/images/passwordreset.png)
+
+  ---
+
+#### **🔑 User Registration**
+- **Secure Registration**
+  - Users can **register** using **personal info, payment info (no gateway) or promo code and a secure password**. Users data are being securly stored in Mongodb databse.
+  - Registered email message, if email is already registered.
+  - Payment page, no gateway but works like payment system.
+  - Promocode, if applied card info will be disabled. **CI25MP** will apply 100% discount.
+  - Successful Message
+  - **CSRF protection** is implemented to prevent cross-site request forgery.
+  - ![Register Page](brainery_data/static/images/register1.png)
+
+    - ![Registered Email Message](brainery_data/static/images/emailregistered.png)
+
+  - ![Register Page](brainery_data/static/images/register2.png)
+
+  - ![Register Page](brainery_data/static/images/register3.png)
+
+  - ![Register Page](brainery_data/static/images/register4.png)
+
+   - ![Register Page](brainery_data/static/images/successfulmessage.png)
+
+---
+
+#### **📩 Registration Email**
+- **EmailJS**
+  - Users will receive an email after completing their registration.
+  - Email contains the necessary information regarding their registration.
+  - ![Registration Eamil](brainery_data/static/images/email.png)
 
 ---
 
@@ -271,34 +323,24 @@ brainery_data/static/images/
   - Users can **save, update, and delete study topics** in their personal dashboard.
   - Topics are stored in **MongoDB**, allowing persistent storage and retrieval.
   - **Real-time updates** ensure instant feedback on changes.
-  - ![Dashboard - Study Topics](brainery_data/static/images/dashboard-topics.png)
+  - ![Dashboard Page](brainery_data/static/images/dashboard2.png)
 
 ---
 
 #### **📂 Public Resource Sharing**
 - **Explore & Save Shared Study Materials**
-  - Users can browse **public learning resources** shared by the community.
+  - Users can browse **public learning resources** shared by the community through Wikipedia.
   - Resources are categorized by **subject type, popularity, and user contributions**.
   - Users can **bookmark resources to their dashboard** for easy access.
-  - ![Resource Page](brainery_data/static/images/resource-page.png)
-
----
-
-#### **🔍 Search & Filter Functionality**
-- **Smart Search Bar**
-  - Users can **search for topics and resources** by title.
-  - Implements **MongoDB text indexing** for **fast and relevant search results**.
-  - **Category filters** allow users to narrow down results.
-  - ![Search Feature](brainery_data/static/images/search-bar.png)
+  - ![Dashboard Saved Topics](brainery_data/static/images/dashboard3.png)
 
 ---
 
 #### **📊 User Dashboard**
 - **Personalized Dashboard**
-  - Displays **saved study topics, tracked progress, and bookmarked resources**.
+  - Displays **saved study topics, edit and bookmarked resources**.
   - Features **quick actions** to edit or delete topics.
-  - Tracks **study engagement** through **progress indicators**.
-  - ![User Dashboard](brainery_data/static/images/user-dashboard.png)
+  - ![User Dashboard](brainery_data/static/images/dashboard1.png)
 
 ---
 
@@ -306,7 +348,6 @@ brainery_data/static/images/
 - **CSRF Protection & Secure Sessions**
   - **Flask-WTF prevents CSRF attacks** on all form submissions.
   - **Session cookies** are encrypted and set to expire for added security.
-  - ![Security Settings](brainery_data/static/images/security-settings.png)
 
 ---
 
@@ -314,7 +355,19 @@ brainery_data/static/images/
 - **Optimized for all devices**
   - Uses **Bootstrap 5 Grid System** for seamless responsiveness.
   - UI elements **automatically adjust** based on screen size.
-  - ![Mobile View](brainery_data/static/images/mobile-dashboard.png)
+  - ![Mobile View](brainery_data/static/images/mobile1.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile2.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile3.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile4.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile5.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile6.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile7.png)
 
 ---
 
