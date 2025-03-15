@@ -8,7 +8,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 1. **[Project Overview](#project-overview)**  
    - [Key Features](#key-features)  
-   - [Why Choose Brainery?](#why-brainery)  
+   - [Why Brainery](#why-brainery)  
 
 2. **[Live Site](#live-site)**  
 
@@ -20,7 +20,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
    - [Design](#design)  
      - [Colour Scheme](#colour-scheme)  
      - [Typography](#typography)  
-     - [Imagery & UI Elements](#imagery--ui-elements)  
+     - [Imagery and UI Elements](#imagery-and-ui-elements)  
 
 5. **[Wireframes](#wireframes)**  
    - [Home Page Wireframe](#home-page-wireframe)  
@@ -794,9 +794,14 @@ Special thanks to Miguel for their guidance throughout the project.
 
 
 
+
+
+
+
+
 1. **[Project Overview](#project-overview)**  
    - [Key Features](#key-features)  
-   - [Why Choose Brainery?](#why-brainery)  
+   - [Why Brainery](#why-brainery)  
 
 2. **[Live Site](#live-site)**  
 
@@ -872,5 +877,3 @@ Special thanks to Miguel for their guidance throughout the project.
     - [Documentation References](#documentation-references)  
 
 12. **[Acknowledgements](#acknowledgements)**  
-
----
