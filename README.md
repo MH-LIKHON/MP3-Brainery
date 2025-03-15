@@ -4,85 +4,86 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ---
 
-## **📌 Table of Contents**
+## **📌 Table of Contents (TOC)**
 
-1. **[Project Overview](#-project-overview)**  
-   - [Key Features](#-key-features)  
-   - [Why Choose Brainery?](#-why-brainery)  
+1. **[Project Overview](#🚀-project-overview)**  
+   - [Key Features](#🌟-key-features)  
+   - [Why Choose Brainery?](#💡-why-brainery?)  
 
-2. **[Live Site](#-live-site)**  
+2. **[Live Site](#🌐-live-site)**  
 
-3. **[Repository](#-repository)**  
+3. **[Repository](#📂-repository)**  
 
-4. **[User Experience (UX)](#-user-experience-ux)**  
-   - [Project Goals](#-project-goals)  
-   - [User Stories](#-user-stories)  
-   - [Design](#-design)  
-     - [Colour Scheme](#-colour-scheme)  
-     - [Typography](#-typography)  
-     - [Imagery & UI Elements](#-imagery--ui-elements)  
+4. **[User Experience (UX)](#🎯-user-experience-(ux))**  
+   - [Project Goals](#🎡-project-goals)  
+   - [User Stories](#👤-user-stories)  
+   - [Design](#🎨-design)  
+     - [Colour Scheme](#🟢-colour-scheme)  
+     - [Typography](#🎨-typography)  
+     - [Imagery & UI Elements](#🖼-imagery--ui-elements)  
 
-5. **[Wireframes](#-wireframes)**  
-   - [Home Page Wireframe](#-home-page-wireframe)  
-   - [Login Page Wireframe](#-login-page-wireframe)  
-   - [Register Page Wireframe](#-register-page-wireframe)  
-   - [Dashboard Page Wireframe](#-dashboard-page-wireframe)  
+5. **[Wireframes](#📌-wireframes)**  
+   - [Home Page Wireframe](#🏠-home-page-wireframe)  
+   - [Login Page Wireframe](#🔑-login-page-wireframe)  
+   - [Register Page Wireframe](#📝-register-page-wireframe)  
+   - [Dashboard Page Wireframe](#📊-dashboard-page-wireframe)  
 
-6. **[Features](#-features)**  
-   - [Existing Features](#-existing-features)  
-     - [Home Page](#-home-page)  
-     - [User Authentication](#-user-authentication)
-     - [User Registration](#-user-registration)
-     - [Registration Email](#registration-email)
-     - [Study Topics Management](#-study-topics-management)  
-     - [Public Resource Sharing](#-public-resource-sharing)  
-     - [User Dashboard](#-user-dashboard)  
-     - [Security Features](#-security-features)  
-     - [Mobile Responsive UI](#-mobile-responsive-ui)  
-   - [Future Features](#-future-features)  
-     - [Note-Taking System](#-note-taking-system)  
-     - [Learning Progress Analytics](#-learning-progress-analytics)  
-     - [Community Forum](#-community-forum)  
-     - [Study Schedule Planner](#-study-schedule-planner)  
-     - [File Upload for Study Materials](#-file-upload-for-study-materials)  
-     - [Accessibility Enhancements](#-accessibility-enhancements)  
+6. **[Features](#💡-features)**  
+   - [Existing Features](#✅-existing-features)  
+     - [Home Page](#🏠-home-page)  
+     - [User Authentication](#🔑-user-authentication)  
+     - [User Registration](#🔑-user-registration)  
+     - [Registration Email](#📩-registration-email)  
+     - [Study Topics Management](#📚-study-topics-management)  
+     - [Public Resource Sharing](#📂-public-resource-sharing)  
+     - [User Dashboard](#📊-user-dashboard)  
+     - [Security Features](#🔐-security-features)  
+     - [Mobile Responsive UI](#📱-mobile-responsive-ui)  
+   - [Future Features](#🚀-future-features)  
+     - [Note-Taking System](#🖊️-note-taking-system)  
+     - [Learning Progress Analytics](#📊-learning-progress-analytics)  
+     - [Community Forum](#📢-community-forum)  
+     - [Study Schedule Planner](#📅-study-schedule-planner)  
+     - [File Upload for Study Materials](#📎-file-upload-for-study-materials)  
+     - [Accessibility Enhancements](#🚀-accessibility-enhancements)  
 
-7. **[Technologies Used](#-technologies-used)**  
-   - [Backend Technologies](#-backend-technologies)  
-   - [Frontend Technologies](#-frontend-technologies)  
-   - [Security and Authentication](#-security-and-authentication)  
-   - [Responsive Design](#-responsive-design)  
-   - [Version Control & Hosting](#-version-control--hosting)  
+7. **[Technologies Used](#💪-technologies-used)**  
+   - [Backend Technologies](#🔧-backend-technologies)  
+   - [Frontend Technologies](#🎨-frontend-technologies)  
+   - [Security and Authentication](#🔒-security-and-authentication)  
+   - [Responsive Design](#📱-responsive-design)  
+   - [Version Control & Hosting](#🔗-version-control--hosting)  
 
-8. **[Testing](#-testing)**  
-   - [Manual Testing](#-manual-testing)  
-     - [Link Navigation](#-link-navigation)  
-     - [Form Validation](#-form-validation)  
-     - [Responsiveness Testing](#-responsiveness-testing)  
-   - [Validation Testing](#-validation-testing)  
-     - [HTML Validation](#-html-validation)  
-     - [CSS Validation](#-css-validation)  
-   - [Google Lighthouse Testing](#-google-lighthouse-testing)  
-   - [User Testing](#-user-testing)  
-     - [User Feedback](#-user-feedback)  
-     - [Mobile Testing Results](#-mobile-testing-results)  
+8. **[Testing](#🔍-testing)**  
+   - [Manual Testing](#🛠️-manual-testing)  
+     - [Link Navigation](#🔗-link-navigation)  
+     - [Form Validation](#✅-form-validation)  
+     - [Responsiveness Testing](#📱-responsiveness-testing)  
+   - [Validation Testing](#✅-validation-testing)  
+     - [HTML Validation](#✅-html-validation)  
+     - [CSS Validation](#✅-css-validation)  
+   - [Google Lighthouse Testing](#📊-google-lighthouse-testing)  
+   - [User Testing](#👥-user-testing)  
+     - [User Feedback](#📝-user-feedback)  
+     - [Mobile Testing Results](#📱-mobile-testing-results)  
+   - **[Functional Testing (Live Site)](#🛠️-functional-testing-(live-site))**  
 
-9. **[Bugs and Fixes](#-bugs-and-fixes)**  
-   - [Common Bugs](#-common-bugs)  
-   - [Solutions Implemented](#-solutions-implemented)  
+9. **[Bugs and Fixes](#🛠️-bugs-and-fixes)**  
+   - [Common Bugs](#🔧-common-bugs)  
+   - [Solutions Implemented](#🛠️-solutions-implemented)  
 
-10. **[Deployment](#-deployment)**  
-    - [Deployment to Heroku](#-deployment-to-heroku)  
-    - [Local Setup](#-local-setup)  
+10. **[Deployment](#🚀-deployment)**  
+    - [Deployment to Heroku](#☁️-deployment-to-heroku)  
+    - [Local Setup](#💻-local-setup)  
 
-11. **[Credits](#-credits)**  
-    - [Icons & Visual Assets](#-icons--visual-assets)  
-    - [Media & Video Sources](#-media--video-sources)  
-    - [Libraries & Frameworks](#-libraries--frameworks)  
-    - [APIs & Integrations](#-apis--integrations)  
-    - [Documentation References](#-documentation-references)  
+11. **[Credits](#💙-credits)**  
+    - [Icons & Visual Assets](#📌-icons--visual-assets)  
+    - [Media & Video Sources](#🎥-media--video-sources)  
+    - [Libraries & Frameworks](#📚-libraries--frameworks)  
+    - [APIs & Integrations](#🔗-apis--integrations)  
+    - [Documentation References](#📖-documentation-references)  
 
-12. **[Acknowledgements](#-acknowledgements)**  
+12. **[Acknowledgements](#❤️-acknowledgements)**    
 
 ---
 
@@ -373,7 +374,7 @@ brainery_data/static/images/
 
 ### **🚀 Future Features**  
 
-#### **🖊️ Note-Taking System**  
+#### **🖊️ Note Taking System**  
 - Allow users to **attach personal notes** to their study topics.  
 - Notes will be **stored in MongoDB** and accessible via the dashboard.  
 - Users can **edit, delete, and organize their notes** within topics.  
@@ -479,9 +480,9 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 
 **Lighthouse Reports:**  
 - [Home Page Report](assets/lighthouse/home.pdf)  
-- [Dashboard Report](assets/lighthouse/dashboard.pdf)  
-- [Registration/Sign-In Report](assets/lighthouse/auth.pdf)  
-- [Explore Resources Report](assets/lighthouse/explore.pdf)
+- [Login Page Report](assets/lighthouse/login.pdf)
+- [Registration Report](assets/lighthouse/registration.pdf)  
+- [Dashboard Page Report](assets/lighthouse/dashboard.png)
 
 ---
 
@@ -490,13 +491,13 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 All critical pages and associated stylesheets were validated using W3C tools to ensure compliance with modern web standards:
 
 - **HTML Validation:**  
-  - [Home Page Validation](assets/validation/home-validation.pdf)  
-  - [Dashboard Validation](assets/validation/dashboard-validation.pdf)  
-  - [Registration/Sign-In Validation](assets/validation/auth-validation.pdf)  
-  - [Explore Page Validation](assets/validation/explore-validation.pdf)
+  - [Home Page Validation](assets/validation/home-html.png)  
+  - [Login Page Validation](assets/validation/login-html.png)  
+  - [Registration Validation](assets/validation/registration-html.png)  
+  - [Dashboard Validation](assets/validation/dashboard-html.png) 
 
 - **CSS Validation:**  
-  - [Stylesheet Validation](assets/validation/styles-validation.pdf)
+  - [Stylesheet Validation](assets/validation/styles-css.png)
 
 ---
 
@@ -758,7 +759,6 @@ Brainery was built using a combination of **open-source technologies, libraries,
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance! 🚀
 
 Special thanks to Miguel for their guidance throughout the project.
-
 
 
 
