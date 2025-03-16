@@ -504,10 +504,10 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 | Register                | **97**      | **98**         | **96**         | **90**   |  
 
 **Lighthouse Reports:**  
-- [Home Page Report](brainery_data/static/images/home.pdf)  
-- [Login Page Report](brainery_data/static/images/login.pdf)
-- [Registration Report](brainery_data/static/images/registration.pdf)  
-- [Dashboard Page Report](brainery_data/static/images/dashboard.png)
+- [Home Page Report](brainery_data/static/pdfs/home-lh.pdf)  
+- [Login Page Report](brainery_data/static/pdfs/login-lh.pdf)
+- [Registration Report](brainery_data/static/pdfs/register-lh.pdf)  
+- [Dashboard Page Report](brainery_data/static/pdfs/dashboard-lh.png)
 
 ---
 
