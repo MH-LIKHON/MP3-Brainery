@@ -55,7 +55,8 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
      - [Testing Responsiveness](#testing-responsiveness)  
    - [User Testing](#user-testing)  
      - [Promocode for Testing](#promocode-for-testing)  
-   - [Functional Testing (Live Site)](#functional-testing-live-site)  
+   - [Functional Testing (Live Site)](#functional-testing-live-site)
+   - [Security Testing](#security-testing)  
    - [Lighthouse Testing](#lighthouse-testing)  
    - [Validation Testing](#validation-testing)  
 
@@ -484,29 +485,29 @@ The same group of users also tested Brainery on mobile and tablet devices, provi
 
 ---
 
+### Security Testing
+- The project was scanned using Bandit for security vulnerabilities.
+- No critical security issues were found in the project's source code.
+- Some warnings originated from third-party dependencies but do not affect the project's functionality.
+
+---
+
 ### Lighthouse Testing
 
 Brainery’s core pages were analyzed using Google Lighthouse to measure performance, accessibility, best practices, and SEO. Below are the scores and corresponding links to the full Lighthouse reports:
 
 | Page                     | Performance | Accessibility | Best Practices | SEO  |  
 |--------------------------|-------------|----------------|----------------|------|  
-| Home                    | 95          | 100            | 100            | 98   |  
-| Dashboard               | 90          | 98             | 100            | 95   |  
-| Registration/Sign-In    | 92          | 100            | 100            | 99   |  
-| Explore Resources       | 89          | 95             | 100            | 93   |  
+| Home                    | **97**      | **92**         | **96**         | **90**   |  
+| Dashboard               | **99**      | **97**         | **96**         | **90**   |  
+| Login                   | **98**      | **89**         | **96**         | **90**   |  
+| Register                | **97**      | **98**         | **96**         | **90**   |  
 
 **Lighthouse Reports:**  
 - [Home Page Report](brainery_data/static/images/home.pdf)  
 - [Login Page Report](brainery_data/static/images/login.pdf)
 - [Registration Report](brainery_data/static/images/registration.pdf)  
 - [Dashboard Page Report](brainery_data/static/images/dashboard.png)
-
----
-
-### Security Testing
-- The project was scanned using Bandit for security vulnerabilities.
-- No critical security issues were found in the project's source code.
-- Some warnings originated from third-party dependencies but do not affect the project's functionality.
 
 ---
 
