@@ -1,121 +1,112 @@
-# 🧠 Brainery - Full Stack Learning Platform
+# Brainery - Full Stack Learning Platform
 
 Brainery is an **interactive web platform** designed for learners to **store, manage, and explore educational resources**. Built with **Flask, MongoDB, Bootstrap, and JavaScript**, Brainery allows users to **save study topics, access shared learning materials, and track their progress** in an intuitive interface.
 
 ---
 
-## **📌 Table of Contents (TOC)**
+## **Table of Contents (TOC)**  
 
-1. **[Project Overview](#-project-overview)**  
-   - [Key Features](#-key-features)  
-   - [Why Choose Brainery?](#-why-brainery)  
+1. **[Project Overview](#project-overview)**  
+   - [Key Features](#key-features)  
+   - [Why Choose Brainery?](#why-brainery)  
 
-2. **[Live Site](#-live-site)**  
+2. **[Live Site](#live-site)**  
 
-3. **[Repository](#-repository)**  
+3. **[Repository](#repository)**  
 
-4. **[User Experience (UX)](#-user-experience-ux)**  
-   - [Project Goals](#-project-goals)  
-   - [User Stories](#-user-stories)  
-   - [Design](#-design)  
-     - [Colour Scheme](#-colour-scheme)  
-     - [Typography](#-typography)  
-     - [Imagery & UI Elements](#-imagery--ui-elements)  
+4. **[User Experience (UX)](#user-experience-ux)**  
+   - [Project Goals](#project-goals)  
+   - [User Stories](#user-stories)  
+   - [Design](#design)  
+     - [Colour Scheme](#colour-scheme)  
+     - [Typography](#typography)  
+     - [Imagery & UI Elements](#imagery--ui-elements)  
 
-5. **[Wireframes](#-wireframes)**  
-   - [Home Page Wireframe](#-home-page-wireframe)  
-   - [Login Page Wireframe](#-login-page-wireframe)  
-   - [Register Page Wireframe](#-register-page-wireframe)  
-   - [Dashboard Page Wireframe](#-dashboard-page-wireframe)  
+5. **[Wireframes](#wireframes)**  
+   - [Home Page Wireframe](#home-page-wireframe)  
+   - [Login Page Wireframe](#login-page-wireframe)  
+   - [Register Page Wireframe](#register-page-wireframe)  
+   - [Dashboard Page Wireframe](#dashboard-page-wireframe)  
 
-6. **[Features](#-features)**  
-   - [Existing Features](#-existing-features)  
-     - [Home Page](#-home-page)  
-     - [User Authentication](#-user-authentication)
-     - [User Registration](#-user-registration)
-     - [Registration Email](#registration-email)
-     - [Study Topics Management](#-study-topics-management)  
-     - [Public Resource Sharing](#-public-resource-sharing)  
-     - [User Dashboard](#-user-dashboard)  
-     - [Security Features](#-security-features)  
-     - [Mobile Responsive UI](#-mobile-responsive-ui)  
-   - [Future Features](#-future-features)  
-     - [Note-Taking System](#-note-taking-system)  
-     - [Learning Progress Analytics](#-learning-progress-analytics)  
-     - [Community Forum](#-community-forum)  
-     - [Study Schedule Planner](#-study-schedule-planner)  
-     - [File Upload for Study Materials](#-file-upload-for-study-materials)  
-     - [Accessibility Enhancements](#-accessibility-enhancements)  
+6. **[Features](#features)**  
+   - [Existing Features](#existing-features)  
+     - [Home Page](#home-page)  
+     - [User Authentication](#user-authentication)  
+     - [User Registration](#user-registration)  
+     - [Registration Email](#registration-email)  
+     - [Study Topics Management](#study-topics-management)  
+     - [Public Resource Sharing](#public-resource-sharing)  
+     - [User Dashboard](#user-dashboard)  
+     - [Security Features](#security-features)  
+     - [Mobile Responsive UI](#mobile-responsive-ui)  
+   - [Future Features](#future-features)  
+     - [Note-Taking System](#note-taking-system)  
+     - [Learning Progress Analytics](#learning-progress-analytics)  
+     - [Community Forum](#community-forum)  
+     - [Study Schedule Planner](#study-schedule-planner)  
+     - [File Upload for Study Materials](#file-upload-for-study-materials)  
+     - [Accessibility Enhancements](#accessibility-enhancements)  
 
-7. **[Technologies Used](#-technologies-used)**  
-   - [Backend Technologies](#-backend-technologies)  
-   - [Frontend Technologies](#-frontend-technologies)  
-   - [Security and Authentication](#-security-and-authentication)  
-   - [Responsive Design](#-responsive-design)  
-   - [Version Control & Hosting](#-version-control--hosting)  
+7. **[Technologies Used](#technologies-used)**  
 
-8. **[Testing](#-testing)**  
-   - [Manual Testing](#-manual-testing)  
-     - [Link Navigation](#-link-navigation)  
-     - [Form Validation](#-form-validation)  
-     - [Responsiveness Testing](#-responsiveness-testing)  
-   - [Validation Testing](#-validation-testing)  
-     - [HTML Validation](#-html-validation)  
-     - [CSS Validation](#-css-validation)  
-   - [Google Lighthouse Testing](#-google-lighthouse-testing)  
-   - [User Testing](#-user-testing)  
-     - [User Feedback](#-user-feedback)  
-     - [Mobile Testing Results](#-mobile-testing-results)  
+8. **[Testing](#testing)**  
+   - [Manual Testing](#manual-testing)  
+     - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)  
+     - [Testing Responsiveness](#testing-responsiveness)  
+   - [User Testing](#user-testing)  
+     - [Promocode for Testing](#promocode-for-testing)  
+   - [Functional Testing (Live Site)](#functional-testing-live-site)  
+   - [Lighthouse Testing](#lighthouse-testing)  
+   - [Validation Testing](#validation-testing)  
 
-9. **[Bugs and Fixes](#-bugs-and-fixes)**  
-   - [Common Bugs](#-common-bugs)  
-   - [Solutions Implemented](#-solutions-implemented)  
+9. **[Bugs & Fixes](#bugs--fixes)**  
 
-10. **[Deployment](#-deployment)**  
-    - [Deployment to Heroku](#-deployment-to-heroku)  
-    - [Local Setup](#-local-setup)  
+10. **[Deployment](#deployment)**  
+    - [Deployment to Heroku](#steps-for-deployment-on-heroku)
+    - [Accessing Live Application](#accessing-the-live-application)
+    - [Local Setup](#running-the-project-locally)  
 
-11. **[Credits](#-credits)**  
-    - [Icons & Visual Assets](#-icons--visual-assets)  
-    - [Media & Video Sources](#-media--video-sources)  
-    - [Libraries & Frameworks](#-libraries--frameworks)  
-    - [APIs & Integrations](#-apis--integrations)  
-    - [Documentation References](#-documentation-references)  
+11. **[Credits](#credits)**  
+    - [Icons & Visual Assets](#icons--visual-assets)  
+    - [Media & Video Sources](#media--video-sources)  
+    - [Libraries & Frameworks](#libraries--frameworks)  
+    - [APIs & Integrations](#apis--integrations)  
+    - [Documentation References](#documentation-references)  
 
-12. **[Acknowledgements](#-acknowledgements)**  
+12. **[Acknowledgements](#acknowledgements)**
 
 ---
 
-## 🌐 Live Site
+## Live Site
 [**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
 
 ---
 
-## 📂 Repository
+## Repository
 [**GitHub Repository**](https://github.com/MH-LIKHON/MP3-Brainery.git)
 
 ---
 
-## 🚀 Project Overview
+## Project Overview
 Brainery is a **community-driven** web platform designed to help learners store, manage, and share educational resources efficiently. It provides an interactive and secure environment where students, educators, and professionals can collaborate and enhance their knowledge base.
 
-### 🌟 Key Features:
-- 📚 **User Authentication:** Secure **registration, login, and logout** functionality using Flask-Login.
-- 📑 **Study Topic Management:** Users can **create, edit, delete, and organize** their study topics.
-- 🌎 **Public Learning Resources:** Users can **browse and contribute to a shared knowledge base** to support collaborative learning.
-- 🔍 **Search & Filter Options:** Quickly **locate study topics and resources** with an intuitive search function.
-- 📊 **Dashboard & User Analytics:** Personalized **dashboard to track saved topics, learning progress, and activity history**.
-- 🎨 **Responsive UI:** A **modern and intuitive design** using Bootstrap for a seamless experience across devices.
-- 🔐 **Security Features:**
+### Key Features:
+- **User Authentication:** Secure **registration, login, and logout** functionality using Flask-Login.
+- **Study Topic Management:** Users can **create, edit, delete, and organize** their study topics.
+- **Public Learning Resources:** Users can **browse and contribute to a shared knowledge base** to support collaborative learning.
+- **Search & Filter Options:** Quickly **locate study topics and resources** with an intuitive search function.
+- **Dashboard & User Analytics:** Personalized **dashboard to track saved topics, learning progress, and activity history**.
+- **Responsive UI:** A **modern and intuitive design** using Bootstrap for a seamless experience across devices.
+- **Security Features:**
   - **CSRF Protection** via Flask-WTF to secure forms.
   - **Password Hashing** using bcrypt for **enhanced security**.
   - **Session Management** to **protect user data and prevent unauthorized access**.
-- 🌍 **Multi-User Collaboration:** Enables **team-based learning and group study sessions** by allowing users to share topics.
-- 📥 **File Upload Support:** Users can **upload PDFs, images, and notes** for reference.
-- 📝 **Integrated Note-Taking System:** **Save personal notes** alongside study topics for effective learning.
-- 📌 **Bookmarking System:** **Mark favorite resources** for quick access later.
-- 📧 **Email Notifications:** Integration with **EmailJS** for sending account updates and notifications.
-- 🗂 **Category-Based Organization:** Users can **categorize and tag topics** for a well-structured study plan.
+- **Multi-User Collaboration:** Enables **team-based learning and group study sessions** by allowing users to share topics.
+- **File Upload Support:** Users can **upload PDFs, images, and notes** for reference.
+- **Integrated Note-Taking System:** **Save personal notes** alongside study topics for effective learning.
+- **Bookmarking System:** **Mark favorite resources** for quick access later.
+- **Email Notifications:** Integration with **EmailJS** for sending account updates and notifications.
+- **Category-Based Organization:** Users can **categorize and tag topics** for a well-structured study plan.
 
 Brainery is designed to **streamline knowledge sharing and academic collaboration**, helping students, researchers, and professionals **manage their learning materials more effectively**.
 
@@ -123,7 +114,7 @@ Brainery is designed to **streamline knowledge sharing and academic collaboratio
 
 ---
 
-### **📌 Pre-Project Planning**  
+### **Pre-Project Planning**  
 
 To kick off the Brainery project, I evaluated different **educational and knowledge-sharing platforms** to determine **which type of application would provide the most value** while showcasing my technical skills. I analyzed various platform ideas based on **four key criteria**:  
 
@@ -141,7 +132,7 @@ Based on these factors, I ranked different **web application ideas** to determin
 | **Event Management System** | 7 | 7 | 5 | 7 | 26 |  
 | **Personal Finance Tracker** | 8 | 8 | 7 | 6 | 29 |  
 
-### **💡 Why Brainery?**  
+### **Why Brainery?**  
 After analyzing the above options, I chose **Brainery** because:  
 ✅ It **aligns with my skills** in **Flask, MongoDB, Bootstrap, and user authentication**.  
 ✅ It offers a **high-value, real-world application** that can be expanded over time.  
@@ -150,7 +141,7 @@ After analyzing the above options, I chose **Brainery** because:
 
 ---
 
-### **🔎 Platform Feature Ranking**  
+### **Platform Feature Ranking**  
 I also ranked specific **core features** of the project to prioritize development and ensure **maximum impact** on user experience.  
 
 | **No.** | **Feature** | **Importance** |  
@@ -166,9 +157,9 @@ This ranking helped me **prioritize feature development**, ensuring that **core 
 
 ---
 
-## 📜 User Experience (UX)
+## User Experience (UX)
 
-### 🎡 Project Goals
+### Project Goals
 Brainery aims to create an interactive, accessible, and **user-friendly platform** that enhances the learning experience through technology. Below are the primary objectives that guide the design and functionality of the platform:
 
 - **User-Centric Design:** Provide an **intuitive online knowledge hub** that is easy to navigate for learners of all skill levels.
@@ -177,8 +168,8 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 - **Secure Environment:** Implement **robust authentication and security protocols** to protect user data and ensure privacy.
 - **Seamless User Interaction:** Create an **engaging and responsive UI** that enhances the user experience across devices.
 
-### 👤 User Stories
-#### 👨‍💼 New Users
+### User Stories
+#### New Users
 - I want to **create an account** to save my study topics.
 - I want to **log in securely** to access my resources.
 - I want to **search for learning materials** shared by the community.
@@ -192,63 +183,63 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 - I want to **monitor study topics** and remove inappropriate content.
 - I want to **manage user permissions** and prevent unauthorized access.
 
-### 🎨 Design
-#### 🟢 Colour Scheme
+### Design
+#### Colour Scheme
 - **Primary Color:** `#20c997` (Green) – Represents growth and learning.
 - **Secondary Color:** `#f8f9fa` (Light Grey) – Clean, modern UI.
 - **Accent Colors:** `#333` (Dark Text) and `#ffffff` (White Background).
 
-#### 🎨 Typography
+#### Typography
 - **Roboto:** Used for general text.
 - **Montserrat:** Used for headings.
 
-#### 🖼 Imagery & UI Elements
+#### Imagery & UI Elements
 - **Interactive Cards** for study topics.
 - **Progress Tracking Bars** to visualize learning engagement.
 - **Icons & Buttons** for **intuitive navigation**.
 
 ---
 
-### **🎨 Wireframes**  
+### **Wireframes**  
 
 The wireframes provide a **visual structure** of Brainery’s **core pages**, ensuring a well-organized **user experience**. These were designed using **Balsamiq** and serve as the **foundation for UI development**.
 
-📂 **Wireframe Directory:**  
+**Wireframe Directory:**  
 ```
 brainery_data/static/wireframes
 ```
 
 ---
 
-### **🏠 Home Page Wireframe**  
+### **Home Page Wireframe**  
 ![Home Wireframe](brainery_data/static/wireframes/home.bmpr)
 
-### **🔑 Login Page Wireframe**  
+### **Login Page Wireframe**  
 ![Login Wireframe](brainery_data/static/wireframes/login.bmpr)
 
-### **📝 Register Page Wireframe**  
+### **Register Page Wireframe**  
 ![Register Wireframe](brainery_data/static/wireframes/register.bmpr)
 
-### **📊 Dashboard Page Wireframe**  
+### **Dashboard Page Wireframe**  
 ![Dashboard Wireframe](brainery_data/static/wireframes/dashboard.bmpr)
 
 ---
 
-### **💡 Features**  
+### **Features**  
 
 Brainery is designed to provide a seamless **learning experience** through interactive **study topic management, public resource sharing, and user-friendly navigation**. Below are the **core features**, accompanied by visual representations.  
 
-📂 **Image Directory:**  
+**Image Directory:**  
 ```
 brainery_data/static/images/
 ```
 ---
 
-### **✅ Existing Features**  
+### **Existing Features**  
 
 ---
 
-#### **🏠 Home Page**
+#### **Home Page**
 - **Engaging Hero Section**
   - Features an **immersive hero video background** sourced from [Tactus Marketing](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4).
   - Smooth **fade-in animations** on the title and tagline enhance interactivity.
@@ -270,7 +261,7 @@ brainery_data/static/images/
 
 ---
 
-#### **🔑 User Authentication**
+#### **User Authentication**
 - **Secure Login**
   - Users can **login** using **email and a secure password**.
   - Users can **reset password** using **email address, if registered**.
@@ -288,7 +279,7 @@ brainery_data/static/images/
 
   ---
 
-#### **🔑 User Registration**
+#### **User Registration**
 - **Secure Registration**
   - Users can **register** using **personal info, payment info (no gateway) or promo code and a secure password**. Users data are being securly stored in Mongodb databse.
   - Registered email message, if email is already registered.
@@ -310,7 +301,7 @@ brainery_data/static/images/
 
 ---
 
-#### **📩 Registration Email**
+#### **Registration Email**
 - **EmailJS**
   - Users will receive an email after completing their registration.
   - Email contains the necessary information regarding their registration.
@@ -318,7 +309,7 @@ brainery_data/static/images/
 
 ---
 
-#### **📚 Study Topics Management**
+#### **Study Topics Management**
 - **CRUD (Create, Read, Update, Delete) Operations**
   - Users can **save, update, and delete study topics** in their personal dashboard.
   - Topics are stored in **MongoDB**, allowing persistent storage and retrieval.
@@ -327,7 +318,7 @@ brainery_data/static/images/
 
 ---
 
-#### **📂 Public Resource Sharing**
+#### **Public Resource Sharing**
 - **Explore & Save Shared Study Materials**
   - Users can browse **public learning resources** shared by the community through Wikipedia.
   - Resources are categorized by **subject type, popularity, and user contributions**.
@@ -336,7 +327,7 @@ brainery_data/static/images/
 
 ---
 
-#### **📊 User Dashboard**
+#### **User Dashboard**
 - **Personalized Dashboard**
   - Displays **saved study topics, edit and bookmarked resources**.
   - Features **quick actions** to edit or delete topics.
@@ -344,14 +335,14 @@ brainery_data/static/images/
 
 ---
 
-#### **🔐 Security Features**
+#### **Security Features**
 - **CSRF Protection & Secure Sessions**
   - **Flask-WTF prevents CSRF attacks** on all form submissions.
   - **Session cookies** are encrypted and set to expire for added security.
 
 ---
 
-#### **📱 Mobile Responsive UI**
+#### **Mobile Responsive UI**
 - **Optimized for all devices**
   - Uses **Bootstrap 5 Grid System** for seamless responsiveness.
   - UI elements **automatically adjust** based on screen size.
@@ -371,30 +362,30 @@ brainery_data/static/images/
 
 ---
 
-### **🚀 Future Features**  
+### **Future Features**  
 
-#### **🖊️ Note Taking System**  
+#### **Note Taking System**  
 - Allow users to **attach personal notes** to their study topics.  
 - Notes will be **stored in MongoDB** and accessible via the dashboard.  
 - Users can **edit, delete, and organize their notes** within topics.  
 
-#### **📊 Learning Progress Analytics**  
+#### **Learning Progress Analytics**  
 - Users will be able to **track their study progress visually**.  
 - Interactive **progress bars and charts** will display completed topics.  
 
-#### **📢 Community Forum**  
+#### **Community Forum**  
 - A **discussion board** where users can ask and answer questions.  
 - Threads will be **categorized by subject area**.  
 
-#### **📅 Study Schedule Planner**  
+#### **Study Schedule Planner**  
 - Users can **set reminders and study schedules** for different topics.  
 - **Google Calendar API** will be integrated for **syncing schedules**.  
 
-#### **📎 File Upload for Study Materials**  
+#### **File Upload for Study Materials**  
 - Users will be able to **attach PDF, DOC, and PPT files** to their study topics.  
 - Uploaded files will be **securely stored and downloadable**.  
 
-### **🚀 Accessibility Enhancements**  
+### **Accessibility Enhancements**  
 
 - **Voice Command Support** – Users will be able to **navigate the dashboard using voice commands**.  
 - **High-Contrast Mode** – A toggle option for users with **visual impairments**.  
@@ -402,7 +393,7 @@ brainery_data/static/images/
 
 ---
 
-### **💪 Technologies Used**
+### **Technologies Used**
 - **Flask** – Lightweight **Python web framework** for backend development.
 - **MongoDB** – **NoSQL database** to store user data, study topics, and public resources.
 - **Flask-Login** – Ensures **secure authentication and session management**.
@@ -421,6 +412,8 @@ brainery_data/static/images/
 ### Manual Testing
 Brainery was manually tested across multiple browsers (Chrome, Firefox, Safari, and Edge) and on various devices (mobile, tablet, and desktop) to confirm the platform’s responsiveness, functionality, and overall user experience. Detailed results of the tests conducted are outlined below:
 
+---
+
 #### Testing Links, Forms, and Navigation
 
 | Test                                            | Outcome |
@@ -431,6 +424,8 @@ Brainery was manually tested across multiple browsers (Chrome, Firefox, Safari, 
 | Registration and login forms submit successfully with valid input | Pass    |
 | Users are prompted to correct invalid inputs (e.g., missing fields, incorrect email format) | Pass    |
 | Users are prevented from submitting forms with empty required fields | Pass    |
+
+---
 
 #### Testing Responsiveness
 
@@ -454,6 +449,29 @@ A group of 5 users was asked to complete various tasks without guidance to asses
 | Navigate to the Explore page and bookmark a public resource  | 100%         |
 | Logout and log back in to verify bookmarked items            | 100%         |
 | Submit the contact form to reach the support team            | 100%         |
+
+#### **Promocode for Testing**
+📌 **Use the promocode `CI25MP3`** during registration to activate test access.
+
+---
+
+### **Functional Testing (Live Site)**
+The following user features were tested manually on the deployed Heroku site:
+
+| **Feature**            | **Expected Behavior**                  | **Test Result** |
+|-----------------------|--------------------------------------|--------------|
+| **User Registration** | New users can sign up and receive a verification email | ✅ Working |
+| **User Login**        | Registered users can log in with valid credentials | ✅ Working |
+| **User Logout**       | Logged-in users can successfully log out | ✅ Working |
+| **Create Record**     | Users can add new records to the database | ✅ Working |
+| **Edit Record**       | Users can update existing records | ✅ Working |
+| **Delete Record**     | Users can delete records from the database | ✅ Working |
+| **Database Connection** | Data is properly stored in MongoDB | ✅ Working |
+| **Email Functionality** | Verification emails are sent and received | ✅ Working |
+
+📌 **All tests were performed manually by interacting with the live version of the site. The application successfully handled user authentication, CRUD operations, and data storage.**
+
+---
 
 **Responsive Testing Feedback:**  
 The same group of users also tested Brainery on mobile and tablet devices, providing insights into layout and navigation.
@@ -500,25 +518,7 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ---
 
-### **🛠️ Functional Testing (Live Site)**
-The following user features were tested manually on the deployed Heroku site:
-
-| **Feature**            | **Expected Behavior**                  | **Test Result** |
-|-----------------------|--------------------------------------|--------------|
-| **User Registration** | New users can sign up and receive a verification email | ✅ Working |
-| **User Login**        | Registered users can log in with valid credentials | ✅ Working |
-| **User Logout**       | Logged-in users can successfully log out | ✅ Working |
-| **Create Record**     | Users can add new records to the database | ✅ Working |
-| **Edit Record**       | Users can update existing records | ✅ Working |
-| **Delete Record**     | Users can delete records from the database | ✅ Working |
-| **Database Connection** | Data is properly stored in MongoDB | ✅ Working |
-| **Email Functionality** | Verification emails are sent and received | ✅ Working |
-
-📌 **All tests were performed manually by interacting with the live version of the site. The application successfully handled user authentication, CRUD operations, and data storage.**
-
----
-
-### **🛠️ Bugs and Fixes**  
+## Bugs & Fixes
 
 | **Bug** | **Issue** | **Fix** |  
 |------|-------|-----|  
@@ -570,7 +570,7 @@ The following user features were tested manually on the deployed Heroku site:
 
 ---
 
-### **🚀 Deployment**
+### **Deployment**
 
 This project was deployed using **Heroku**, a **cloud platform** that enables deployment and scaling of Python applications easily. Below are the **detailed steps** followed to **deploy Brainery** and make it accessible online.
 
@@ -634,13 +634,13 @@ This project uses **GitHub Actions** to **automatically deploy to Heroku** whene
 
 ---
 
-### **🚀 Accessing the Live Application**
+### **Accessing the Live Application**
 Once deployment was successful, the app was accessible at:  
 🔗 [**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
 
 ---
 
-### **🔄 Running the Project Locally**
+### **Running the Project Locally**
 To run the project **locally**, follow these steps:
 
 #### **1️⃣ Clone the Repository**
@@ -683,7 +683,7 @@ python3 app.py
 
 ---
 
-### **🎯 Why Use Heroku Instead of GitHub Pages?**
+### **Why Use Heroku Instead of GitHub Pages?**
 ✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.  
 ✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.  
 ✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.  
@@ -691,7 +691,7 @@ python3 app.py
 
 ---
 
-### **✅ Next Steps**
+### **Next Steps**
 📌 **Commit and push the updated README file**:
 ```bash
 git add README.md
@@ -702,26 +702,26 @@ git push origin main
 
 ---
 
-### **🌟 Credits**  
+### **Credits**  
 
 Brainery was built using a combination of **open-source technologies, libraries, and external assets**. Below are the tools, resources, and references used in the development of this project.  
 
 ---
 
-### **📌 Icons & Visual Assets**  
+### **Icons & Visual Assets**  
 - **FontAwesome** – Provided **icons** for UI elements like buttons, navigation, and alerts.  
 - **Unsplash** – Used for **high-quality images** where applicable.  
 
 ---
 
-### **📌 Media & Video Sources**  
+### **Media & Video Sources**  
 - **Hero Section Video** – The homepage **hero background video** was sourced from:  
   - **Tactus Marketing** – [tactusmarketing.com](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4)  
   - Used to create an **immersive visual experience** for users.  
 
 ---
 
-### **📌 Libraries & Frameworks**  
+### **Libraries & Frameworks**  
 - **Flask** – Python-based **web framework** for backend development.  
 - **MongoDB** – NoSQL **database solution** for storing user data and study topics.  
 - **Bootstrap 5** – **Responsive UI framework** for styling and layout.  
@@ -732,7 +732,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 
 ---
 
-### **📌 APIs & Integrations**  
+### **APIs & Integrations**  
 - **EmailJS** – Integrated for **email notifications** (password resets, confirmations).  
 - **Google Fonts** – Applied custom typography for a **modern, clean look**.
 - **Wikipedia API / Live Wikipedia Fetch**  
@@ -741,113 +741,20 @@ Brainery was built using a combination of **open-source technologies, libraries,
 
 ---
 
-### **📌 Deployment & Version Control**  
+### **Deployment & Version Control**  
 - **GitHub** – Hosted **repository, version control, and GitHub Pages deployment**.  
 - **GitHub Actions** – Used for **CI/CD pipeline and automated testing**.  
 
 ---
 
-### **📌 Documentation References**  
+### **Documentation References**  
 - **Flask Documentation** – Used for **backend development and routing logic**.  
 - **MongoDB Docs** – Guided **database schema design and queries**.  
 - **Bootstrap Docs** – Assisted in **responsive design and UI enhancements**.  
 
 ---
 
-## 💙 Acknowledgements
+## Acknowledgements
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance! 🚀
 
 Special thanks to Miguel for their guidance throughout the project.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
----
-
-## 📑 **Table of Contents**  
-
-1. **[Live Site](#-live-site)**  
-2. **[Repository](#-repository)**  
-3. **[Project Overview](#-project-overview)**  
-   - [Key Features](#-key-features)  
-4. **[Pre-Project Planning](#-pre-project-planning)**  
-   - [Why Brainery?](#-why-brainery)  
-   - [Platform Feature Ranking](#-platform-feature-ranking)  
-5. **[User Experience (UX)](#-user-experience-ux)**  
-   - [Project Goals](#-project-goals)  
-   - [User Stories](#-user-stories)  
-   - [Design](#-design)  
-     - [Colour Scheme](#-colour-scheme)  
-     - [Typography](#-typography)  
-     - [Imagery & UI Elements](#-imagery--ui-elements)  
-6. **[Wireframes](#-wireframes)**  
-   - [Home Page Wireframe](#-home-page-wireframe)  
-   - [Login Page Wireframe](#-login-page-wireframe)  
-   - [Register Page Wireframe](#-register-page-wireframe)  
-   - [Dashboard Page Wireframe](#-dashboard-page-wireframe)  
-7. **[Features](#-features)**  
-   - [Existing Features](#-existing-features)  
-     - [Home Page](#-home-page)  
-     - [User Authentication](#-user-authentication)  
-     - [User Registration](#-user-registration)  
-     - [Registration Email](#-registration-email)  
-     - [Study Topics Management](#-study-topics-management)  
-     - [Public Resource Sharing](#-public-resource-sharing)  
-     - [User Dashboard](#-user-dashboard)  
-     - [Security Features](#-security-features)  
-     - [Mobile Responsive UI](#-mobile-responsive-ui)  
-   - [Future Features](#-future-features)  
-     - [Note-Taking System](#-note-taking-system)  
-     - [Learning Progress Analytics](#-learning-progress-analytics)  
-     - [Community Forum](#-community-forum)  
-     - [Study Schedule Planner](#-study-schedule-planner)  
-     - [File Upload for Study Materials](#-file-upload-for-study-materials)  
-     - [Accessibility Enhancements](#-accessibility-enhancements)  
-8. **[Technologies Used](#-technologies-used)**  
-9. **[Testing](#-testing)**  
-   - [Manual Testing](#-manual-testing)  
-     - [Testing Links, Forms, and Navigation](#-testing-links-forms-and-navigation)  
-     - [Testing Responsiveness](#-testing-responsiveness)  
-   - [User Testing](#-user-testing)  
-     - [Testing Scenarios](#-testing-scenarios)  
-     - [Responsive Testing Feedback](#-responsive-testing-feedback)  
-   - [Lighthouse Testing](#-lighthouse-testing)  
-   - [Validation Testing](#-validation-testing)  
-     - [HTML Validation](#-html-validation)  
-     - [CSS Validation](#-css-validation)  
-   - [Functional Testing (Live Site)](#-functional-testing-live-site)  
-10. **[Bugs and Fixes](#-bugs-and-fixes)**  
-11. **[Deployment](#-deployment)**  
-    - [Steps for Deployment on Heroku](#-steps-for-deployment-on-heroku)  
-    - [Running the Project Locally](#-running-the-project-locally)  
-12. **[Credits](#-credits)**  
-    - [Icons & Visual Assets](#-icons--visual-assets)  
-    - [Media & Video Sources](#-media--video-sources)  
-    - [Libraries & Frameworks](#-libraries--frameworks)  
-    - [APIs & Integrations](#-apis--integrations)  
-    - [Deployment & Version Control](#-deployment--version-control)  
-    - [Documentation References](#-documentation-references)  
-13. **[Acknowledgements](#-acknowledgements)**  
-
----
