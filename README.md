@@ -503,6 +503,13 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 
 ---
 
+### Security Testing
+- The project was scanned using Bandit for security vulnerabilities.
+- No critical security issues were found in the project's source code.
+- Some warnings originated from third-party dependencies but do not affect the project's functionality.
+
+---
+
 ### Validation Testing
 
 All critical pages and associated stylesheets were validated using W3C tools to ensure compliance with modern web standards:
