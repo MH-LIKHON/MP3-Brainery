@@ -23,10 +23,6 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
      - [Imagery & UI Elements](#imagery--ui-elements)  
 
 5. **[Wireframes](#wireframes)**  
-   - [Home Page Wireframe](#home-page-wireframe)  
-   - [Login Page Wireframe](#login-page-wireframe)  
-   - [Register Page Wireframe](#register-page-wireframe)  
-   - [Dashboard Page Wireframe](#dashboard-page-wireframe)  
 
 6. **[Features](#features)**  
    - [Existing Features](#existing-features)  
@@ -207,22 +203,11 @@ The wireframes provide a **visual structure** of Brainery’s **core pages**, en
 
 **Wireframe Directory:**  
 ```
-brainery_data/static/wireframes
+brainery_data/static/pdfs/
 ```
-
 ---
 
-### **Home Page Wireframe**  
-![Home Wireframe](brainery_data/static/wireframes/home.bmpr)
-
-### **Login Page Wireframe**  
-![Login Wireframe](brainery_data/static/wireframes/login.bmpr)
-
-### **Register Page Wireframe**  
-![Register Wireframe](brainery_data/static/wireframes/register.bmpr)
-
-### **Dashboard Page Wireframe**  
-![Dashboard Wireframe](brainery_data/static/wireframes/dashboard.bmpr)
+  - ![All Pages Wireframe](brainery_data/static/pdfs/brainery_allpages_desktop_tablet_mobile.pdf)
 
 ---
 
