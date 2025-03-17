@@ -138,32 +138,45 @@
     <div id="payment-info" class="step-section hidden">
         <h4>Enter Payment Details</h4>
 
-        <!-- Card Number Field -->
+        <!-- Payment Method Selection -->
         <div class="form-group">
-            <label for="card_number">Card Number</label>
-            <input type="text" id="card_number" name="card_number" class="form-control" required>
+            <label for="payment_method">Select Payment Method</label>
+            <select id="payment_method" name="payment_method" class="form-control">
+                <option value="">-- Select Payment Method --</option>
+                <option value="credit_card">Credit Card</option>
+                <option value="paypal">PayPal</option>
+                <option value="bank_transfer">Bank Transfer</option>
+            </select>
         </div>
-        <!-- Expiry Date Field -->
-        <div class="form-group">
-            <label for="expiry_date">Expiry Date</label>
-            <input type="text" id="expiry_date" name="expiry_date" class="form-control" placeholder="MM/YY" required>
-        </div>
-        <!-- CVV Field -->
-        <div class="form-group">
-            <label for="cvv">CVV</label>
-            <input type="text" id="cvv" name="cvv" class="form-control" required>
+
+        <!-- Mock Card Input Fields (Visible Only for "Credit Card" Option) -->
+        <div id="card-details" style="display: none;">
+            <div class="form-group">
+                <label for="mock_card_number">Card Number (Mock)</label>
+                <input type="text" id="mock_card_number" name="mock_card_number" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="mock_expiry_date">Expiry Date</label>
+                <input type="text" id="mock_expiry_date" name="mock_expiry_date" class="form-control"
+                    placeholder="MM/YY">
+            </div>
+            <div class="form-group">
+                <label for="mock_cvv">CVV</label>
+                <input type="text" id="mock_cvv" name="mock_cvv" class="form-control">
+            </div>
         </div>
 
         <!-- Promo Code Input -->
         <div class="form-group promo-code">
             <label for="promo-code">Promo Code (Optional)</label>
             <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
-            <button type="button" onclick="applyPromoCode()">Apply</button>
+            <button type="button" id="apply-promo-btn">Apply</button>
             <p id="promo-message"></p>
         </div>
 
         <!-- Next Button for Transitioning to Password Info -->
-        <button type="button" class="next-btn" onclick="nextStep('payment-info', 'password-info')">Next</button>
+        <button type="button" class="next-btn" id="next-btn" onclick="nextStep('payment-info', 'password-info')"
+            disabled>Next</button>
     </div>
 
     <!-- STEP 3: PASSWORD INFO (Set Account Password) -->

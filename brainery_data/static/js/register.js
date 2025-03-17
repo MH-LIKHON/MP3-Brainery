@@ -275,25 +275,17 @@ SECTION 7: Step Navigation & Validation (Next Button)
         event.preventDefault(); // Prevent form from submitting normally
         clearErrors(); // Clear previous error messages
 
-        let isPromoApplied = promoCodeInput.value.trim() === "CI25MP3";
+        let isPromoApplied = promoMessage.innerText.includes("Promo applied");
+        let isPaymentSelected = paymentMethod.value && paymentMethod.value !== "";
+        let isCardValid = paymentMethod.value === "credit_card" ? (cardNumber.value.trim() && expiryDate.value.trim() && cvv.value.trim()) : true;
 
-        // Validate payment fields only if a promo code is not applied
-        if (!isPromoApplied) {
-            if (!validateExpiryDate(expiryDate.value.trim())) {
-                showError(expiryDate, "Expiry date must be March 2025 (03/25) or later.");
-                return;
-            }
-            if (!cardNumber.value.trim()) {
-                showError(cardNumber, "Card number is required.");
-                return;
-            }
-            if (!cvv.value.trim()) {
-                showError(cvv, "CVV is required.");
-                return;
-            }
+        // Ensure at least one valid condition is met
+        if (!(isPaymentSelected && (isCardValid || isPromoApplied))) {
+            showError(errorMessageBox, "❌ Please enter valid payment details or apply a promo code.");
+            return;
         }
 
-        console.log("Payment Validated. Moving to Password Section...");
+        console.log("✅ Payment Validated. Moving to Password Section...");
 
         // Proceed to the password setup section
         nextStep("payment-info", "password-info");
