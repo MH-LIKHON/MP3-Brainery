@@ -176,8 +176,6 @@ def register_user():
                 email = form.email.data.strip().lower()
                 password = form.password.data.strip()
                 selected_plan = form.selected_plan.data.strip() if form.selected_plan.data else None
-                payment_method = request.form.get("payment_method", "").strip()
-                promo_code = request.form.get("promo-code", "").strip()
 
                 logging.info(
                     f"📌 Extracted Data - Username: {username}, Email: {email}, Plan: {selected_plan}")
@@ -187,21 +185,6 @@ def register_user():
                     logging.error("❌ No plan selected!")
                     flash("⚠️ Please select a plan before registering.", 'danger')
                     return render_template('register.html', form=form)
-
-                # Validate payment method or promo code
-                valid_promo_codes = ["CI25MP3"]  # Define valid promo codes
-
-                if not payment_method and promo_code not in valid_promo_codes:
-                    logging.error(
-                        "❌ Payment method not selected and no valid promo code applied!")
-                    flash(
-                        "⚠️ Please select a payment method or enter a valid promo code.", 'danger')
-                    return render_template('register.html', form=form)
-
-                # If a promo code is applied, mark payment as "Promo Applied"
-                if promo_code in valid_promo_codes:
-                    payment_method = "Promo Applied"
-                    logging.info(f"✅ Promo code applied: {promo_code}")
 
                 # Verify email is not already registered
                 existing_user = mongo.db.users.find_one({"email": email})
@@ -229,7 +212,6 @@ def register_user():
                     "postcode": form.postcode.data.strip(),
                     "dob": dob_str,
                     "selected_plan": selected_plan,
-                    "payment_method": payment_method,
                     "created_at": datetime.utcnow()
                 }
 

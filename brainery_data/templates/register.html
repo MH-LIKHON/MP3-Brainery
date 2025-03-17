@@ -15,7 +15,7 @@
 <!-- Flash Messages -->
 {% with messages = get_flashed_messages(with_categories=True) %}
 {% if messages %}
-<div id="flash-messages" style="display: none;">
+<div id="flash-messages">
     {% for category, message in messages %}
     <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
         {{ message }}
@@ -36,10 +36,10 @@
      REGISTRATION FORM (Displayed Only If Not Successful)
      ======================================================= -->
 {% if not show_success %}
-<form method="POST" action="{{ url_for('register.register_user') }}" id="registration-form">
+<div class="register-container" id="register-form">
 
     <!-- Plan Selection Title -->
-    <h2 class="plan-title">Choose Your Brainery Plan</h2>
+    <h2>Choose Your Brainery Plan</h2>
 
     <!-- =======================================================
          PACKAGE SELECTION (Available Subscription Plans)
@@ -77,127 +77,118 @@
     <!-- =======================================================
          MULTI-STEP REGISTRATION FORM (Three Steps)
          ======================================================= -->
+    <form method="POST" id="registration-form">
 
-    <!-- CSRF Token -->
-    {{ form.hidden_tag() }}
+        <!-- CSRF Token -->
+        {{ form.hidden_tag() }}
 
-    <!-- STEP 1: PERSONAL INFO (User's Information) -->
-    <div id="personal-info" class="step-section">
-        <h4>Tell us about yourself</h4>
+        <!-- Hidden Input for Selected Plan -->
+        <input type="hidden" id="selected_plan" name="selected_plan" required>
 
-        <!-- First Name Field -->
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            {{ form.first_name(class="form-control", required=True) }}
-        </div>
-        <!-- Last Name Field -->
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            {{ form.last_name(class="form-control", required=True) }}
-        </div>
-        <!-- Date of Birth Field -->
-        <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            {{ form.dob(class="form-control", required=True) }}
-        </div>
-        <!-- Email Address Field -->
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            {{ form.email(class="form-control", required=True) }}
-        </div>
-        <!-- Phone Number Field -->
-        <div class="form-group">
-            <label for="phone">Phone Number</label>
-            {{ form.phone(class="form-control", required=True) }}
-        </div>
+        <!-- STEP 1: PERSONAL INFO (User's Information) -->
+        <div id="personal-info" class="step-section">
+            <h4>Tell us about yourself</h4>
 
-        <!-- Billing Address -->
-        <h5>Billing Address</h5>
-        <div class="form-group">
-            <label for="address_line1">Address Line 1</label>
-            {{ form.address_line1(class="form-control", required=True) }}
-        </div>
-        <div class="form-group">
-            <label for="city">City</label>
-            {{ form.city(class="form-control", required=True) }}
-        </div>
-        <div class="form-group">
-            <label for="country">Country</label>
-            {{ form.country(class="form-control", required=True) }}
-        </div>
-        <div class="form-group">
-            <label for="postcode">Postcode</label>
-            {{ form.postcode(class="form-control", required=True) }}
-        </div>
-
-        <!-- Next Button for Transitioning to Payment Info -->
-        <button type="button" class="next-btn" onclick="nextStep('personal-info', 'payment-info')">Next</button>
-    </div>
-
-    <!-- STEP 2: PAYMENT INFO (User's Payment Details) -->
-    <div id="payment-info" class="step-section hidden">
-        <h4>Enter Payment Details</h4>
-
-        <!-- Payment Method Selection -->
-        <div class="form-group">
-            <label for="payment_method">Select Payment Method</label>
-            <select id="payment_method" name="payment_method" class="form-control">
-                <option value="">-- Select Payment Method --</option>
-                <option value="credit_card">Credit Card</option>
-                <option value="paypal">PayPal</option>
-                <option value="bank_transfer">Bank Transfer</option>
-            </select>
-        </div>
-
-        <!-- Mock Card Input Fields (Visible Only for "Credit Card" Option) -->
-        <div id="card-details" style="display: none;">
+            <!-- First Name Field -->
             <div class="form-group">
-                <label for="mock_card_number">Card Number (Mock)</label>
-                <input type="text" id="mock_card_number" name="mock_card_number" class="form-control">
+                <label for="first_name">First Name</label>
+                {{ form.first_name(class="form-control", required=True) }}
+            </div>
+            <!-- Last Name Field -->
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                {{ form.last_name(class="form-control", required=True) }}
+            </div>
+            <!-- Date of Birth Field -->
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                {{ form.dob(class="form-control", required=True) }}
+            </div>
+            <!-- Email Address Field -->
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                {{ form.email(class="form-control", required=True) }}
+            </div>
+            <!-- Phone Number Field -->
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                {{ form.phone(class="form-control", required=True) }}
+            </div>
+
+            <!-- Billing Address -->
+            <h5>Billing Address</h5>
+            <div class="form-group">
+                <label for="address_line1">Address Line 1</label>
+                {{ form.address_line1(class="form-control", required=True) }}
             </div>
             <div class="form-group">
-                <label for="mock_expiry_date">Expiry Date</label>
-                <input type="text" id="mock_expiry_date" name="mock_expiry_date" class="form-control"
-                    placeholder="MM/YY">
+                <label for="city">City</label>
+                {{ form.city(class="form-control", required=True) }}
             </div>
             <div class="form-group">
-                <label for="mock_cvv">CVV</label>
-                <input type="text" id="mock_cvv" name="mock_cvv" class="form-control">
+                <label for="country">Country</label>
+                {{ form.country(class="form-control", required=True) }}
             </div>
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                {{ form.postcode(class="form-control", required=True) }}
+            </div>
+
+            <!-- Next Button for Transitioning to Payment Info -->
+            <button type="button" class="next-btn" onclick="nextStep('personal-info', 'payment-info')">Next</button>
         </div>
 
-        <!-- Promo Code Input -->
-        <div class="form-group promo-code">
-            <label for="promo-code">Promo Code (Optional)</label>
-            <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
-            <button type="button" id="apply-promo-btn">Apply</button>
-            <p id="promo-message"></p>
+        <!-- STEP 2: PAYMENT INFO (User's Payment Details) -->
+        <div id="payment-info" class="step-section hidden">
+            <h4>Enter Payment Details</h4>
+
+            <!-- Card Number Field -->
+            <div class="form-group">
+                <label for="card_number">Card Number</label>
+                <input type="text" name="card_number" class="form-control" required>
+            </div>
+            <!-- Expiry Date Field -->
+            <div class="form-group">
+                <label for="expiry_date">Expiry Date</label>
+                <input type="text" name="expiry_date" class="form-control" placeholder="MM/YY" required>
+            </div>
+            <!-- CVV Field -->
+            <div class="form-group">
+                <label for="cvv">CVV</label>
+                <input type="text" name="cvv" class="form-control" required>
+            </div>
+
+            <!-- Promo Code Input -->
+            <div class="form-group promo-code">
+                <label for="promo-code">Promo Code (Optional)</label>
+                <input type="text" id="promo-code" class="form-control" placeholder="Enter promo code">
+                <button type="button" onclick="applyPromoCode()">Apply</button>
+                <p id="promo-message"></p>
+            </div>
+
+            <!-- Next Button for Transitioning to Password Info -->
+            <button type="button" class="next-btn" onclick="nextStep('payment-info', 'password-info')">Next</button>
         </div>
 
-        <!-- Next Button for Transitioning to Password Info -->
-        <button type="button" class="next-btn" id="next-btn" onclick="nextStep('payment-info', 'password-info')"
-            disabled>Next</button>
-    </div>
+        <!-- STEP 3: PASSWORD INFO (Set Account Password) -->
+        <div id="password-info" class="step-section hidden">
+            <h4>Set Your Account Password</h4>
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                {{ form.password(class="form-control", required=True) }}
+            </div>
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                {{ form.confirm_password(class="form-control", required=True) }}
+            </div>
 
-    <!-- STEP 3: PASSWORD INFO (Set Account Password) -->
-    <div id="password-info" class="step-section hidden">
-        <h4>Set Your Account Password</h4>
-        <!-- Password Field -->
-        <div class="form-group">
-            <label for="password">Password</label>
-            {{ form.password(class="form-control", required=True) }}
+            <!-- Submit Button to Complete Registration -->
+            <button type="submit" class="submit-btn">Complete Registration</button>
         </div>
-        <!-- Confirm Password Field -->
-        <div class="form-group">
-            <label for="confirm_password">Confirm Password</label>
-            {{ form.confirm_password(class="form-control", required=True) }}
-        </div>
-
-        <!-- Submit Button to Complete Registration -->
-        <button type="submit" class="submit-btn">Complete Registration</button>
-    </div>
-</form>
-
+    </form>
+</div>
 {% endif %}
 
 <!-- =======================================================
@@ -217,23 +208,16 @@
     External JavaScript Libraries
     ======================================================= -->
 <!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 <!-- EmailJS Initialize -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (typeof emailjs !== "undefined" && emailjs.init) {
-            try {
-                emailjs.init("service_9fhnu4c");
-                console.log("✅ EmailJS Initialized Successfully!");
-            } catch (error) {
-                console.error("❌ EmailJS Initialization Failed!", error);
-                alert("⚠ EmailJS failed to initialize. Check your API key.");
-            }
-        } else {
-            console.error("❌ EmailJS is not loaded. Make sure the script is included correctly.");
-        }
-    });
+    emailjs.init("service_9fhnu4c")
+        .then(() => console.log("✅ EmailJS Initialized Successfully!"))
+        .catch(error => {
+            console.error("❌ EmailJS Initialization Failed!", error);
+            alert("⚠ EmailJS failed to initialize. Check your API key.");
+        });
 </script>
 
 <!-- JavaScript -->

@@ -47,9 +47,11 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
      - [File Upload for Study Materials](#file-upload-for-study-materials)  
      - [Accessibility Enhancements](#accessibility-enhancements)  
 
-7. **[Technologies Used](#technologies-used)**  
+7. **[Security & Payment Disclaimer](#security--payment-disclaimer)**
 
-8. **[Testing](#testing)**  
+8. **[Technologies Used](#technologies-used)**  
+
+9. **[Testing](#testing)**  
    - [Manual Testing](#manual-testing)  
      - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)  
      - [Testing Responsiveness](#testing-responsiveness)  
@@ -60,21 +62,21 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
    - [Lighthouse Testing](#lighthouse-testing)  
    - [Validation Testing](#validation-testing)  
 
-9. **[Bugs & Fixes](#bugs--fixes)**  
+10. **[Bugs & Fixes](#bugs--fixes)**  
 
-10. **[Deployment](#deployment)**  
+11. **[Deployment](#deployment)**  
     - [Deployment to Heroku](#steps-for-deployment-on-heroku)
     - [Accessing Live Application](#accessing-the-live-application)
     - [Local Setup](#running-the-project-locally)  
 
-11. **[Credits](#credits)**  
+12. **[Credits](#credits)**  
     - [Icons & Visual Assets](#icons--visual-assets)  
     - [Media & Video Sources](#media--video-sources)  
     - [Libraries & Frameworks](#libraries--frameworks)  
     - [APIs & Integrations](#apis--integrations)  
     - [Documentation References](#documentation-references)  
 
-12. **[Acknowledgements](#acknowledgements)**
+13. **[Acknowledgements](#acknowledgements)**
 
 ---
 
@@ -108,8 +110,6 @@ Brainery is a **community-driven** web platform designed to help learners store,
 - **Bookmarking System:** **Mark favorite resources** for quick access later.
 - **Email Notifications:** Integration with **EmailJS** for sending account updates and notifications.
 - **Category-Based Organization:** Users can **categorize and tag topics** for a well-structured study plan.
-
-Brainery is designed to **streamline knowledge sharing and academic collaboration**, helping students, researchers, and professionals **manage their learning materials more effectively**.
 
 Brainery is designed to **streamline knowledge sharing and academic collaboration**, helping students and professionals **manage their learning materials** more efficiently.
 
@@ -282,12 +282,27 @@ brainery_data/static/images/
 
 #### **User Registration**
 - **Secure Registration**
-  - Users can **register** using **personal info, payment info (no gateway) or promo code and a secure password**. Users data are being securly stored in Mongodb databse.
-  - Registered email message, if email is already registered.
-  - Payment page, no gateway but works like payment system.
-  - Promocode, if applied card info will be disabled. **CI25MP** will apply 100% discount.
-  - Successful Message
-  - **CSRF protection** is implemented to prevent cross-site request forgery.
+  - Users can **register** using:
+    - **Personal Information** (name, email, phone, address, etc.).
+    - **A dummy payment form** *(no real transactions, UI demonstration only)*.
+    - **A promo code option** to bypass the payment step.
+
+  #### **Payment Page Details**
+  - **Does NOT process real payments** and **does NOT store card details**.
+  - **For UI demonstration only** – users can enter any random numbers in the payment fields.
+  - If the **promo code `CI25MP3`** is applied, the **card input fields are disabled**.
+  - **Do NOT enter real card details** as no transactions occur.
+
+  #### **Clarity on MongoDB Storage**
+  - The database **only stores personal user data and authentication credentials**.
+  - **Card details are NOT stored** in the database at any point.
+  - User passwords are securely **hashed using bcrypt** before storage.
+
+  #### **Additional Features**
+  - If the email is already registered, a **notification will be displayed**.
+  - After successful registration, a **confirmation message is shown**, and an email is sent.
+  - **CSRF protection** is implemented to **prevent cross-site request forgery**.
+
   - ![Register Page](brainery_data/static/images/register1.png)
 
     - ![Registered Email Message](brainery_data/static/images/emailregistered.png)
@@ -383,7 +398,7 @@ brainery_data/static/images/
 - **Google Calendar API** will be integrated for **syncing schedules**.  
 
 #### **File Upload for Study Materials**  
-- Users will be able to **attach PDF, DOC, and PPT files** to their study topics.  
+- Users will be able to **upload and attach** PDF, DOC, and PPT files to their study topics.
 - Uploaded files will be **securely stored and downloadable**.  
 
 ### **Accessibility Enhancements**  
@@ -391,6 +406,20 @@ brainery_data/static/images/
 - **Voice Command Support** – Users will be able to **navigate the dashboard using voice commands**.  
 - **High-Contrast Mode** – A toggle option for users with **visual impairments**.  
 - **Keyboard Navigation Support** – All features will be accessible **without a mouse**.  
+
+---
+
+## Security & Payment Disclaimer
+This project **does NOT process real payments** and **does NOT store any credit card information**.
+
+### How Payments Work:
+- The payment form is **for UI demonstration only**.
+- No real transactions take place.
+- No payment details are stored in the database.
+
+⚠️ **Do NOT enter real card information.** This is a **dummy payment page** to simulate a checkout experience without real payment processing.
+
+📌 **Use the promocode `CI25MP3`** during registration to activate test access.
 
 ---
 
