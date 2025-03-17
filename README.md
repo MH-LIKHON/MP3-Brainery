@@ -735,8 +735,6 @@ git add README.md
 git commit -m "Updated Deployment section for Heroku"
 git push origin main
 ```
-🎉 **Now your README is accurate!** Let me know if you need any edits! 🚀🔥
-
 ---
 
 ### **Credits**  
