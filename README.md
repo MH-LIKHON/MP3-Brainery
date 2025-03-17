@@ -1,4 +1,4 @@
-# Brainery - Learning Platform
+# MP3 - BRAINERY | LEARNING PLATFORM (BACKEND DEVELOPMENT MILESTONE PROJECT)
 
 Brainery is an **interactive web platform** designed for learners to **store, manage, and explore educational resources**. Built with **Flask, MongoDB, Bootstrap, and JavaScript**, Brainery allows users to **save study topics, access shared learning materials, and track their progress** in an intuitive interface.
 
@@ -107,7 +107,7 @@ Brainery is a **community-driven** web platform designed to help learners store,
 - **Email Notifications:** Integration with **EmailJS** for sending account updates and notifications.
 - **Category-Based Organization:** Users can **categorize and tag topics** for a well-structured study plan.
 
-Brainery provides a structured way for students and professionals to organize and access their study materials efficiently
+Brainery provides a structured way for students and professionals to organize and access their study materials efficiently.
 
 ---
 
@@ -626,7 +626,7 @@ pip install -r requirements.txt
 #### **5️⃣ Deploying to Heroku**
 This project uses **GitHub Actions** to **automatically deploy to Heroku** whenever changes are pushed to the repository.
 
-##### **🔹 Steps to Set Up Deployment:**
+##### **Steps to Set Up Deployment:**
 1. **Connected GitHub Repository to Heroku**:
    - Created a new Heroku app using:
      ```bash
@@ -693,7 +693,7 @@ If testing locally, create a `.env` file and add:
 MONGO_URI=your-mongodb-connection-string
 SECRET_KEY=your-secret-key
 ```
-✅ **Note:** The `.env` file is ignored in `.gitignore` for security.
+📌 **Note:** The `.env` file is ignored in `.gitignore` for security.
 
 #### **6️⃣ Run the Flask Application**
 ```bash
