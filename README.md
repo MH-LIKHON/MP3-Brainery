@@ -1,4 +1,4 @@
-# Brainery - Full Stack Learning Platform
+# Brainery - Learning Platform
 
 Brainery is an **interactive web platform** designed for learners to **store, manage, and explore educational resources**. Built with **Flask, MongoDB, Bootstrap, and JavaScript**, Brainery allows users to **save study topics, access shared learning materials, and track their progress** in an intuitive interface.
 
@@ -111,7 +111,7 @@ Brainery is a **community-driven** web platform designed to help learners store,
 - **Email Notifications:** Integration with **EmailJS** for sending account updates and notifications.
 - **Category-Based Organization:** Users can **categorize and tag topics** for a well-structured study plan.
 
-Brainery is designed to **streamline knowledge sharing and academic collaboration**, helping students and professionals **manage their learning materials** more efficiently.
+Brainery provides a structured way for students and professionals to organize and access their study materials efficiently
 
 ---
 
@@ -154,7 +154,7 @@ I also ranked specific **core features** of the project to prioritize developmen
 | 5️⃣ | **User Dashboard & Progress Tracking** | ⭐⭐⭐ |  
 | 6️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |  
 
-This ranking helped me **prioritize feature development**, ensuring that **core functionalities** (like authentication and topic management) were **fully implemented before optional enhancements**.  
+Feature ranking guided development, ensuring authentication and topic management were completed before optional enhancements.
 
 ---
 
@@ -175,12 +175,12 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 - I want to **log in securely** to access my resources.
 - I want to **search for learning materials** shared by the community.
 
-#### 👥 Returning Users
+#### Returning Users
 - I want to **edit my saved topics** for better organization.
 - I want to **delete outdated topics** to keep my list relevant.
 - I want to **view my study progress** and track saved resources.
 
-#### 🛠️ Site Admins
+#### Site Admins
 - I want to **monitor study topics** and remove inappropriate content.
 - I want to **manage user permissions** and prevent unauthorized access.
 
@@ -724,12 +724,11 @@ python3 app.py
 ✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.  
 ✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.  
 ✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.  
-✅ **Free Tier Available** - Ideal for small projects with free database hosting options.  
 
 ---
 
 ### **Next Steps**
-📌 **Commit and push the updated README file**:
+**Commit and push the updated README file**:
 ```bash
 git add README.md
 git commit -m "Updated Deployment section for Heroku"
@@ -790,6 +789,6 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ## Acknowledgements
-Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance! 🚀
+Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance!
 
 Special thanks to Miguel for their guidance throughout the project.
