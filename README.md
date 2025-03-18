@@ -47,32 +47,40 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 8. **[Technologies Used](#technologies-used)**  
 
-9. **[Testing](#testing)**  
+9. **[Database Schema for Brainery Learning Platform](#database-schema-for-brainery-learning-platform)**  
+   - [Users Collection](#users-collection-users)  
+   - [Subjects Collection](#subjects-collection-subjects)  
+   - [Topics Collection](#topics-collection-topics)  
+   - [Schema Relationships](#schema-relationships)  
+   - [MongoDB Schema Diagram](#mongodb-schema-diagram)  
+   - [How to Query Data](#how-to-query-data)   
+
+10. **[Testing](#testing)**  
    - [Manual Testing](#manual-testing)  
      - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)  
      - [Testing Responsiveness](#testing-responsiveness)  
    - [User Testing](#user-testing)  
      - [Promocode for Testing](#promocode-for-testing)  
-   - [Functional Testing (Live Site)](#functional-testing-live-site)
+   - [Functional Testing (Live Site)](#functional-testing-live-site)  
    - [Security Testing](#security-testing)  
    - [Lighthouse Testing](#lighthouse-testing)  
    - [Validation Testing](#validation-testing)  
 
-10. **[Bugs & Fixes](#bugs--fixes)**  
+11. **[Bugs & Fixes](#bugs--fixes)**  
 
-11. **[Deployment](#deployment)**  
-    - [Deployment to Heroku](#steps-for-deployment-on-heroku)
-    - [Accessing Live Application](#accessing-the-live-application)
+12. **[Deployment](#deployment)**  
+    - [Deployment to Heroku](#steps-for-deployment-on-heroku)  
+    - [Accessing Live Application](#accessing-the-live-application)  
     - [Local Setup](#running-the-project-locally)  
 
-12. **[Credits](#credits)**  
+13. **[Credits](#credits)**  
     - [Icons & Visual Assets](#icons--visual-assets)  
     - [Media & Video Sources](#media--video-sources)  
     - [Libraries & Frameworks](#libraries--frameworks)  
     - [APIs & Integrations](#apis--integrations)  
     - [Documentation References](#documentation-references)  
 
-13. **[Acknowledgements](#acknowledgements)**
+14. **[Acknowledgements](#acknowledgements)**  
 
 ---
 
@@ -419,6 +427,88 @@ This project **does NOT process real payments** and **does NOT store any credit 
 - **GitHub** – Used for **version control, collaboration, and deployment**.
 - **EmailJS** – Handles **email notifications** and **account recovery emails**.
 - **FontAwesome** – Provides **icons for UI elements**.
+
+---
+
+## Database Schema for Brainery Learning Platform
+
+### Users Collection (`users`)
+Stores user account information, authentication details, and subscription data.
+
+| Field Name      | Data Type  | Description |
+|---------------|-----------|-------------|
+| `_id`        | ObjectId  | Unique identifier for each user. |
+| `username`   | String    | Full name of the user. |
+| `email`      | String    | User's email address (unique). |
+| `password`   | String    | Hashed password for authentication. |
+| `phone`      | String    | User's phone number. |
+| `address_line1` | String | First line of the user's address. |
+| `address_line2` | String | Second line of the user's address (optional). |
+| `city`       | String    | City of residence. |
+| `country`    | String    | Country code (ISO format). |
+| `postcode`   | String    | Postal/ZIP code. |
+| `dob`        | Date      | Date of birth (YYYY-MM-DD). |
+| `selected_plan` | String | User's subscription plan. |
+| `created_at` | Timestamp | Date when the user registered. |
+
+---
+
+### Subjects Collection (`subjects`)
+Defines the categories of learning available in the platform.
+
+| Field Name   | Data Type  | Description |
+|-------------|-----------|-------------|
+| `_id`       | ObjectId  | Unique identifier for each subject. |
+| `name`      | String    | Subject title (e.g., "Information Technology"). |
+| `icon`      | String    | Emoji or icon representing the subject. |
+| `created_at` | Timestamp | Date when the subject was added. |
+
+---
+
+### Topics Collection (`topics`)
+Contains individual learning topics under a subject.
+
+| Field Name   | Data Type  | Description |
+|-------------|-----------|-------------|
+| `_id`       | ObjectId  | Unique identifier for each topic. |
+| `subject_id` | ObjectId  | Links the topic to a subject. |
+| `title`     | String    | Title of the study topic. |
+| `description` | String  | Brief summary of the topic. |
+| `created_at` | Timestamp | Date when the topic was created. |
+
+---
+
+### **Schema Relationships**
+1️⃣ **Each `topic` belongs to a `subject`** (linked by `subject_id`).  
+2️⃣ **Users are independent and do not directly link to subjects/topics**.  
+3️⃣ **MongoDB uses ObjectIds (`_id`) as primary keys for all collections**.
+
+---
+
+### **MongoDB Schema Diagram**
+Here’s a **visual representation** of the database structure:
+
+![MongoDB Schema](brainery_data/static/images/mongodb_schema_structured.png)
+
+---
+
+### **How to Query Data**
+Here are some common MongoDB queries to interact with your database:
+
+  #### **Find a user by email**
+  ```python
+  user = mongo.db.users.find_one({"email": "user@example.com"})
+  ```
+
+  #### **Get all topics under a specific subject**
+  ```python
+  topics = mongo.db.topics.find({"subject_id": ObjectId("subject_id_here")})
+  ```
+
+  #### **List all subjects**
+  ```python
+  subjects = mongo.db.subjects.find()
+  ```
 
 ---
 
