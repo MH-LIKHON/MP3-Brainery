@@ -93,6 +93,14 @@ def reset_password():
     print(f"🔍 Incoming Request Headers: {request.headers}")
     print(f"🔍 Incoming Request Data: {request.get_data(as_text=True)}")
 
+    # Debugging: Print CSRF token received
+    csrf_token_received = request.headers.get("X-CSRFToken")
+    print(f"🔍 Received CSRF Token: {csrf_token_received}")
+
+    if not csrf_token_received:
+        print("❌ ERROR: CSRF Token is missing!")
+        return jsonify({"error": "CSRF token missing!"}), 400
+
     # Verify request is JSON formatted
     if not request.is_json:
         print("❌ ERROR: Request is NOT JSON")
