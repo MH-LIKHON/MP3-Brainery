@@ -133,20 +133,19 @@ resetForm.addEventListener("submit", function (event) {
 SECTION 6: Auto-hide Flash Message
 ======================================================= */
 document.addEventListener("DOMContentLoaded", function () {
-    const flashMessage = document.getElementById('flash-message');
+    const flashMessages = document.querySelectorAll('.alert');
 
     // Show the flash message if it's not already shown
-    if (flashMessage) {
-        flashMessage.style.display = 'block';
+    flashMessages.forEach(msg => {
 
         // Time out function
         setTimeout(function () {
-            flashMessage.style.opacity = '0';
+            msg.style.opacity = '0';
 
             // After the fade-out transition, hide the message
             setTimeout(function () {
-                flashMessage.style.display = 'none';
+                msg.style.display = 'none';
             }, 500);
-        }, 1500);
-    }
+        }, 2500);
+    });
 });

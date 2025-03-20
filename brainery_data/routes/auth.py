@@ -19,7 +19,6 @@ auth = Blueprint("auth", __name__)
 # User Login Route
 # =======================================================
 
-
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """Authenticate user credentials and handle login requests."""
@@ -35,24 +34,29 @@ def login():
                 {"email": {"$regex": f"^{email}$", "$options": "i"}}
             )
 
-            # Validate login credentials
-            if user_data and check_password_hash(user_data["password"], password):
-                user_obj = User(user_data)
-                login_user(user_obj, remember=True)
+            # Debugging: Print retrieved user data
+            print(f"Retrieved User Data: {user_data}")
 
-                # Redirect based on user role
-                if user_obj.is_admin():
-                    flash("Logged in as Admin!", "success")
-                    return redirect(url_for("admin.admin_dashboard"))
-                else:
-                    flash("Logged in successfully!", "success")
-                    return redirect(url_for("dashboard.dashboard_main"))
+            # Ensure correct credentials
+            if not user_data or not check_password_hash(user_data.get("password", ""), password):
+                flash("Invalid email or password.", "danger")
+                return render_template("login.html", form=form)
 
-            flash("Invalid email or password.", "danger")
+            # User authentication successful
+            user_obj = User(user_data)
+            login_user(user_obj, remember=True)
+
+            # Redirect based on user role
+            if user_obj.is_admin():
+                flash("Logged in as Admin!", "success")
+                return redirect(url_for("admin.admin_dashboard"))
+            else:
+                flash("Logged in successfully!", "success")
+                return redirect(url_for("dashboard.dashboard_main"))
 
         except Exception as e:
-            print(f"Login Error: {e}")
-            flash("⚠️ Login system error. Please try again later.", "danger")
+            print(f"Unexpected Login Error: {e}")
+            return render_template("login.html", form=form)
 
     return render_template("login.html", form=form)
 
@@ -71,7 +75,7 @@ def logout():
     logout_user()
 
     # Clear session data
-    session.pop('_flashes', None)
+    session.pop('_flashes', None) 
 
     # Debugging: output session status
     print("🔴 Session after clearing:", session)
