@@ -675,6 +675,7 @@ All critical pages and associated stylesheets were validated using W3C tools to 
   - [Login Page Validation](brainery_data/static/images//login-html.png)  
   - [Registration Validation](brainery_data/static/images//registration-html.png)  
   - [Dashboard Validation](brainery_data/static/images//dashboard-html.png) 
+  - [Admin Validation](brainery_data/static/images//admin-html.png) 
 
 - **CSS Validation:**  
   - [Stylesheet Validation](brainery_data/static/images//styles-css.png)
