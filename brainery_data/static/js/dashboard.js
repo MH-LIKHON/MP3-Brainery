@@ -325,8 +325,11 @@ $(document).ready(function () {
 
     // When the logout button is clicked, log the user out and redirect to login page
     $(document).on("click", "#logout-button", function () {
+        const userRole = $(this).data("role"); // Get user role from button attribute
+        const logoutEndpoint = userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout";
+
         $.ajax({
-            url: "/dashboard/auth/logout",
+            url: logoutEndpoint, // Use correct logout URL based on role
             method: "POST",
             headers: { "X-CSRFToken": csrfToken },
             success: function (response) {

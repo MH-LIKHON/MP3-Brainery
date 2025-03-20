@@ -22,9 +22,7 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
-    """
-    Authenticate user credentials and handle login requests.
-    """
+    """Authenticate user credentials and handle login requests."""
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -32,22 +30,28 @@ def login():
         password = form.password.data.strip()
 
         try:
-            # Retrieve user from MongoDB (case-insensitive)
+            # Retrieve user from MongoDB
             user_data = mongo.db.users.find_one(
                 {"email": {"$regex": f"^{email}$", "$options": "i"}}
             )
 
-            # Validate password and log the user in
+            # Validate login credentials
             if user_data and check_password_hash(user_data["password"], password):
                 user_obj = User(user_data)
                 login_user(user_obj, remember=True)
 
-                return redirect(url_for("dashboard.dashboard_main"))
+                # Redirect based on user role
+                if user_obj.is_admin():
+                    flash("Logged in as Admin!", "success")
+                    return redirect(url_for("admin.admin_dashboard"))
+                else:
+                    flash("Logged in successfully!", "success")
+                    return redirect(url_for("dashboard.dashboard_main"))
 
-            flash("❌ Invalid email or password.", "danger")
+            flash("Invalid email or password.", "danger")
 
         except Exception as e:
-            print(f"❌ Login Error: {e}")
+            print(f"Login Error: {e}")
             flash("⚠️ Login system error. Please try again later.", "danger")
 
     return render_template("login.html", form=form)
@@ -57,7 +61,7 @@ def login():
 # =======================================================
 
 
-@auth.route("/logout")
+@auth.route("/logout", methods=["POST", "GET"])
 @login_required
 def logout():
     """
@@ -66,17 +70,17 @@ def logout():
     # Log the user out
     logout_user()
 
-    # Flash a logout confirmation message
-    flash("✅ You have been logged out.", "info")
-
     # Clear session data
     session.pop('_flashes', None)
-    session.clear()
 
     # Debugging: output session status
     print("🔴 Session after clearing:", session)
 
-    # Redirect user to the login page
+    # Check if the request is AJAX (JavaScript fetch or $.ajax)
+    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+        return jsonify({"message": "You have been logged out."}), 200
+
+    # Redirect to login page for normal requests (non-AJAX)
     return redirect(url_for("auth.login"))
 
 # =======================================================
@@ -92,14 +96,6 @@ def reset_password():
     # Log incoming request headers and data
     print(f"🔍 Incoming Request Headers: {request.headers}")
     print(f"🔍 Incoming Request Data: {request.get_data(as_text=True)}")
-
-    # Debugging: Print CSRF token received
-    csrf_token_received = request.headers.get("X-CSRFToken")
-    print(f"🔍 Received CSRF Token: {csrf_token_received}")
-
-    if not csrf_token_received:
-        print("❌ ERROR: CSRF Token is missing!")
-        return jsonify({"error": "CSRF token missing!"}), 400
 
     # Verify request is JSON formatted
     if not request.is_json:

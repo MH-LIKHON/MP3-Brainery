@@ -90,6 +90,7 @@ def create_app():
     from brainery_data.routes.main import main
     from brainery_data.routes.register import register
     from brainery_data.routes.resource import resource
+    from brainery_data.routes.admin import admin
 
     # Register blueprints with corresponding URL prefixes
     app.register_blueprint(auth, url_prefix="/auth")
@@ -97,6 +98,7 @@ def create_app():
     app.register_blueprint(main)
     app.register_blueprint(register, url_prefix="/register")
     app.register_blueprint(resource, url_prefix="/resource")
+    app.register_blueprint(admin)
 
     return app
 

@@ -7,17 +7,25 @@
     ======================================================= -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<div class="flash-messages">
-    {% for category, message in messages %}
-    <div class="alert alert-{{ category }}" id="flash-message">
-        {{ message }}
-    </div>
-    {% endfor %}
+{% for msg in messages %}
+{% if msg|length == 2 %}
+<div class="alert alert-{{ msg[0] }}">{{ msg[1] }}</div>
+{% else %}
+<div class="alert alert-warning">{{ msg }}</div>
+{% endif %}
+{% endfor %}
+
+
+<!-- =======================================================
+     ADMIN LOGIN
+     ======================================================= -->
+
+<!-- Show Admin Login Message if Admin Login is Selected -->
+{% if admin %}
+<div class="admin-login-message">
+    <p>🔒 You are logging in as an <strong>Admin</strong>.</p>
 </div>
 {% endif %}
-{% endwith %}
 
 <!-- =======================================================
      LOGIN FORM (User Authentication)
@@ -52,6 +60,9 @@
                 <input type="password" id="pass" name="password" placeholder="Password" required>
                 <i class="fa fa-lock"></i>
             </div>
+
+            <!-- Hidden Admin Login Field -->
+            <input type="hidden" name="admin-login" id="admin-login" value="false">
 
             <!-- Remember Me & Forgot Password -->
             <div class="action">

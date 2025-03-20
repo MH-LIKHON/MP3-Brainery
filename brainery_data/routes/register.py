@@ -212,6 +212,7 @@ def register_user():
                     "postcode": form.postcode.data.strip(),
                     "dob": dob_str,
                     "selected_plan": selected_plan,
+                    "roles": ["user"],
                     "created_at": datetime.utcnow()
                 }
 

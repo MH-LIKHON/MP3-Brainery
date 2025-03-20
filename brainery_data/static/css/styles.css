@@ -1645,3 +1645,431 @@ body {
         font-size: 14px;
     }
 }
+
+
+
+
+
+/* =======================================================
+   ADMIN PAGE STYLING
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* -------------------------------
+   Body Styling
+   ------------------------------- */
+/* Set background color */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Sidebar Container
+   ------------------------------- */
+/* Sidebar layout and positioning */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* Hides sidebar when collapsed */
+.sidebar.collapsed {
+    transform: translateX(-280px);
+}
+
+/* -------------------------------
+   Sidebar Toggle Button
+   ------------------------------- */
+/* Button to toggle sidebar visibility */
+.sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+    width: 15px;
+    height: 80px;
+    background-color: #ff9d00;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Toggle when Collapsed */
+.sidebar.collapsed .sidebar-toggle {
+    right: -15px;
+}
+
+/* -------------------------------
+   Username Styling
+   ------------------------------- */
+/* Centered username display */
+#username {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* -------------------------------
+   Admin Stats Section
+   ------------------------------- */
+/* List styling for user stats */
+.list-group-item {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* -------------------------------
+   Logout Button Styling
+   ------------------------------- */
+/* Styles for logout button */
+#logout-button {
+    width: 80%;
+    max-width: 250px;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto;
+    border-radius: 8px;
+}
+
+/* -------------------------------
+   Main Content Layout
+   ------------------------------- */
+/* Admin dashboard content structure */
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar Expanded State */
+.sidebar:not(.collapsed)~.dashboard-content {
+    margin-left: 280px;
+}
+
+/* -------------------------------
+   Admin Login Button In Login Page
+   ------------------------------- */
+/* Admin Login */
+.admin-login {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Admin Login Button */
+.admin-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+/* Admin Login Button Hover */
+.admin-btn:hover {
+    background-color: #cc0000;
+}
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------
+   User Table Styling Fix
+   ------------------------------- */
+/* Table structure */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Header Styling */
+.table-dark th {
+    background-color: #212529;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Alternating Row Colors */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Table Cell Styling */
+.table td,
+.table th {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure uniform row heights */
+.table tbody tr {
+    height: 60px;
+}
+
+/* Force "Actions" column to center */
+th:nth-child(4),
+td:nth-child(4) {
+    text-align: center;
+    width: 20%;
+}
+
+/* -------------------------------
+   User Actions Styling Fix
+   ------------------------------- */
+/* Action Column */
+.action-icons {
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+/* Promote Icon */
+.icon-promote {
+    color: #28a745;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Delete Icon */
+.icon-delete {
+    color: #dc3545;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Row Borders for Consistency */
+.table-striped tbody tr {
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Ensure uniform row heights */
+.table-striped tbody tr>td {
+    height: 60px;
+    vertical-align: middle;
+}
+
+/* -------------------------------
+   User Table Styling Fix
+   ------------------------------- */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.table-dark th {
+    background-color: #212529;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.table td,
+.table th {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure all rows and columns take full width */
+.table tbody tr {
+    height: 60px;
+    display: table-row;
+    width: 100%;
+}
+
+/* Ensure "Actions" column is centered and doesn't expand unnecessarily */
+th:nth-child(4),
+td:nth-child(4) {
+    text-align: center;
+    width: auto;
+}
+
+/* -------------------------------
+   User Actions Styling Fix
+   ------------------------------- */
+
+.action-icons {
+    display: flex;
+    gap: 40px;
+    /* Increased spacing between icons */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* Promote Icon */
+.icon-promote {
+    color: #28a745;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Delete Icon */
+.icon-delete {
+    color: #dc3545;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.table-striped tbody tr {
+    border-bottom: 1px solid #ddd !important;
+}
+
+.table-striped tbody tr>td {
+    height: 60px;
+    vertical-align: middle;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+   ------------------------------- */
+/* Adjustments for screens smaller than 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-280px);
+        position: fixed;
+    }
+
+    .sidebar-toggle {
+        right: -20px;
+        width: 20px;
+        height: 100px;
+        background-color: #ff9d00;
+    }
+
+    .sidebar:not(.collapsed) {
+        transform: translateX(0);
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .table {
+        font-size: 14px;
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        font-size: 14px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+        text-align: center;
+        width: auto;
+    }
+
+    .action-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        width: 100%;
+    }
+
+    .icon-promote,
+    .icon-delete {
+        font-size: 24px;
+    }
+}
+
+/* Adjustments for screens smaller than 576px */
+@media (max-width: 576px) {
+    .table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        font-size: 12px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .action-icons {
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .icon-promote {
+        font-size: 20px;
+    }
+
+    .icon-delete {
+        font-size: 22px;
+    }
+}

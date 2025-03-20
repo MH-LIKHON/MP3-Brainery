@@ -80,10 +80,20 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        """Retrieve user session from MongoDB by user ID."""
+        """
+        Retrieve user session from MongoDB by user ID.
+
+        Args:
+            user_id (str): The user's ID stored in session.
+
+        Returns:
+            User object if found, otherwise None.
+        """
         try:
             user_data = mongo.db.users.find_one({"_id": ObjectId(user_id)})
             if user_data:
+                # Debugging print to check user role
+                print(f"Loaded user: {user_data}")
                 return User(user_data)
             return None
         except Exception as e:
@@ -100,6 +110,7 @@ def create_app():
     from brainery_data.routes.main import main
     from brainery_data.routes.register import register
     from brainery_data.routes.resource import resource
+    from brainery_data.routes.admin import admin
 
     # Register blueprints for different application modules
     # Handles user authentication
@@ -111,5 +122,7 @@ def create_app():
     app.register_blueprint(register, url_prefix="/register")
     # Resource management routes
     app.register_blueprint(resource, url_prefix="/resource")
+    # Register the admin blueprint
+    app.register_blueprint(admin, url_prefix="/admin")
 
     return app

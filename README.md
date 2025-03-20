@@ -33,6 +33,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
      - [Study Topics Management](#study-topics-management)  
      - [Public Resource Sharing](#public-resource-sharing)  
      - [User Dashboard](#user-dashboard)  
+     - [Admin Dashboard](#admin-dashboard)
      - [Security Features](#security-features)  
      - [Mobile Responsive UI](#mobile-responsive-ui)  
    - [Future Features](#future-features)  
@@ -97,10 +98,14 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 ## Project Overview
 Brainery is a **community-driven** web platform designed to help learners store, manage, and share educational resources efficiently. It provides an interactive and secure environment where students, educators, and professionals can collaborate and enhance their knowledge base.
 
+In addition, Brainery features an **Admin Dashboard**, where **administrators can manage users, oversee study topics, and moderate shared content** to maintain a safe and productive learning space.
+
 ### Key Features:
 - **User Authentication:** Secure **registration, login, and logout** functionality using Flask-Login.
 - **Study Topic Management:** Users can **create, edit, delete, and organize** their study topics.
 - **Public Learning Resources:** Users can **browse and contribute to a shared knowledge base** to support collaborative learning.
+- **Admin Dashboard:** Admins can **view all users, promote them to admin, and delete accounts when necessary**.
+- **User Role Management:** Admins can **assign admin privileges** to regular users.
 - **Search & Filter Options:** Quickly **locate study topics and resources** with an intuitive search function.
 - **Dashboard & User Analytics:** Personalized **dashboard to track saved topics, learning progress, and activity history**.
 - **Responsive UI:** A **modern and intuitive design** using Bootstrap for a seamless experience across devices.
@@ -156,7 +161,8 @@ I also ranked specific **core features** of the project to prioritize developmen
 | 3️⃣ | **Search & Filter Functionality** | ⭐⭐⭐⭐ |  
 | 4️⃣ | **Public Resource Sharing** | ⭐⭐⭐⭐ |  
 | 5️⃣ | **User Dashboard & Progress Tracking** | ⭐⭐⭐ |  
-| 6️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |  
+| 6️⃣ | **Admin Page & User Management** | ⭐⭐⭐⭐ |  
+| 7️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |  
 
 Feature ranking guided development, ensuring authentication and topic management were completed before optional enhancements.
 
@@ -185,8 +191,10 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 - I want to **view my study progress** and track saved resources.
 
 #### Site Admins
-- I want to **monitor study topics** and remove inappropriate content.
-- I want to **manage user permissions** and prevent unauthorized access.
+- I want to **view all registered users** in an organized dashboard.
+- I want to **promote regular users to admin** when necessary.
+- I want to **delete user accounts** in case of inactivity or violation of guidelines.
+- I want to **restrict unauthorized access to admin-only pages**.
 
 ### Design
 #### Colour Scheme
@@ -344,6 +352,40 @@ brainery_data/static/images/
 
 ---
 
+#### **Admin Dashboard**
+The **Admin Dashboard** provides tools for managing users. Admins have **exclusive access** to user role management and content moderation tools.
+
+### **Admin Features**
+- **User Management**: View, promote, or delete users.
+- **Promote Users to Admin**: Upgrade regular users to **admin**.
+- **Delete Users**: Remove inactive or problematic accounts.
+- **Role-Based Access**: Only admins can access **admin tools**.
+
+### **How Admins Access the Dashboard**
+1. **Log in** with an **admin account**.
+2. You will be at the **Admin Dashboard**.
+3. Use the available tools to **manage users**.
+
+| Feature | Description |
+|---------|------------|
+| **View Users** | Admins can **see all registered users** and check their roles. |
+| **Promote Users** | Admins can **upgrade regular users to admin status**. Once promoted, demotion is **not possible**. |
+| **Delete Users** | Admins can **remove inactive or inappropriate users** permanently. |
+
+### **Updated User Roles**
+| Role | Permissions |
+|------|------------|
+| **User** | Can **create, edit, and delete their own topics**. |
+| **Admin** | Can **view all users, promote users to admin, and delete accounts**. |
+
+![Admin Dashboard](brainery_data/static/images/admin1.png)
+
+
+![Admin Dashboard](brainery_data/static/images/admin2.png)
+
+
+---
+
 #### **Security Features**
 - **CSRF Protection & Secure Sessions**
   - **Flask-WTF prevents CSRF attacks** on all form submissions.
@@ -369,22 +411,26 @@ brainery_data/static/images/
 
   - ![Mobile View](brainery_data/static/images/mobile7.png)
 
+  - ![Mobile View](brainery_data/static/images/mobile8.png)
+
+  - ![Mobile View](brainery_data/static/images/mobile9.png)
+
 ---
 
 ### **Future Features**  
 
-#### **Note Taking System**  
-- Allow users to **attach personal notes** to their study topics.  
-- Notes will be **stored in MongoDB** and accessible via the dashboard.  
-- Users can **edit, delete, and organize their notes** within topics.  
+#### **Note-Taking System**  
+- **Attach personal notes** to study topics.  
+- **Store notes in MongoDB** for easy retrieval.  
+- **Edit, delete, and organize notes** in the user dashboard.  
 
 #### **Learning Progress Analytics**  
-- Users will be able to **track their study progress visually**.  
-- Interactive **progress bars and charts** will display completed topics.  
+- **Track study progress** visually.  
+- **Display progress bars and charts** for completed topics.  
 
 #### **Community Forum**  
-- A **discussion board** where users can ask and answer questions.  
-- Threads will be **categorized by subject area**.  
+- **Create discussion boards** where users can ask and answer questions.  
+- **Categorized threads** based on subject areas.  
 
 #### **Study Schedule Planner**  
 - Users can **set reminders and study schedules** for different topics.  
@@ -678,7 +724,13 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 | **User Dashboard Not Showing Newly Saved Topics** | Topics did not appear immediately after saving. | Fixed by adding a **real-time update function** using JavaScript. |  
 | **UI Inconsistencies in Dark Mode** | Some elements did not adjust to dark mode properly. | Fixed by ensuring dark mode styles applied to all components. |  
 | **Database Backup Issues** | Regular backups were failing due to a script error. | Fixed by ensuring proper cron job execution for database backups. |  
-| **Wiki Data Fetch Delay** | Wikipedia content took too long to load. | Fixed by implementing async fetching and caching. |  
+| **Wiki Data Fetch Delay** | Wikipedia content took too long to load. | Fixed by implementing async fetching and caching. |
+| **Admin Page Not Loading** | The admin dashboard failed to load due to missing route permissions. | Fixed by adding `@login_required` and checking `role == 'admin'` before rendering the page. |  
+| **Users Not Displaying** | The user management table was empty because of incorrect MongoDB query. | Fixed by updating the query to `mongo.db.users.find()` and ensuring proper data retrieval. |  
+| **Cannot Promote Users** | Admins couldn't promote users due to missing role update logic. | Fixed by adding an `update_one()` query to modify the `role` field in the database. |  
+| **Delete User Not Working** | Clicking "Delete" did not remove users due to missing `ObjectId` conversion. | Fixed by ensuring `mongo.db.users.delete_one({"_id": ObjectId(user_id)})` correctly converts `_id`. |
+| **Unauthorized Users Accessing Admin Panel** | Normal users could access the **admin panel URL** directly without authorization. | Fixed by restricting access using `if current_user.role != "admin": abort(403)` in admin routes. |
+| **Session Not Clearing After Admin Logout** | Logging out as an admin didn't properly clear session data. | Fixed by calling `logout_user()` followed by `session.clear()` to fully reset the session. |  
 
 ---
 

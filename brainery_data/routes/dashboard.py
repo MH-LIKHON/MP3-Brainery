@@ -8,6 +8,7 @@ from brainery_data import mongo
 from bson.objectid import ObjectId
 from datetime import datetime
 from dotenv import load_dotenv
+from flask import session
 import os
 
 
@@ -206,7 +207,7 @@ def get_saved_topics():
             topic["timestamp"] = topic.get("timestamp", "Unknown Date")
 
         # Log successful retrieval for debugging
-        print("✅ Saved Topics Retrieved Successfully!")
+        print("Saved Topics Retrieved Successfully!")
 
         # Return saved topics as JSON
         return jsonify(saved_topics), 200
@@ -303,20 +304,28 @@ def delete_topic(topic_id):
 # =======================================================
 
 
-@dashboard.route("/auth/logout", methods=["POST"])
+@dashboard.route("/auth/logout", methods=["POST", "GET"])
 @login_required
 def logout():
-    """Log the user out and redirect to login."""
-
+    """
+    Log the user out and redirect to login.
+    """
     try:
         # Log out the current user
         logout_user()
 
-        # Log successful logout for debugging
-        print("✅ User logged out successfully!")  # Debugging
+        # Ensure session is cleared
+        session.clear()
 
-        # Return success response
-        return jsonify({"message": "Logout successful!"}), 200
+        # Debugging: Output session status
+        print("🔴 User session cleared.")
+
+        # Check if request is AJAX (JavaScript fetch or $.ajax)
+        if request.headers.get("X-Requested-With") == "XMLHttpRequest":
+            return jsonify({"message": "You have been logged out."}), 200
+
+        # Redirect normal requests to login page
+        return redirect(url_for("auth.login"))
 
     except Exception as e:
         # Log error details for debugging

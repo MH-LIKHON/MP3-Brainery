@@ -54,7 +54,9 @@
       <ul id="saved-topic-list" class="list-group px-2"></ul>
 
       <!-- Logout Button -->
-      <button id="logout-button" class="btn btn-danger mt-auto mb-3">🚪 Logout</button>
+      <button id="logout-button" class="btn btn-danger mt-auto mb-3" data-role="{{ current_user.role }}">
+        🚪 Logout
+      </button>
     </aside>
 
     <!-- =======================================================

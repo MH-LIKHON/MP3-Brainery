@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- =======================================================
+    Meta Tags and Head Elements
+    ======================================================= -->
+
+    <!-- Required meta tags for character set and responsive design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Page Title -->
+    <title>Admin Dashboard</title>
+
+    <!-- =======================================================
+    External Stylesheets
+    ======================================================= -->
+
+    <!-- Bootstrap CSS for styling and layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome CSS for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS for additional styling -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- jQuery for handling DOM manipulation -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body class="bg-light">
+    <div class="container-fluid vh-100 d-flex">
+        <!-- =======================================================
+        Sidebar Section (Admin Panel)
+        ======================================================= -->
+
+        <aside class="sidebar bg-dark text-white collapsed">
+            <!-- Sidebar Toggle Button -->
+            <button class="sidebar-toggle">☰</button>
+
+            <!-- Display Admin Username -->
+            <h3 id="username" class="text-uppercase text-center mt-3">{{ current_user.username }}</h3>
+
+            <!-- Admin System Stats -->
+            <ul class="list-group mt-3">
+                <li class="list-group-item bg-dark text-white">👤 Total Users: <strong>{{ total_users }}</strong></li>
+                <li class="list-group-item bg-dark text-white">🔑 Admin Users: <strong>{{ admin_users }}</strong></li>
+            </ul>
+
+            <!-- Logout Button -->
+            <button id="logout-button" class="btn btn-danger mt-auto mb-3" data-role="{{ current_user.role }}">
+                🚪 Logout
+            </button>
+        </aside>
+
+        <!-- =======================================================
+        Main Content Section
+        ======================================================= -->
+
+        <main class="flex-grow-1 p-4">
+            <!-- Admin Dashboard Title -->
+            <h2 class="mb-3">User Management</h2>
+
+            <!-- User Management Table -->
+            <div class="bg-white p-4 border rounded" style="height: 70vh; overflow-y: auto;">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.role }}</td>
+                            <td class="action-icons">
+                                {% if user.role != 'admin' %}
+                                <i class="fas fa-user-shield icon-promote"
+                                    onclick="promoteUser('{{ user._id | string }}')"></i>
+                                {% endif %}
+                                <i class="fas fa-trash icon-delete" onclick="deleteUser('{{ user._id | string }}')"></i>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- =======================================================
+    External JavaScript Libraries
+    ======================================================= -->
+
+    <!-- Custom JavaScript for admin functionality -->
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+    <!-- Bootstrap JavaScript for responsive behavior -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

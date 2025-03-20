@@ -40,12 +40,29 @@ class User(UserMixin):
         self.country = user_data.get("country", "").strip()
         self.postcode = user_data.get("postcode", "").strip()
         self.selected_plan = user_data.get("selected_plan", "").strip()
+        self.role = user_data.get("role", "user")
+
+    def is_admin(self):
+        """Check if the user has admin privileges.
+
+        Returns:
+            bool: True if the user has an admin role, otherwise False.
+        """
+        # Returns True if the user has the "admin" role
+        return self.role == "admin"
 
     @staticmethod
     def find_by_email(email, mongo):
-        """Find a user by email (case-insensitive) and return a User object."""
+        """Find a user by email (case-insensitive) and return a User object.
+
+        Args:
+            email (str): The email address to search for.
+            mongo (object): MongoDB connection instance.
+
+        Returns:
+            User object if found, otherwise None.
+        """
         try:
-            # Query MongoDB for user by email (case-insensitive)
             user_data = mongo.db.users.find_one(
                 {"email": {"$regex": f"^{email.strip()}$", "$options": "i"}})
             return User(user_data) if user_data else None
@@ -55,9 +72,17 @@ class User(UserMixin):
 
     @staticmethod
     def find_by_id(user_id, mongo):
-        """Find a user by ID and return a User object."""
+        """Find a user by ID and return a User object.
+
+        Args:
+            user_id (str): The user ID to search for.
+            mongo (object): MongoDB connection instance.
+
+        Returns:
+            User object if found, otherwise None.
+        """
         try:
-            # Convert string ID to ObjectId and query MongoDB
+            # Convert string ID to ObjectId for MongoDB lookup
             obj_id = ObjectId(user_id)
             user_data = mongo.db.users.find_one({"_id": obj_id})
             return User(user_data) if user_data else None
@@ -67,23 +92,28 @@ class User(UserMixin):
 
     def save(self, mongo):
         """Save a new user to MongoDB."""
-        # Ensure required fields are present
+        print("SAVE METHOD CALLED")  # Debugging: Ensure this runs
+
         if not self.username or not self.email or not self.password or not self.selected_plan:
             logging.error("User registration failed: Missing required fields.")
             return None
 
-        # Prevent duplicate username and email registrations
-        if mongo.db.users.find_one({"username": self.username}) or mongo.db.users.find_one({"email": self.email.lower()}):
+        if mongo.db.users.find_one({"email": self.email.lower()}):
             logging.error(
-                f"Duplicate registration attempt: Username or Email already exists ({self.email}).")
+                f"Duplicate registration attempt: Email already exists ({self.email}).")
             return None
 
-        # Hash the password if it's not already hashed
         if not self.password.startswith("pbkdf2:"):
             self.password = generate_password_hash(
                 self.password, method="pbkdf2:sha256")
 
-        # Prepare user data for insertion
+        # Force role to be "user" if missing
+        if not hasattr(self, 'role') or not self.role:
+            self.role = "user"
+
+        print(f"ROLE BEFORE INSERTION: {self.role}")  # Debugging print
+
+        # Prepare user data
         user_data = {
             "username": self.username,
             "first_name": self.first_name,
@@ -97,12 +127,15 @@ class User(UserMixin):
             "city": self.city,
             "country": self.country,
             "postcode": self.postcode,
-            "selected_plan": self.selected_plan
+            "selected_plan": self.selected_plan,
+            "role": self.role
         }
 
+        print("USER DATA BEFORE INSERTION:", user_data)  # Debugging print
+
         try:
-            # Insert user into MongoDB and return the inserted ID
             inserted = mongo.db.users.insert_one(user_data)
+            print("User successfully inserted into MongoDB")  # Debugging print
             return str(inserted.inserted_id)
         except Exception as e:
             logging.error(f"Error saving user {self.email}: {e}")
@@ -111,6 +144,11 @@ class User(UserMixin):
     def check_password(self, password):
         """Check if the provided password matches the stored hashed password."""
         return check_password_hash(self.password, password)
+
+    def is_admin(self):
+        """Check if the user is an admin."""
+        return self.role == "admin"
+
 
 # =======================================================
 # Resource Model

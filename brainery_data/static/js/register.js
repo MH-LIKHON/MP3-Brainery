@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add click event listeners to each package option
     packages.forEach(package => {
         package.addEventListener("click", function () {
-            console.log("✅ Package Clicked:", this.dataset.name);
+            console.log("Package Clicked:", this.dataset.name);
 
             // Remove 'selected' class from all packages to ensure only one is highlighted
             packages.forEach(p => p.classList.remove("selected"));
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Ensure selectedPlanInput exists before updating its value
             if (selectedPlanInput) {
                 selectedPlanInput.value = `${this.dataset.name} - £${this.dataset.price}`;
-                console.log("✅ Selected Plan Updated in Hidden Input:", selectedPlanInput.value);
+                console.log("Selected Plan Updated in Hidden Input:", selectedPlanInput.value);
             } else {
                 console.error("❌ Error: selectedPlanInput element not found!");
             }
@@ -201,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     /* =======================================================
-SECTION 7: Step Navigation & Validation (Next Button)
-======================================================= */
+    SECTION 7: Step Navigation & Validation (Next Button)
+    ======================================================= */
 
     // Navigate to the next step in the registration process with validation
     function nextStep(currentId, nextId) {
@@ -503,11 +503,17 @@ SECTION 7: Step Navigation & Validation (Next Button)
 
         console.log("🚀 Proceeding with registration...");
 
-        // Collect form data and convert it into an object
+        // Get selected plan from the hidden input
+        const selectedPlan = document.getElementById("selected_plan")?.value || "No Plan Selected";
+
+        // Collect form data
         const formData = new FormData(registerForm);
         const formObject = Object.fromEntries(formData);
 
-        console.log("📌 Form Data to be sent:", formObject);
+        // Ensure selected plan is added
+        formObject.selected_plan = selectedPlan;
+
+        console.log("📌 Form Data with Selected Plan:", formObject);
 
         // Send form data to the backend for registration
         fetch("/register/register", {
@@ -518,10 +524,10 @@ SECTION 7: Step Navigation & Validation (Next Button)
             .then(response => response.json())
             .then(jsonData => {
                 if (jsonData.success) {
-                    console.log("✅ User successfully registered in MongoDB!");
+                    console.log("User successfully registered in MongoDB!");
 
                     // Send confirmation email before redirecting to the success page
-                    sendConfirmationEmail(formObject.first_name, formObject.email, formObject.selected_plan)
+                    sendConfirmationEmail(formObject.first_name, formObject.email, selectedPlan)
                         .then(() => {
                             window.location.href = "/register/register?success=true";
                         })
