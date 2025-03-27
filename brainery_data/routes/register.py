@@ -69,7 +69,7 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Password', validators=[
         DataRequired(),
         Length(min=6, message="Password must be at least 6 characters long."),
-        Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]+$',
+        Regexp(r'^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])[A-Za-z\d[^A-Za-z0-9]]+$',
                message="Password must contain at least one uppercase letter, one digit, and one special character.")
     ])
     confirm_password = PasswordField('Confirm Password', validators=[
