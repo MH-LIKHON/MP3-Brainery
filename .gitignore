@@ -9,3 +9,10 @@ node_modules/
 cloudinary_python.txtvenv/
 venv/
 .env
+
+# Env & local DB
+.env
+.env.*
+instance/*.db
+*.sqlite
+
