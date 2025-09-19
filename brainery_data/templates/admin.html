@@ -9,6 +9,7 @@
     <!-- Required meta tags for character set and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSRF token for AJAX/form submissions -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Page Title -->
@@ -37,6 +38,7 @@
         Sidebar Section (Admin Panel)
         ======================================================= -->
 
+        <!-- Collapsible sidebar with stats and logout -->
         <aside class="sidebar bg-dark text-white collapsed">
             <!-- Sidebar Toggle Button -->
             <button class="sidebar-toggle">☰</button>
@@ -77,16 +79,24 @@
                     </thead>
                     <tbody>
                         {% for user in users %}
-                        <tr>
+                        <!-- Attach SQL user id for JS fallbacks -->
+                        <tr data-user-id="{{ user.id }}">
                             <td>{{ user.username }}</td>
                             <td>{{ user.email }}</td>
                             <td>{{ user.role }}</td>
                             <td class="action-icons">
                                 {% if user.role != 'admin' %}
+                                <!-- Promote: pass SQL id; also include data-user-id for delegated handlers -->
                                 <i class="fas fa-user-shield icon-promote"
-                                    onclick="promoteUser('{{ user._id | string }}')"></i>
+                                   data-user-id="{{ user.id }}"
+                                   onclick="promoteUser('{{ user.id }}')"
+                                   title="Promote to admin"></i>
                                 {% endif %}
-                                <i class="fas fa-trash icon-delete" onclick="deleteUser('{{ user._id | string }}')"></i>
+                                <!-- Delete: pass SQL id; also include data-user-id for delegated handlers -->
+                                <i class="fas fa-trash icon-delete"
+                                   data-user-id="{{ user.id }}"
+                                   onclick="deleteUser('{{ user.id }}')"
+                                   title="Delete user"></i>
                             </td>
                         </tr>
                         {% endfor %}
@@ -107,5 +117,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

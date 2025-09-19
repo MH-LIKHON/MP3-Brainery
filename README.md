@@ -1,87 +1,89 @@
 # MP3 - BRAINERY | LEARNING PLATFORM (BACKEND DEVELOPMENT MILESTONE PROJECT)
 
-Brainery is an **interactive web platform** designed for learners to **store, manage, and explore educational resources**. Built with **Flask, MongoDB, Bootstrap, and JavaScript**, Brainery allows users to **save study topics, access shared learning materials, and track their progress** in an intuitive interface.
+Brainery is an **interactive web platform** designed for learners to **store, manage, and explore educational resources**. Built with **Flask, SQLAlchemy, Bootstrap, and JavaScript**, Brainery allows users to **save study topics, access shared learning materials, and track their progress** in an intuitive interface.
 
 ---
 
-## **Table of Contents (TOC)**  
+## **Table of Contents (TOC)**
 
-1. **[Project Overview](#project-overview)**  
-   - [Key Features](#key-features)  
-   - [Why Choose Brainery?](#why-brainery)  
+1. **[Project Overview](#project-overview)**
+   - [Key Features](#key-features)
+   - [Why Choose Brainery?](#why-brainery)
 
-2. **[Live Site](#live-site)**  
+2. **[Live Site](#live-site)**
 
-3. **[Repository](#repository)**  
+3. **[Repository](#repository)**
 
-4. **[User Experience (UX)](#user-experience-ux)**  
-   - [Project Goals](#project-goals)  
-   - [User Stories](#user-stories)  
-   - [Design](#design)  
-     - [Colour Scheme](#colour-scheme)  
-     - [Typography](#typography)  
-     - [Imagery & UI Elements](#imagery--ui-elements)  
+4. **[Demo Accounts](#demo-accounts)**
 
-5. **[Wireframes](#wireframes)**  
+5. **[User Experience (UX)](#user-experience-ux)**
+   - [Project Goals](#project-goals)
+   - [User Stories](#user-stories)
+   - [Design](#design)
+     - [Colour Scheme](#colour-scheme)
+     - [Typography](#typography)
+     - [Imagery & UI Elements](#imagery--ui-elements)
 
-6. **[Features](#features)**  
-   - [Existing Features](#existing-features)  
-     - [Home Page](#home-page)  
-     - [User Authentication](#user-authentication)  
-     - [User Registration](#user-registration)  
-     - [Registration Email](#registration-email)  
-     - [Study Topics Management](#study-topics-management)  
-     - [Public Resource Sharing](#public-resource-sharing)  
-     - [User Dashboard](#user-dashboard)  
+6. **[Wireframes](#wireframes)**
+
+7. **[Features](#features)**
+   - [Existing Features](#existing-features)
+     - [Home Page](#home-page)
+     - [User Authentication](#user-authentication)
+     - [User Registration](#user-registration)
+     - [Registration Email](#registration-email)
+     - [Study Topics Management](#study-topics-management)
+     - [Public Resource Sharing](#public-resource-sharing)
+     - [User Dashboard](#user-dashboard)
      - [Admin Dashboard](#admin-dashboard)
-     - [Security Features](#security-features)  
-     - [Mobile Responsive UI](#mobile-responsive-ui)  
-   - [Future Features](#future-features)  
-     - [Note-Taking System](#note-taking-system)  
-     - [Learning Progress Analytics](#learning-progress-analytics)  
-     - [Community Forum](#community-forum)  
-     - [Study Schedule Planner](#study-schedule-planner)  
-     - [File Upload for Study Materials](#file-upload-for-study-materials)  
-     - [Accessibility Enhancements](#accessibility-enhancements)  
+     - [Security Features](#security-features)
+     - [Mobile Responsive UI](#mobile-responsive-ui)
+   - [Future Features](#future-features)
+     - [Note-Taking System](#note-taking-system)
+     - [Learning Progress Analytics](#learning-progress-analytics)
+     - [Community Forum](#community-forum)
+     - [Study Schedule Planner](#study-schedule-planner)
+     - [File Upload for Study Materials](#file-upload-for-study-materials)
+     - [Accessibility Enhancements](#accessibility-enhancements)
 
-7. **[Security & Payment Disclaimer](#security--payment-disclaimer)**
+8. **[Security & Payment Disclaimer](#security--payment-disclaimer)**
 
-8. **[Technologies Used](#technologies-used)**  
+9. **[Technologies Used](#technologies-used)**
 
-9. **[Database Schema for Brainery Learning Platform](#database-schema-for-brainery-learning-platform)**  
-   - [Users Collection](#users-collection-users)  
-   - [Subjects Collection](#subjects-collection-subjects)  
-   - [Topics Collection](#topics-collection-topics)  
-   - [Schema Relationships](#schema-relationships)  
-   - [MongoDB Schema Diagram](#mongodb-schema-diagram)  
-   - [How to Query Data](#how-to-query-data)   
+10. **[Database Schema](#database-schema)**
+   - [Users Table (SQL)](#users-table-sql)
+   - [Subjects Table (SQL)](#subjects-table-sql)
+   - [Topics Table (SQL)](#topics-table-sql)
+   - [Schema Relationships](#schema-relationships)
+   - [ER Diagram](#er-diagram)
+   - [How to Query Data (SQLAlchemy)](#how-to-query-data-sqlalchemy)
 
-10. **[Testing](#testing)**  
-   - [Manual Testing](#manual-testing)  
-     - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)  
-     - [Testing Responsiveness](#testing-responsiveness)  
-   - [User Testing](#user-testing)  
-     - [Promocode for Testing](#promocode-for-testing)  
-   - [Functional Testing (Live Site)](#functional-testing-live-site)  
-   - [Security Testing](#security-testing)  
-   - [Lighthouse Testing](#lighthouse-testing)  
-   - [Validation Testing](#validation-testing)  
+11. **[Testing](#testing)**
+   - [Manual Testing](#manual-testing)
+     - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)
+     - [Testing Responsiveness](#testing-responsiveness)
+   - [User Testing](#user-testing)
+     - [Promocode for Testing](#promocode-for-testing)
+   - [Functional Testing (Live Site)](#functional-testing-live-site)
+   - [Security Testing](#security-testing)
+   - [Lighthouse Testing](#lighthouse-testing)
+   - [Validation Testing](#validation-testing)
 
-11. **[Bugs & Fixes](#bugs--fixes)**  
+12. **[Bugs & Fixes](#bugs--fixes)**
 
-12. **[Deployment](#deployment)**  
-    - [Deployment to Heroku](#steps-for-deployment-on-heroku)  
-    - [Accessing Live Application](#accessing-the-live-application)  
-    - [Local Setup](#running-the-project-locally)  
+13. **[Deployment](#deployment)**
+    - [Deployment to Heroku](#steps-for-deployment-on-heroku)
+    - [Accessing Live Application](#accessing-the-live-application)
+    - [Local Setup](#running-the-project-locally)
 
-13. **[Credits](#credits)**  
-    - [Icons & Visual Assets](#icons--visual-assets)  
-    - [Media & Video Sources](#media--video-sources)  
-    - [Libraries & Frameworks](#libraries--frameworks)  
-    - [APIs & Integrations](#apis--integrations)  
-    - [Documentation References](#documentation-references)  
+14. **[Credits](#credits)**
+    - [Icons & Visual Assets](#icons--visual-assets)
+    - [Media & Video Sources](#media--video-sources)
+    - [Libraries & Frameworks](#libraries--frameworks)
+    - [APIs & Integrations](#apis--integrations)
+    - [Documentation References](#documentation-references)
 
-14. **[Acknowledgements](#acknowledgements)**  
+15. **[Acknowledgements](#acknowledgements)**
 
 ---
 
@@ -92,6 +94,19 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Repository
 [**GitHub Repository**](https://github.com/MH-LIKHON/MP3-Brainery.git)
+
+---
+
+## Demo Accounts
+Use these ready-made logins for reviewing:
+
+**Admin**
+- Email: `TA1@gamil.com`
+- Password: `TemPPass@2025`
+
+**Non-admin**
+- Email: `TA2@gamil.com`
+- Password: `TemPPass@2025`
 
 ---
 
@@ -111,7 +126,7 @@ In addition, Brainery features an **Admin Dashboard**, where **administrators ca
 - **Responsive UI:** A **modern and intuitive design** using Bootstrap for a seamless experience across devices.
 - **Security Features:**
   - **CSRF Protection** via Flask-WTF to secure forms.
-  - **Password Hashing** using bcrypt for **enhanced security**.
+  - **Password Hashing** using **Werkzeug PBKDF2** for enhanced security.
   - **Session Management** to **protect user data and prevent unauthorized access**.
 - **Multi-User Collaboration:** Enables **team-based learning and group study sessions** by allowing users to share topics.
 - **File Upload Support:** Users can **upload PDFs, images, and notes** for reference.
@@ -124,45 +139,45 @@ Brainery provides a structured way for students and professionals to organize an
 
 ---
 
-### **Pre-Project Planning**  
+### **Pre-Project Planning**
 
-To kick off the Brainery project, I evaluated different **educational and knowledge-sharing platforms** to determine **which type of application would provide the most value** while showcasing my technical skills. I analyzed various platform ideas based on **four key criteria**:  
+To kick off the Brainery project, I evaluated different **educational and knowledge-sharing platforms** to determine **which type of application would provide the most value** while showcasing my technical skills. I analyzed various platform ideas based on **four key criteria**:
 
-1. **Portfolio-Weight** – How well this project would represent my skills in **full-stack development**.  
-2. **Complexity** – The difficulty of implementing **backend functionality, database design, and UI/UX**.  
-3. **Time to Research** – The amount of time required to understand and **develop core features**.  
-4. **Scalability & Market Demand** – The potential for **expansion and real-world adoption** by learners and educators.  
+1. **Portfolio-Weight** – How well this project would represent my skills in **full-stack development**.
+2. **Complexity** – The difficulty of implementing **backend functionality, database design, and UI/UX**.
+3. **Time to Research** – The amount of time required to understand and **develop core features**.
+4. **Scalability & Market Demand** – The potential for **expansion and real-world adoption** by learners and educators.
 
-Based on these factors, I ranked different **web application ideas** to determine the best approach for my **full-stack milestone project**.  
+Based on these factors, I ranked different **web application ideas** to determine the best approach for my **full-stack milestone project**.
 
-| **Project Type** | **Portfolio-Weight** | **Complexity** | **Time to Research** | **Scalability & Market Demand** | **Total Score** |  
-|-----------------|------------------|------------|------------------|-------------------|-------------|  
-| **Online Study Hub (Brainery)** | **10** | **9** | **7** | **10** | **36** |  
-| **E-Commerce Store** | 8 | 9 | 6 | 8 | 31 |  
-| **Event Management System** | 7 | 7 | 5 | 7 | 26 |  
-| **Personal Finance Tracker** | 8 | 8 | 7 | 6 | 29 |  
+| **Project Type** | **Portfolio-Weight** | **Complexity** | **Time to Research** | **Scalability & Market Demand** | **Total Score** |
+|-----------------|------------------|------------|------------------|-------------------|-------------|
+| **Online Study Hub (Brainery)** | **10** | **9** | **7** | **10** | **36** |
+| **E-Commerce Store** | 8 | 9 | 6 | 8 | 31 |
+| **Event Management System** | 7 | 7 | 5 | 7 | 26 |
+| **Personal Finance Tracker** | 8 | 8 | 7 | 6 | 29 |
 
-### **Why Brainery?**  
-After analyzing the above options, I chose **Brainery** because:  
-✅ It **aligns with my skills** in **Flask, MongoDB, Bootstrap, and user authentication**.  
-✅ It offers a **high-value, real-world application** that can be expanded over time.  
-✅ It allows for **multiple user functionalities** including **CRUD operations, authentication, and search functionality**.  
-✅ The concept of a **study hub and collaborative learning** is highly **relevant in today's digital education space**.  
+### **Why Brainery?**
+After analyzing the above options, I chose **Brainery** because:
+✅ It **aligns with my skills** in **Flask, SQLAlchemy, Bootstrap, and user authentication**.
+✅ It offers a **high-value, real-world application** that can be expanded over time.
+✅ It allows for **multiple user functionalities** including **CRUD operations, authentication, and search functionality**.
+✅ The concept of a **study hub and collaborative learning** is highly **relevant in today's digital education space**.
 
 ---
 
-### **Platform Feature Ranking**  
-I also ranked specific **core features** of the project to prioritize development and ensure **maximum impact** on user experience.  
+### **Platform Feature Ranking**
+I also ranked specific **core features** of the project to prioritize development and ensure **maximum impact** on user experience.
 
-| **No.** | **Feature** | **Importance** |  
-|-----|-----------------------|--------------|  
-| 1️⃣ | **Secure User Authentication** | ⭐⭐⭐⭐⭐ |  
-| 2️⃣ | **Save & Manage Study Topics** | ⭐⭐⭐⭐⭐ |  
-| 3️⃣ | **Search & Filter Functionality** | ⭐⭐⭐⭐ |  
-| 4️⃣ | **Public Resource Sharing** | ⭐⭐⭐⭐ |  
-| 5️⃣ | **User Dashboard & Progress Tracking** | ⭐⭐⭐ |  
-| 6️⃣ | **Admin Page & User Management** | ⭐⭐⭐⭐ |  
-| 7️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |  
+| **No.** | **Feature** | **Importance** |
+|-----|-----------------------|--------------|
+| 1️⃣ | **Secure User Authentication** | ⭐⭐⭐⭐⭐ |
+| 2️⃣ | **Save & Manage Study Topics** | ⭐⭐⭐⭐⭐ |
+| 3️⃣ | **Search & Filter Functionality** | ⭐⭐⭐⭐ |
+| 4️⃣ | **Public Resource Sharing** | ⭐⭐⭐⭐ |
+| 5️⃣ | **User Dashboard & Progress Tracking** | ⭐⭐⭐ |
+| 6️⃣ | **Admin Page & User Management** | ⭐⭐⭐⭐ |
+| 7️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |
 
 Feature ranking guided development, ensuring authentication and topic management were completed before optional enhancements.
 
@@ -213,31 +228,31 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 
 ---
 
-### **Wireframes**  
+### **Wireframes**
 
 The wireframes provide a **visual structure** of Brainery’s **core pages**, ensuring a well-organized **user experience**. These were designed using **Balsamiq** and serve as the **foundation for UI development**.
 
-**Wireframe Directory:**  
+**Wireframe Directory:**
 ```
 brainery_data/static/pdfs/
 ```
 ---
 
-  - ![All Pages Wireframe](brainery_data/static/pdfs/brainery_allpages_desktop_tablet_mobile.pdf)
+  - [All Pages Wireframe](brainery_data\static\pdfs\brainery_allpages_desktop_tablet_mobile.pdf)
 
 ---
 
-### **Features**  
+### **Features**
 
-Brainery is designed to provide a seamless **learning experience** through interactive **study topic management, public resource sharing, and user-friendly navigation**. Below are the **core features**, accompanied by visual representations.  
+Brainery is designed to provide a seamless **learning experience** through interactive **study topic management, public resource sharing, and user-friendly navigation**. Below are the **core features**, accompanied by visual representations.
 
-**Image Directory:**  
+**Image Directory:**
 ```
 brainery_data/static/images/
 ```
 ---
 
-### **Existing Features**  
+### **Existing Features**
 
 ---
 
@@ -294,10 +309,10 @@ brainery_data/static/images/
   - If the **promo code `CI25MP3`** is applied, the **card input fields are disabled**.
   - **Do NOT enter real card details** as no transactions occur.
 
-  #### **Clarity on MongoDB Storage**
+  #### **Data Storage (SQL)**
   - The database **only stores personal user data and authentication credentials**.
   - **Card details are NOT stored** in the database at any point.
-  - User passwords are securely **hashed using bcrypt** before storage.
+  - User passwords are securely **hashed using Werkzeug PBKDF2** before storage.
 
   #### **Additional Features**
   - If the email is already registered, a **notification will be displayed**.
@@ -322,14 +337,14 @@ brainery_data/static/images/
 - **EmailJS**
   - Users will receive an email after completing their registration.
   - Email contains the necessary information regarding their registration.
-  - ![Registration Eamil](brainery_data/static/images/email.png)
+  - ![Registration Email](brainery_data/static/images/email.png)
 
 ---
 
 #### **Study Topics Management**
 - **CRUD (Create, Read, Update, Delete) Operations**
   - Users can **save, update, and delete study topics** in their personal dashboard.
-  - Topics are stored in **MongoDB**, allowing persistent storage and retrieval.
+  - Topics (and users) are stored in the **SQL database via SQLAlchemy**.
   - **Real-time updates** ensure instant feedback on changes.
   - ![Dashboard Page](brainery_data/static/images/dashboard2.png)
 
@@ -417,34 +432,34 @@ The **Admin Dashboard** provides tools for managing users. Admins have **exclusi
 
 ---
 
-### **Future Features**  
+### **Future Features**
 
-#### **Note-Taking System**  
-- **Attach personal notes** to study topics.  
-- **Store notes in MongoDB** for easy retrieval.  
-- **Edit, delete, and organize notes** in the user dashboard.  
+#### **Note-Taking System**
+- **Attach personal notes** to study topics.
+- **Store notes in the SQL database (via SQLAlchemy)** for easy retrieval.
+- **Edit, delete, and organize notes** in the user dashboard.
 
-#### **Learning Progress Analytics**  
-- **Track study progress** visually.  
-- **Display progress bars and charts** for completed topics.  
+#### **Learning Progress Analytics**
+- **Track study progress** visually.
+- **Display progress bars and charts** for completed topics.
 
-#### **Community Forum**  
-- **Create discussion boards** where users can ask and answer questions.  
-- **Categorized threads** based on subject areas.  
+#### **Community Forum**
+- **Create discussion boards** where users can ask and answer questions.
+- **Categorized threads** based on subject areas.
 
-#### **Study Schedule Planner**  
-- Users can **set reminders and study schedules** for different topics.  
-- **Google Calendar API** will be integrated for **syncing schedules**.  
+#### **Study Schedule Planner**
+- Users can **set reminders and study schedules** for different topics.
+- **Google Calendar API** will be integrated for **syncing schedules**.
 
-#### **File Upload for Study Materials**  
+#### **File Upload for Study Materials**
 - Users will be able to **upload and attach** PDF, DOC, and PPT files to their study topics.
-- Uploaded files will be **securely stored and downloadable**.  
+- Uploaded files will be **securely stored and downloadable**.
 
-### **Accessibility Enhancements**  
+### **Accessibility Enhancements**
 
-- **Voice Command Support** – Users will be able to **navigate the dashboard using voice commands**.  
-- **High-Contrast Mode** – A toggle option for users with **visual impairments**.  
-- **Keyboard Navigation Support** – All features will be accessible **without a mouse**.  
+- **Voice Command Support** – Users will be able to **navigate the dashboard using voice commands**.
+- **High-Contrast Mode** – A toggle option for users with **visual impairments**.
+- **Keyboard Navigation Support** – All features will be accessible **without a mouse**.
 
 ---
 
@@ -464,10 +479,10 @@ This project **does NOT process real payments** and **does NOT store any credit 
 
 ### **Technologies Used**
 - **Flask** – Lightweight **Python web framework** for backend development.
-- **MongoDB** – **NoSQL database** to store user data, study topics, and public resources.
+- **SQLAlchemy + SQLite/PostgreSQL** – Relational database for users & roles.
+- **Werkzeug PBKDF2** – Secure password hashing for user accounts.
 - **Flask-Login** – Ensures **secure authentication and session management**.
 - **Flask-WTF** – Provides **CSRF protection and secure form handling**.
-- **Bcrypt** – Used for **password hashing** to enhance security.
 - **Bootstrap 5** – Delivers a **modern, responsive UI** with built-in CSS components.
 - **JavaScript & jQuery** – Enhances **frontend interactivity and AJAX requests**.
 - **GitHub** – Used for **version control, collaboration, and deployment**.
@@ -476,85 +491,65 @@ This project **does NOT process real payments** and **does NOT store any credit 
 
 ---
 
-## Database Schema for Brainery Learning Platform
+## Database Schema
 
-### Users Collection (`users`)
-Stores user account information, authentication details, and subscription data.
+### Users Table (SQL)
+Stores user accounts, roles, and hashed credentials.
 
-| Field Name      | Data Type  | Description |
-|---------------|-----------|-------------|
-| `_id`        | ObjectId  | Unique identifier for each user. |
-| `username`   | String    | Full name of the user. |
-| `email`      | String    | User's email address (unique). |
-| `password`   | String    | Hashed password for authentication. |
-| `phone`      | String    | User's phone number. |
-| `address_line1` | String | First line of the user's address. |
-| `address_line2` | String | Second line of the user's address (optional). |
-| `city`       | String    | City of residence. |
-| `country`    | String    | Country code (ISO format). |
-| `postcode`   | String    | Postal/ZIP code. |
-| `dob`        | Date      | Date of birth (YYYY-MM-DD). |
-| `selected_plan` | String | User's subscription plan. |
-| `created_at` | Timestamp | Date when the user registered. |
+| Field Name   | Data Type        | Description                         |
+|--------------|------------------|-------------------------------------|
+| `id`         | Integer (PK)     | Auto-increment primary key          |
+| `username`   | String           | Full name of the user               |
+| `email`      | String (unique)  | User’s email address                |
+| `password`   | String (hash)    | Hashed with PBKDF2 (Werkzeug)       |
+| `role`       | String           | `admin` or `user`                   |
+| `created_at` | Timestamp        | Creation time (UTC)                 |
 
----
+### Subjects Table (SQL)
+Defines the categories of learning.
 
-### Subjects Collection (`subjects`)
-Defines the categories of learning available in the platform.
+| Field Name   | Data Type     | Description                          |
+|--------------|---------------|--------------------------------------|
+| `id`         | Integer (PK)  | Auto-increment primary key           |
+| `name`       | String        | Subject title (e.g., “IT”)           |
+| `icon`       | String        | Optional emoji/icon string           |
+| `created_at` | Timestamp     | Creation time (UTC)                  |
 
-| Field Name   | Data Type  | Description |
-|-------------|-----------|-------------|
-| `_id`       | ObjectId  | Unique identifier for each subject. |
-| `name`      | String    | Subject title (e.g., "Information Technology"). |
-| `icon`      | String    | Emoji or icon representing the subject. |
-| `created_at` | Timestamp | Date when the subject was added. |
-
----
-
-### Topics Collection (`topics`)
+### Topics Table (SQL)
 Contains individual learning topics under a subject.
 
-| Field Name   | Data Type  | Description |
-|-------------|-----------|-------------|
-| `_id`       | ObjectId  | Unique identifier for each topic. |
-| `subject_id` | ObjectId  | Links the topic to a subject. |
-| `title`     | String    | Title of the study topic. |
-| `description` | String  | Brief summary of the topic. |
-| `created_at` | Timestamp | Date when the topic was created. |
+| Field Name    | Data Type     | Description                                     |
+|---------------|---------------|-------------------------------------------------|
+| `id`          | Integer (PK)  | Auto-increment primary key                      |
+| `subject_id`  | Integer (FK)  | References `subjects.id`                        |
+| `title`       | String        | Topic title                                     |
+| `description` | Text          | Brief summary                                   |
+| `created_at`  | Timestamp     | Creation time (UTC)                             |
 
----
+### Schema Relationships
+1. Each **topic** belongs to a **subject** (`topics.subject_id → subjects.id`).
+2. Users authenticate via the **users** table; role-based access uses `users.role`.
 
-### **Schema Relationships**
-1️⃣ **Each `topic` belongs to a `subject`** (linked by `subject_id`).  
-2️⃣ **Users are independent and do not directly link to subjects/topics**.  
-3️⃣ **MongoDB uses ObjectIds (`_id`) as primary keys for all collections**.
-
----
-
-### **MongoDB Schema Diagram**
-Here’s a **visual representation** of the database structure:
+### ER Diagram
+![SQL ER Diagram](brainery_data/static/images/sql_er_diagram.png)
 
 ![MongoDB Schema](brainery_data/static/images/mongodb_schema_structured.png)
 
 ---
 
-### **How to Query Data**
-Here are some common MongoDB queries to interact with your database:
+### How to Query Data (SQLAlchemy)
 
-  #### **Find a user by email**
-  ```python
-  user = mongo.db.users.find_one({"email": "user@example.com"})
-  ```
+**Find a user by email**
+```python
+from brainery_data.sql.db import SessionLocal
+from brainery_data.sql.models import UserSQL
 
-  #### **Get all topics under a specific subject**
-  ```python
-  topics = mongo.db.topics.find({"subject_id": ObjectId("subject_id_here")})
-  ```
-
-  #### **List all subjects**
-  ```python
-  subjects = mongo.db.subjects.find()
-  ```
+db = SessionLocal()
+try:
+    user = db.query(UserSQL).filter(UserSQL.email == "user@example.com").one_or_none()
+finally:
+    db.close()
+```
 
 ---
 
@@ -590,7 +585,7 @@ Brainery was manually tested across multiple browsers (Chrome, Firefox, Safari, 
 
 ### User Testing
 
-**Testing Scenarios:**  
+**Testing Scenarios:**
 A group of 5 users was asked to complete various tasks without guidance to assess the intuitiveness and usability of the platform. These tasks and results are detailed below:
 
 | Task                                                         | Success Rate |
@@ -617,21 +612,21 @@ The following user features were tested manually on the deployed Heroku site:
 | **Create Record**     | Users can add new records to the database | ✅ Working |
 | **Edit Record**       | Users can update existing records | ✅ Working |
 | **Delete Record**     | Users can delete records from the database | ✅ Working |
-| **Database Connection** | Data is properly stored in MongoDB | ✅ Working |
+| **Database Connection** | Data is properly stored in the SQL database (via SQLAlchemy) | ✅ Working |
 | **Email Functionality** | Verification emails are sent and received | ✅ Working |
 
 📌 **All tests were performed manually by interacting with the live version of the site. The application successfully handled user authentication, CRUD operations, and data storage.**
 
 ---
 
-**Responsive Testing Feedback:**  
+**Responsive Testing Feedback:**
 The same group of users also tested Brainery on mobile and tablet devices, providing insights into layout and navigation.
 
-| Test                                  | Feedback |  
-|---------------------------------------|----------|  
-| Navigation and forms on mobile        | No issues, clear layout |  
-| Topic editing interface on tablet     | No issues, easy to use |  
-| Explore resource cards on small screens | No overlap, smooth scrolling |  
+| Test                                  | Feedback |
+|---------------------------------------|----------|
+| Navigation and forms on mobile        | No issues, clear layout |
+| Topic editing interface on tablet     | No issues, easy to use |
+| Explore resource cards on small screens | No overlap, smooth scrolling |
 
 ---
 
@@ -646,19 +641,19 @@ The same group of users also tested Brainery on mobile and tablet devices, provi
 
 Brainery’s core pages were analyzed using Google Lighthouse to measure performance, accessibility, best practices, and SEO. Below are the scores and corresponding links to the full Lighthouse reports:
 
-| Page                     | Performance | Accessibility | Best Practices | SEO  |  
-|--------------------------|-------------|----------------|----------------|------|  
-| Home                    | **97**      | **92**         | **96**         | **90**   |  
-| Dashboard               | **99**      | **97**         | **96**         | **90**   |  
-| Login                   | **98**      | **89**         | **96**         | **90**   |  
-| Register                | **97**      | **98**         | **96**         | **90**   |  
+| Page                     | Performance | Accessibility | Best Practices | SEO  |
+|--------------------------|-------------|----------------|----------------|------|
+| Home                    | **97**      | **92**         | **96**         | **90**   |
+| Dashboard               | **99**      | **97**         | **96**         | **90**   |
+| Login                   | **98**      | **89**         | **96**         | **90**   |
+| Register                | **97**      | **98**         | **96**         | **90**   |
 
-**Lighthouse Reports:**  
-- [Home Page Report](brainery_data/static/pdfs/home-lh.pdf)  
+**Lighthouse Reports:**
+- [Home Page Report](brainery_data/static/pdfs/home-lh.pdf)
 
 - [Login Page Report](brainery_data/static/pdfs/login-lh.pdf)
 
-- [Registration Report](brainery_data/static/pdfs/register-lh.pdf)  
+- [Registration Report](brainery_data/static/pdfs/register-lh.pdf)
 
 - [Dashboard Page Report](brainery_data/static/pdfs/dashboard-lh.pdf)
 
@@ -670,73 +665,73 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 
 All critical pages and associated stylesheets were validated using W3C tools to ensure compliance with modern web standards:
 
-- **HTML Validation:**  
-  - [Home Page Validation](brainery_data/static/images//home-html.png)  
-  - [Login Page Validation](brainery_data/static/images//login-html.png)  
-  - [Registration Validation](brainery_data/static/images//registration-html.png)  
+- **HTML Validation:**
+  - [Home Page Validation](brainery_data/static/images//home-html.png)
+  - [Login Page Validation](brainery_data/static/images//login-html.png)
+  - [Registration Validation](brainery_data/static/images//register-html.png)
   - [Dashboard Validation](brainery_data/static/images//dashboard-html.png) 
   - [Admin Validation](brainery_data/static/images//admin-html.png) 
 
-- **CSS Validation:**  
+- **CSS Validation:**
   - [Stylesheet Validation](brainery_data/static/images//styles-css.png)
 
 ---
 
 ## Bugs & Fixes
 
-| **Bug** | **Issue** | **Fix** |  
-|------|-------|-----|  
-| **Login Fails** | Incorrect form validation caused login attempts to fail even with correct credentials. | Fixed by adding `email_validator` and ensuring proper email formatting. |  
-| **Topic Not Saving** | MongoDB schema issue where ObjectId conversion was incorrect, preventing topic creation. | Fixed by updating `ObjectId` handling to ensure correct data format. |  
-| **Styling Issues on Mobile** | UI elements were misaligned on smaller screens, making navigation difficult. | Fixed with Bootstrap media queries to enhance responsiveness. |  
-| **Session Not Persisting** | Users were logged out unexpectedly due to incorrect session handling. | Fixed by ensuring session tokens were stored correctly with `SESSION_PERMANENT=False`. |  
-| **CSRF Token Missing** | Forms failed to submit due to missing CSRF protection. | Fixed by adding `csrf_token` in all form submissions and implementing Flask-WTF validation. |  
-| **Database Connection Timeout** | MongoDB queries took too long or failed intermittently. | Fixed by optimizing queries and ensuring proper database indexing. |  
-| **Duplicate Study Topics** | Users could accidentally save duplicate topics without warnings. | Fixed by adding a **duplicate-check system** before saving a new topic. |  
-| **Password Reset Not Working** | Users couldn't reset their passwords due to an incorrect email validation flow. | Fixed by ensuring email validation works and sending password reset links correctly via `EmailJS`. |  
-| **Bookmarking System Bug** | Bookmarked topics were not displayed correctly after refresh. | Fixed by updating the **database query to fetch saved bookmarks properly**. |  
-| **Flash Messages Not Displaying** | Success/error messages didn't appear after user actions. | Fixed by ensuring `flask.flash()` messages were properly included in the HTML templates. |  
-| **Search Not Working Properly** | Search results were not filtering topics correctly. | Fixed by refining **search query logic** in MongoDB for better accuracy. |  
-| **Dark Mode Not Saving** | Users' dark mode preferences reset after logout. | Fixed by storing dark mode settings in **localStorage** for persistence. |  
-| **Broken Logout Button** | Clicking "Logout" didn't always end the session. | Fixed by ensuring `logout_user()` properly clears session cookies. |  
-| **404 Errors on Deployment** | Static files like CSS and JS failed to load after deployment. | Fixed by adjusting GitHub Pages **file paths and CORS settings**. |  
-| **Wiki API Not Fetching Data** | Study topics that relied on Wikipedia data were not displaying correctly. | Fixed by refining API calls and implementing **error handling for missing topics**. |  
-| **Footer Overlapping Content** | The footer covered some content on smaller screens. | Fixed by adding `padding-bottom` to ensure proper spacing. |  
-| **Broken Registration Form Validation** | Some required fields were not being validated correctly. | Fixed by ensuring Flask-WTF correctly processes all form fields. |  
-| **User Dashboard Slow Load Times** | The dashboard took a long time to fetch study topics. | Fixed by implementing **pagination and lazy loading** for improved performance. |  
-| **Search Bar Not Displaying Correctly** | The search bar was hidden under some UI elements on mobile. | Fixed by adjusting **CSS positioning** to ensure proper visibility. |  
-| **Hero Video Not Autoplaying on iOS** | The background video on the home page did not autoplay in Safari. | Fixed by adding `playsinline` and `muted` attributes to the video tag. |  
-| **User Passwords Stored in Plaintext** | Security vulnerability where passwords were not hashed. | Fixed by implementing `bcrypt` for password hashing. |  
-| **Study Topics Editable by Other Users** | Users could edit study topics created by others. | Fixed by restricting edit permissions to **only the topic owner**. |  
-| **Broken Social Media Links** | Footer links to social media pages were incorrect. | Fixed by updating the `href` attributes with valid URLs. |  
-| **Wiki Fetching API Crashing on Invalid Topics** | If a topic was not found on Wikipedia, the app crashed. | Fixed by implementing **fallback messages for missing topics**. |  
-| **Static Assets Not Loading on Mobile** | Some CSS and JS files failed to load on certain mobile devices. | Fixed by adjusting static file paths and clearing cache. |  
-| **Form Submission Without Input Allowed** | Some fields allowed form submission without input. | Fixed by enforcing required fields and adding JavaScript validation. |  
-| **Account Deletion Not Removing All Data** | Deleting an account did not remove saved study topics. | Fixed by adding a **cascade delete function** to remove all user-related data. |  
-| **Pagination Not Working for Large Resource List** | Users could not navigate through long lists of public resources. | Fixed by implementing **server-side pagination** for efficient data retrieval. |  
-| **Login Button Click Delay** | Clicking "Login" had a noticeable delay before response. | Fixed by optimizing event listeners and reducing unnecessary database queries. |  
-| **Forgot Password Emails Not Sending** | Users were not receiving password reset emails. | Fixed by verifying EmailJS API credentials and enabling SMTP debugging. |  
-| **Mobile Menu Not Collapsing After Click** | The mobile navbar stayed open after selecting an option. | Fixed by adding an event listener to close the menu after selection. |  
-| **User Dashboard Graphs Not Rendering** | Progress tracking graphs were not loading on some browsers. | Fixed by updating the JavaScript chart library to a newer version. |  
-| **Bookmarking Resources Resulted in Duplicates** | Clicking "Save" on a resource sometimes saved it multiple times. | Fixed by adding a **duplicate-check system before insertion**. |  
-| **Incorrect Timestamp on Study Topics** | Topics were showing incorrect creation dates. | Fixed by ensuring UTC timestamps were used consistently across the database. |  
-| **Hover Effects on Buttons Not Consistent** | Some buttons did not show hover animations in Firefox. | Fixed by standardizing CSS transition properties. |  
-| **Contact Form Not Sending Messages** | The contact form failed to send messages to the admin. | Fixed by properly setting up EmailJS integration. |  
-| **Study Topics Not Deleting Properly** | Deleting a topic sometimes failed without an error message. | Fixed by adding proper database commit handling. |  
-| **Wiki Data Caching Issues** | Wikipedia data was fetched on every request, slowing down performance. | Fixed by **caching API responses** for improved speed. |  
-| **Site Favicon Not Displaying** | The favicon was missing in some browsers. | Fixed by ensuring the correct favicon path in `base.html`. |  
-| **Study Progress Stats Not Updating** | The user’s learning progress stats did not update in real-time. | Fixed by ensuring AJAX calls update the stats after changes. |  
-| **File Upload Security Vulnerability** | Users could upload malicious files. | Fixed by restricting file types and scanning for viruses. |  
-| **User Dashboard Not Showing Newly Saved Topics** | Topics did not appear immediately after saving. | Fixed by adding a **real-time update function** using JavaScript. |  
-| **UI Inconsistencies in Dark Mode** | Some elements did not adjust to dark mode properly. | Fixed by ensuring dark mode styles applied to all components. |  
-| **Database Backup Issues** | Regular backups were failing due to a script error. | Fixed by ensuring proper cron job execution for database backups. |  
+| **Bug** | **Issue** | **Fix** |
+|------|-------|-----|
+| **Login Fails** | Incorrect form validation caused login attempts to fail even with correct credentials. | Fixed by adding `email_validator` and ensuring proper email formatting. |
+| **Topic Not Saving** | SQL schema issue (FK/type mismatch) prevented topic creation. | Fixed by aligning SQLAlchemy models & migrations, setting correct FK types, and committing the session. |
+| **Styling Issues on Mobile** | UI elements were misaligned on smaller screens, making navigation difficult. | Fixed with Bootstrap media queries to enhance responsiveness. |
+| **Session Not Persisting** | Users were logged out unexpectedly due to incorrect session handling. | Fixed by ensuring session tokens were stored correctly with `SESSION_PERMANENT=False`. |
+| **CSRF Token Missing** | Forms failed to submit due to missing CSRF protection. | Fixed by adding `csrf_token` in all form submissions and implementing Flask-WTF validation. |
+| **Database Connection Timeout** | SQL queries/sessions were slow due to engine configuration. | Fixed by enabling connection pooling, adding indexes, and optimizing SQLAlchemy queries. |
+| **Duplicate Study Topics** | Users could accidentally save duplicate topics without warnings. | Fixed by adding a **duplicate-check system** before saving a new topic. |
+| **Password Reset Not Working** | Users couldn't reset their passwords due to an incorrect email validation flow. | Fixed by ensuring email validation works and sending password reset links correctly via `EmailJS`. |
+| **Bookmarking System Bug** | Bookmarked topics were not displayed correctly after refresh. | Fixed by updating the **database query to fetch saved bookmarks properly**. |
+| **Flash Messages Not Displaying** | Success/error messages didn't appear after user actions. | Fixed by ensuring `flask.flash()` messages were properly included in the HTML templates. |
+| **Search Not Working Properly** | Search results were not filtering topics correctly. | Fixed by refining **SQLAlchemy filter/ILIKE logic** for better accuracy. |
+| **Dark Mode Not Saving** | Users' dark mode preferences reset after logout. | Fixed by storing dark mode settings in **localStorage** for persistence. |
+| **Broken Logout Button** | Clicking "Logout" didn't always end the session. | Fixed by ensuring `logout_user()` properly clears session cookies. |
+| **404 Errors on Deployment** | Static files like CSS and JS failed to load after deployment. | Fixed by adjusting GitHub Pages **file paths and CORS settings**. |
+| **Wiki API Not Fetching Data** | Study topics that relied on Wikipedia data were not displaying correctly. | Fixed by refining API calls and implementing **error handling for missing topics**. |
+| **Footer Overlapping Content** | The footer covered some content on smaller screens. | Fixed by adding `padding-bottom` to ensure proper spacing. |
+| **Broken Registration Form Validation** | Some required fields were not being validated correctly. | Fixed by ensuring Flask-WTF correctly processes all form fields. |
+| **User Dashboard Slow Load Times** | The dashboard took a long time to fetch study topics. | Fixed by implementing **pagination and lazy loading** for improved performance. |
+| **Search Bar Not Displaying Correctly** | The search bar was hidden under some UI elements on mobile. | Fixed by adjusting **CSS positioning** to ensure proper visibility. |
+| **Hero Video Not Autoplaying on iOS** | The background video on the home page did not autoplay in Safari. | Fixed by adding `playsinline` and `muted` attributes to the video tag. |
+| **User Passwords Stored in Plaintext** | Security vulnerability where passwords were not hashed. | Fixed by implementing **Werkzeug PBKDF2** (`generate_password_hash`) for password hashing. |
+| **Study Topics Editable by Other Users** | Users could edit study topics created by others. | Fixed by restricting edit permissions to **only the topic owner**. |
+| **Broken Social Media Links** | Footer links to social media pages were incorrect. | Fixed by updating the `href` attributes with valid URLs. |
+| **Wiki Fetching API Crashing on Invalid Topics** | If a topic was not found on Wikipedia, the app crashed. | Fixed by implementing **fallback messages for missing topics**. |
+| **Static Assets Not Loading on Mobile** | Some CSS and JS files failed to load on certain mobile devices. | Fixed by adjusting static file paths and clearing cache. |
+| **Form Submission Without Input Allowed** | Some fields allowed form submission without input. | Fixed by enforcing required fields and adding JavaScript validation. |
+| **Account Deletion Not Removing All Data** | Deleting an account did not remove saved study topics. | Fixed by adding SQLAlchemy relationship cascades (`cascade="all, delete-orphan"`) and enforcing FK constraints. |
+| **Pagination Not Working for Large Resource List** | Users could not navigate through long lists of public resources. | Fixed by implementing **server-side pagination** for efficient data retrieval. |
+| **Login Button Click Delay** | Clicking "Login" had a noticeable delay before response. | Fixed by optimizing event listeners and reducing unnecessary database queries. |
+| **Forgot Password Emails Not Sending** | Users were not receiving password reset emails. | Fixed by verifying EmailJS API credentials and enabling SMTP debugging. |
+| **Mobile Menu Not Collapsing After Click** | The mobile navbar stayed open after selecting an option. | Fixed by adding an event listener to close the menu after selection. |
+| **User Dashboard Graphs Not Rendering** | Progress tracking graphs were not loading on some browsers. | Fixed by updating the JavaScript chart library to a newer version. |
+| **Bookmarking Resources Resulted in Duplicates** | Clicking "Save" on a resource sometimes saved it multiple times. | Fixed by adding a **duplicate-check system before insertion**. |
+| **Incorrect Timestamp on Study Topics** | Topics were showing incorrect creation dates. | Fixed by ensuring UTC timestamps were used consistently across the database. |
+| **Hover Effects on Buttons Not Consistent** | Some buttons did not show hover animations in Firefox. | Fixed by standardizing CSS transition properties. |
+| **Contact Form Not Sending Messages** | The contact form failed to send messages to the admin. | Fixed by properly setting up EmailJS integration. |
+| **Study Topics Not Deleting Properly** | Deleting a topic sometimes failed without an error message. | Fixed by adding proper database commit handling. |
+| **Wiki Data Caching Issues** | Wikipedia data was fetched on every request, slowing down performance. | Fixed by **caching API responses** for improved speed. |
+| **Site Favicon Not Displaying** | The favicon was missing in some browsers. | Fixed by ensuring the correct favicon path in `base.html`. |
+| **Study Progress Stats Not Updating** | The user’s learning progress stats did not update in real-time. | Fixed by ensuring AJAX calls update the stats after changes. |
+| **File Upload Security Vulnerability** | Users could upload malicious files. | Fixed by restricting file types and scanning for viruses. |
+| **User Dashboard Not Showing Newly Saved Topics** | Topics did not appear immediately after saving. | Fixed by adding a **real-time update function** using JavaScript. |
+| **UI Inconsistencies in Dark Mode** | Some elements did not adjust to dark mode properly. | Fixed by ensuring dark mode styles applied to all components. |
+| **Database Backup Issues** | Regular backups were failing due to a script error. | Fixed by ensuring proper cron job execution for database backups. |
 | **Wiki Data Fetch Delay** | Wikipedia content took too long to load. | Fixed by implementing async fetching and caching. |
-| **Admin Page Not Loading** | The admin dashboard failed to load due to missing route permissions. | Fixed by adding `@login_required` and checking `role == 'admin'` before rendering the page. |  
-| **Users Not Displaying** | The user management table was empty because of incorrect MongoDB query. | Fixed by updating the query to `mongo.db.users.find()` and ensuring proper data retrieval. |  
-| **Cannot Promote Users** | Admins couldn't promote users due to missing role update logic. | Fixed by adding an `update_one()` query to modify the `role` field in the database. |  
-| **Delete User Not Working** | Clicking "Delete" did not remove users due to missing `ObjectId` conversion. | Fixed by ensuring `mongo.db.users.delete_one({"_id": ObjectId(user_id)})` correctly converts `_id`. |
+| **Admin Page Not Loading** | The admin dashboard failed to load due to missing route permissions. | Fixed by adding `@login_required` and checking `role == 'admin'` before rendering the page. |
+| **Users Not Displaying** | The user management table was empty because of an incorrect SQLAlchemy query. | Fixed by using `db.query(UserSQL).all()` and ensuring the session is committed/closed properly. |
+| **Cannot Promote Users** | Admins couldn't promote users due to missing role update logic. | Fixed by updating the `role` field on the `UserSQL` instance and calling `db.commit()`. |
+| **Delete User Not Working** | Clicking "Delete" did not remove users due to ID type mismatch / missing commit. | Fixed by fetching via `db.get(UserSQL, user_id)`, deleting with `db.delete(user)`, then `db.commit()`. |
 | **Unauthorized Users Accessing Admin Panel** | Normal users could access the **admin panel URL** directly without authorization. | Fixed by restricting access using `if current_user.role != "admin": abort(403)` in admin routes. |
-| **Session Not Clearing After Admin Logout** | Logging out as an admin didn't properly clear session data. | Fixed by calling `logout_user()` followed by `session.clear()` to fully reset the session. |  
+| **Session Not Clearing After Admin Logout** | Logging out as an admin didn't properly clear session data. | Fixed by calling `logout_user()` followed by `session.clear()` to fully reset the session. |
 
 ---
 
@@ -805,7 +800,7 @@ This project uses **GitHub Actions** to **automatically deploy to Heroku** whene
 ---
 
 ### **Accessing the Live Application**
-Once deployment was successful, the app was accessible at:  
+Once deployment was successful, the app was accessible at:
 🔗 [**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
 
 ---
@@ -854,9 +849,9 @@ python3 app.py
 ---
 
 ### **Why Use Heroku Instead of GitHub Pages?**
-✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.  
-✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.  
-✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.  
+✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.
+✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.
+✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.
 
 ---
 
@@ -869,55 +864,55 @@ git push origin main
 ```
 ---
 
-### **Credits**  
+### **Credits**
 
-Brainery was built using a combination of **open-source technologies, libraries, and external assets**. Below are the tools, resources, and references used in the development of this project.  
-
----
-
-### **Icons & Visual Assets**  
-- **FontAwesome** – Provided **icons** for UI elements like buttons, navigation, and alerts.  
-- **Unsplash** – Used for **high-quality images** where applicable.  
+Brainery was built using a combination of **open-source technologies, libraries, and external assets**. Below are the tools, resources, and references used in the development of this project.
 
 ---
 
-### **Media & Video Sources**  
-- **Hero Section Video** – The homepage **hero background video** was sourced from:  
-  - **Tactus Marketing** – [tactusmarketing.com](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4)  
-  - Used to create an **immersive visual experience** for users.  
+### **Icons & Visual Assets**
+- **FontAwesome** – Provided **icons** for UI elements like buttons, navigation, and alerts.
+- **Unsplash** – Used for **high-quality images** where applicable.
 
 ---
 
-### **Libraries & Frameworks**  
-- **Flask** – Python-based **web framework** for backend development.  
-- **MongoDB** – NoSQL **database solution** for storing user data and study topics.  
-- **Bootstrap 5** – **Responsive UI framework** for styling and layout.  
-- **Flask-Login** – Managed **user authentication and session handling**.  
-- **Flask-WTF** – Used for **form validation and CSRF protection**.  
-- **Bcrypt** – Implemented **password hashing** for enhanced security.  
-- **JavaScript & jQuery** – Powered **frontend interactivity and AJAX functionality**.  
+### **Media & Video Sources**
+- **Hero Section Video** – The homepage **hero background video** was sourced from:
+  - **Tactus Marketing** – [tactusmarketing.com](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4)
+  - Used to create an **immersive visual experience** for users.
 
 ---
 
-### **APIs & Integrations**  
-- **EmailJS** – Integrated for **email notifications** (password resets, confirmations).  
+### **Libraries & Frameworks**
+- **Flask** – Python-based **web framework** for backend development.
+- **SQLAlchemy + SQLite/PostgreSQL** – ORM + relational database for users, topics, and subjects.
+- **Bootstrap 5** – **Responsive UI framework** for styling and layout.
+- **Flask-Login** – Managed **user authentication and session handling**.
+- **Flask-WTF** – Used for **form validation and CSRF protection**.
+- **Werkzeug PBKDF2** – Secure password hashing for user accounts.
+- **JavaScript & jQuery** – Powered **frontend interactivity and AJAX functionality**.
+
+---
+
+### **APIs & Integrations**
+- **EmailJS** – Integrated for **email notifications** (password resets, confirmations).
 - **Google Fonts** – Applied custom typography for a **modern, clean look**.
-- **Wikipedia API / Live Wikipedia Fetch**  
-  - Brainery retrieves **live study topics** and summaries from **Wikipedia**.  
-  - Wikipedia content is dynamically **loaded and stored** for reference.  
+- **Wikipedia API / Live Wikipedia Fetch**
+  - Brainery retrieves **live study topics** and summaries from **Wikipedia**.
+  - Wikipedia content is dynamically **loaded and stored** for reference.
 
 ---
 
-### **Deployment & Version Control**  
-- **GitHub** – Hosted **repository, version control, and GitHub Pages deployment**.  
-- **GitHub Actions** – Used for **CI/CD pipeline and automated testing**.  
+### **Deployment & Version Control**
+- **GitHub** – Hosted **repository, version control, and GitHub Pages deployment**.
+- **GitHub Actions** – Used for **CI/CD pipeline and automated testing**.
 
 ---
 
-### **Documentation References**  
-- **Flask Documentation** – Used for **backend development and routing logic**.  
-- **MongoDB Docs** – Guided **database schema design and queries**.  
-- **Bootstrap Docs** – Assisted in **responsive design and UI enhancements**.  
+### **Documentation References**
+- **Flask Documentation** – Used for **backend development and routing logic**.
+- **SQLAlchemy Docs** – Guided **ORM models, sessions, and queries**.
+- **Bootstrap Docs** – Assisted in **responsive design and UI enhancements**.
 
 ---
 

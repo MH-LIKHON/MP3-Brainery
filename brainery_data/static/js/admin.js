@@ -18,77 +18,123 @@ $(document).ready(function () {
     });
 
     /* =======================================================
-    SECTION 2: User Actions - Promote & Delete
+    SECTION 2: User Actions - Promote & Delete (API helpers)
     ======================================================= */
 
-    // Get CSRF token from meta tag
-    const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    // Get CSRF token from meta tag (robust)
+    function getCsrf() {
+        const meta = document.querySelector("meta[name='csrf-token']");
+        return meta ? meta.getAttribute("content") : "";
+    }
+    const csrfToken = getCsrf();
 
     /**
-     * Promote a user to admin
-     * @param {string} userId - The ID of the user to be promoted
+     * Promote a user to admin (API helper)
+     * @param {string|number} userId - The ID of the user to be promoted
      */
     window.promoteUser = function (userId) {
         console.log("[DEBUG] Sending Promote Request for User ID:", userId);
 
         fetch(`/admin/promote/${userId}`, {
-            method: "POST", // Send as POST request
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken // Include CSRF token for security
+                "X-CSRFToken": csrfToken,
+                "X-Requested-With": "XMLHttpRequest"
             },
-            body: JSON.stringify({}) // Send an empty JSON body
+            body: JSON.stringify({})
         })
-            .then(response => {
-                console.log("[DEBUG] Promote Response Status:", response.status);
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showPopupMessage("User promoted successfully!", "success"); // Show success message
-                    setTimeout(() => location.reload(), 1000); // Refresh the page after success
-                } else {
-                    showPopupMessage(data.error || "Failed to promote user.", "error"); // Show error message
-                }
-            })
-            .catch(error => {
-                console.error("[DEBUG] Error:", error);
-                showPopupMessage("An error occurred.", "error"); // Handle request errors
-            });
+        .then(response => {
+            console.log("[DEBUG] Promote Response Status:", response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                showPopupMessage("User promoted successfully!", "success");
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showPopupMessage(data.error || "Failed to promote user.", "error");
+            }
+        })
+        .catch(error => {
+            console.error("[DEBUG] Error:", error);
+            showPopupMessage("An error occurred.", "error");
+        });
     };
 
     /**
-     * Delete a user
-     * @param {string} userId - The ID of the user to be deleted
+     * Delete a user (API helper)
+     * @param {string|number} userId - The ID of the user to be deleted
      */
     window.deleteUser = function (userId) {
         console.log("[DEBUG] Sending Delete Request for User ID:", userId);
 
         fetch(`/admin/delete/${userId}`, {
-            method: "POST", // Send as POST request
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken // Include CSRF token for security
+                "X-CSRFToken": csrfToken,
+                "X-Requested-With": "XMLHttpRequest"
             },
-            body: JSON.stringify({}) // Send an empty JSON body
+            body: JSON.stringify({})
         })
-            .then(response => {
-                console.log("[DEBUG] Delete Response Status:", response.status);
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    showPopupMessage("User deleted successfully!", "success"); // Show success message
-                    setTimeout(() => location.reload(), 1000); // Refresh the page after success
-                } else {
-                    showPopupMessage(data.error || "Failed to delete user.", "error"); // Show error message
-                }
-            })
-            .catch(error => {
-                console.error("[DEBUG] Error:", error);
-                showPopupMessage("An error occurred.", "error"); // Handle request errors
-            });
+        .then(response => {
+            console.log("[DEBUG] Delete Response Status:", response.status);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                showPopupMessage("User deleted successfully!", "success");
+                setTimeout(() => location.reload(), 1000);
+            } else {
+                showPopupMessage(data.error || "Failed to delete user.", "error");
+            }
+        })
+        .catch(error => {
+            console.error("[DEBUG] Error:", error);
+            showPopupMessage("An error occurred.", "error");
+        });
     };
+
+    /* =======================================================
+    SECTION 2A: Delegated Click Handlers (prevent default + pass ID)
+    ======================================================= */
+
+    // Extract user id from element or its nearest row
+    function extractUserId(el) {
+        // Prefer explicit data-user-id on the clicked element
+        let id = el.getAttribute && el.getAttribute("data-user-id");
+        if (id) return id;
+        // Fallback: find nearest ancestor that has data-user-id (e.g., <tr>)
+        const row = el.closest && el.closest("[data-user-id]");
+        return row ? row.getAttribute("data-user-id") : null;
+    }
+
+    // Intercept promote icon/button clicks
+    $(document).on("click", ".icon-promote", function (e) {
+        // Prevent anchor default navigation like href="/admin/promote/"
+        e.preventDefault();
+        const id = extractUserId(this);
+        if (!id) {
+            console.warn("[DEBUG] Promote clicked but no data-user-id found.");
+            showPopupMessage("Missing user id for promote.", "error");
+            return;
+        }
+        window.promoteUser(id);
+    });
+
+    // Intercept delete icon/button clicks
+    $(document).on("click", ".icon-delete", function (e) {
+        // Prevent anchor default navigation like href="/admin/delete/"
+        e.preventDefault();
+        const id = extractUserId(this);
+        if (!id) {
+            console.warn("[DEBUG] Delete clicked but no data-user-id found.");
+            showPopupMessage("Missing user id for delete.", "error");
+            return;
+        }
+        window.deleteUser(id);
+    });
 
     /* =======================================================
     SECTION 3: Logout Functionality
@@ -98,25 +144,19 @@ $(document).ready(function () {
         window.location.href = "/auth/logout";
     });
 
-
     /* =======================================================
     SECTION 4: Popup Message Functionality
     ======================================================= */
 
-    /**
-     * Display a temporary popup message
-     * @param {string} message - Message to display
-     * @param {string} type - "success" or "error"
-     */
     function showPopupMessage(message, type) {
-        const popup = $("<div>").addClass("popup-message").text(message); // Create message box
+        const popup = $("<div>").addClass("popup-message").text(message);
 
         popup.css({
             "position": "fixed",
             "top": "50%",
             "left": "50%",
             "transform": "translate(-50%, -50%)",
-            "background-color": type === "success" ? "#28a745" : "#dc3545", // Green for success, red for error
+            "background-color": type === "success" ? "#28a745" : "#dc3545",
             "color": "white",
             "padding": "15px 20px",
             "border-radius": "8px",
@@ -126,11 +166,11 @@ $(document).ready(function () {
             "transition": "opacity 0.5s ease-in-out"
         });
 
-        $("body").append(popup); // Append popup message to body
+        $("body").append(popup);
 
         setTimeout(() => {
             popup.fadeOut(500, function () {
-                $(this).remove(); // Remove message after fade out
+                $(this).remove();
             });
         }, 2000);
     }

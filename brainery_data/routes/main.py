@@ -1,50 +1,77 @@
 # =======================================================
-# Main Blueprint - Routes for Homepage and Testing MongoDB
+# Main Blueprint - Routes for Homepage and Database Test
 # =======================================================
 
-from flask import Blueprint, jsonify, render_template, current_app
-from brainery_data import mongo
+# Import Flask primitives
+from flask import Blueprint, jsonify, render_template
 
-# Initialize main blueprint
-main = Blueprint('main', __name__)
+# Import database session and model
+from brainery_data.sql.db import SessionLocal
+from brainery_data.sql.models import UserSQL
+
+
+# =======================================================
+# Initialize Main Blueprint
+# =======================================================
+
+# Blueprint for main routes
+main = Blueprint("main", __name__)
+
 
 # =======================================================
 # Home Route
 # =======================================================
 
-
-@main.route('/')
+@main.route("/")
 def index():
-    """Home page route."""
+    """Render the home page."""
+
     try:
+        # Diagnostic message to server console
         print("Rendering the home page")
-        # Render the home page template
-        return render_template('index.html')
+
+        # Render homepage template
+        return render_template("index.html")
+
     except Exception as e:
         # Return JSON error response if rendering fails
         return jsonify({
             "error": f"Error rendering index.html: {str(e)}",
         }), 500
 
+
 # =======================================================
-# Test MongoDB Route
+# Test Database Route
 # =======================================================
 
-
-@main.route('/test_db')
+@main.route("/test_db")
 def test_db():
-    """Test if MongoDB connection is working."""
+    """Test if the SQL database connection is working."""
+
     try:
-        # Attempt to fetch one user from the MongoDB database
-        user = mongo.db.users.find_one()
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Fetch the first user row from the database
+            user = db.query(UserSQL).first()
+        finally:
+            # Always close the session
+            db.close()
+
+        # If a user exists, return their data as JSON
         if user:
-            # Convert ObjectId to string for JSON response
-            user['_id'] = str(user['_id'])
-            # Return the user data as JSON
-            return jsonify(user)
+            return jsonify({
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role,
+            }), 200
         else:
-            # Return JSON error response if no users are found
+            # No users found in the database
             return jsonify({"error": "No users found in database"}), 404
+
     except Exception as e:
-        # Return JSON error response if there’s an exception
-        return jsonify({"error": f"An error occurred while fetching data from MongoDB: {str(e)}"}), 500
+        # Return JSON error response if query fails
+        return jsonify({
+            "error": f"An error occurred while fetching data from the database: {str(e)}",
+        }), 500
