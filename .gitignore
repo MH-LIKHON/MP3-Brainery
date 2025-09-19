@@ -19,3 +19,6 @@ instance/*.db
 
 # Allow safe env template
 !.env.sample
+MP3-Brainery-main_(MongoDB).zip
+NOTES
+*.bak
