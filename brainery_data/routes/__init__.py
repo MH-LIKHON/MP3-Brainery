@@ -102,15 +102,6 @@ def create_app():
     # =======================================================
     # Proxy & Middleware Configuration
     # =======================================================
-    # Trust headers from reverse proxy (Nginx) including X-Forwarded-Prefix
-    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
-
-    # Ensure SCRIPT_NAME is set when proxied behind a prefix
-    app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
-
-    # =======================================================
-    # Proxy & Middleware Configuration
-    # =======================================================
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
 
