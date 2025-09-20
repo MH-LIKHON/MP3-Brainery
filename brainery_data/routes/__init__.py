@@ -108,38 +108,34 @@ def create_app():
     # Ensure SCRIPT_NAME is set when proxied behind a prefix
     app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
 
-# =======================================================
-# Register Application Blueprints (Prefix-Aware)
-# =======================================================
+    # =======================================================
+    # Proxy & Middleware Configuration
+    # =======================================================
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+    app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
 
-# Import blueprints
-from brainery_data.routes.auth import auth
-from brainery_data.routes.dashboard import dashboard
-from brainery_data.routes.main import main
-from brainery_data.routes.register import register
-from brainery_data.routes.resource import resource
-from brainery_data.routes.admin import admin
+    # =======================================================
+    # Register Application Blueprints
+    # (Prefix handled via SCRIPT_NAME from middleware)
+    # =======================================================
 
-if _prefix:
-    # Mount everything under the MP3 prefix (e.g., /mp3)
-    root = Blueprint("root", __name__, url_prefix=_prefix)
+    # Import blueprints
+    from brainery_data.routes.auth import auth
+    from brainery_data.routes.dashboard import dashboard
+    from brainery_data.routes.main import main
+    from brainery_data.routes.register import register
+    from brainery_data.routes.resource import resource
+    from brainery_data.routes.admin import admin
 
-    root.register_blueprint(auth, url_prefix="/auth")
-    root.register_blueprint(dashboard, url_prefix="/dashboard")
-    root.register_blueprint(main)  # main defines its own routes (e.g., "/")
-    root.register_blueprint(register, url_prefix="/register")
-    root.register_blueprint(resource, url_prefix="/resource")
-    root.register_blueprint(admin, url_prefix="/admin")
-
-    app.register_blueprint(root)
-else:
-    # No prefix (local default)
+    # Register blueprints (no root wrapper)
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(dashboard, url_prefix="/dashboard")
     app.register_blueprint(main)
     app.register_blueprint(register, url_prefix="/register")
     app.register_blueprint(resource, url_prefix="/resource")
     app.register_blueprint(admin, url_prefix="/admin")
+
+    return app
 
 # =======================================================
 # Database Test Function (SQL)
