@@ -8,10 +8,13 @@ Application Factory and Database Test Functions
 
 # Import necessary modules and dependencies
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Blueprint
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
+
+# Middleware for reverse proxy headers
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 # Import session/user wrappers for SQL-backed auth
 from brainery_data.sql.db import SessionLocal
@@ -57,6 +60,16 @@ def create_app():
     app.config["SESSION_TYPE"] = "filesystem"
 
     # =======================================================
+    # Prefix-Aware Deployment (Environment-Driven)
+    # =======================================================
+    # If MP3_PREFIX is set (e.g., "/mp3-brainery" on hosting),
+    # adjust Flask root path and cookie path accordingly.
+    _prefix = os.getenv("MP3_PREFIX", "").strip()
+    if _prefix:
+        app.config["APPLICATION_ROOT"] = _prefix
+        app.config["SESSION_COOKIE_PATH"] = _prefix
+
+    # =======================================================
     # Security and Authentication Features
     # =======================================================
 
@@ -87,30 +100,46 @@ def create_app():
             db.close()
 
     # =======================================================
-    # Register Application Blueprints
+    # Proxy & Middleware Configuration
     # =======================================================
+    # Trust headers from reverse proxy (Nginx) including X-Forwarded-Prefix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
-    # Import blueprints
-    from brainery_data.routes.auth import auth
-    from brainery_data.routes.dashboard import dashboard
-    from brainery_data.routes.main import main
-    from brainery_data.routes.register import register
-    from brainery_data.routes.resource import resource
-    from brainery_data.routes.admin import admin
+    # Ensure SCRIPT_NAME is set when proxied behind a prefix
+    app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
 
-    # Register blueprints with URL prefixes
+# =======================================================
+# Register Application Blueprints (Prefix-Aware)
+# =======================================================
+
+# Import blueprints
+from brainery_data.routes.auth import auth
+from brainery_data.routes.dashboard import dashboard
+from brainery_data.routes.main import main
+from brainery_data.routes.register import register
+from brainery_data.routes.resource import resource
+from brainery_data.routes.admin import admin
+
+if _prefix:
+    # Mount everything under the MP3 prefix (e.g., /mp3)
+    root = Blueprint("root", __name__, url_prefix=_prefix)
+
+    root.register_blueprint(auth, url_prefix="/auth")
+    root.register_blueprint(dashboard, url_prefix="/dashboard")
+    root.register_blueprint(main)  # main defines its own routes (e.g., "/")
+    root.register_blueprint(register, url_prefix="/register")
+    root.register_blueprint(resource, url_prefix="/resource")
+    root.register_blueprint(admin, url_prefix="/admin")
+
+    app.register_blueprint(root)
+else:
+    # No prefix (local default)
     app.register_blueprint(auth, url_prefix="/auth")
     app.register_blueprint(dashboard, url_prefix="/dashboard")
     app.register_blueprint(main)
-
-    # Keep register routes exactly as defined in register.py (uses '/register' inside file)
     app.register_blueprint(register, url_prefix="/register")
-
     app.register_blueprint(resource, url_prefix="/resource")
-    app.register_blueprint(admin)
-
-    return app
-
+    app.register_blueprint(admin, url_prefix="/admin")
 
 # =======================================================
 # Database Test Function (SQL)
@@ -137,3 +166,21 @@ def test_db():
     except Exception as e:
         # Return error in JSON for quick visibility
         return jsonify({"error": str(e)}), 500
+    
+# =======================================================
+# Prefix Middleware Class
+# =======================================================
+# This middleware reads X-Forwarded-Prefix or X-Script-Name
+# from Nginx and adjusts SCRIPT_NAME and PATH_INFO accordingly.
+# It is a no-op on local dev (no header set).
+class _PrefixFromHeaderMiddleware:
+    def __init__(self, app):
+        self.app = app
+    def __call__(self, environ, start_response):
+        prefix = environ.get("HTTP_X_FORWARDED_PREFIX") or environ.get("HTTP_X_SCRIPT_NAME")
+        if prefix:
+            environ["SCRIPT_NAME"] = prefix
+            path_info = environ.get("PATH_INFO", "")
+            if path_info.startswith(prefix):
+                environ["PATH_INFO"] = path_info[len(prefix):] or "/"
+        return self.app(environ, start_response)
