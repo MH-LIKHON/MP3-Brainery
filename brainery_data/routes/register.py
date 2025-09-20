@@ -20,7 +20,7 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp
 from datetime import datetime
 
 # Import app-level CSRF and SQL session/model
-from brainery_data import csrf
+from brainery_data.routes import csrf
 from brainery_data.sql.db import SessionLocal
 from brainery_data.sql.models import UserSQL
 
