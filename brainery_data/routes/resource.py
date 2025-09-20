@@ -2,103 +2,188 @@
 # Resource Management Routes
 # =======================================================
 
+# Import Flask primitives
 from flask import Blueprint, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user
-from bson.objectid import ObjectId
-from brainery_data import mongo
 
-# Initialize the blueprint for resource-related routes
+# Import login helpers
+from flask_login import login_required, current_user
+
+# Import database session and model
+from brainery_data.sql.db import SessionLocal
+from brainery_data.sql.models import ResourceSQL
+
+
+# =======================================================
+# Initialize Resource Blueprint
+# =======================================================
+
+# Create the resource blueprint (no prefix; routes specify full paths)
 resource = Blueprint("resource", __name__)
+
 
 # =======================================================
 # Add a Resource
 # =======================================================
 
-
 @resource.route("/add", methods=["GET", "POST"])
 @login_required
 def add_resource():
     """Allow users to add a new learning resource."""
+
+    # Process HTML form submit
     if request.method == "POST":
-        # Retrieve form data
-        title = request.form.get("title")
-        description = request.form.get("description")
-        link = request.form.get("link")
-        category = request.form.get("category")
+        # Extract fields from form
+        title = (request.form.get("title") or "").strip()
+        description = (request.form.get("description") or "").strip()
+        link = (request.form.get("link") or "").strip()
+        category = (request.form.get("category") or "").strip()
 
-        # Insert the new resource into the MongoDB collection
-        mongo.db.resources.insert_one({
-            "title": title,
-            "description": description,
-            "link": link,
-            "category": category,
-            "user_id": current_user.id
-        })
+        # Validate required fields
+        if not title:
+            flash("Title is required.", "danger")
+            return render_template("add_resource.html")
 
-        # Flash a success message and redirect to the dashboard
-        flash("Resource added successfully!", "success")
-        return redirect(url_for("dashboard.index"))
+        # Convert session id (string) to int PK
+        try:
+            uid = int(current_user.id)
+        except (TypeError, ValueError):
+            flash("Invalid user context.", "danger")
+            return render_template("add_resource.html")
 
-    # Render the resource creation form template
+        # Open DB session and insert the resource
+        db = SessionLocal()
+        try:
+            # Create ORM row
+            row = ResourceSQL(
+                title=title,
+                description=description,
+                link=link,
+                category=category,
+                user_id=uid,
+            )
+
+            # Persist to database
+            db.add(row)
+            db.commit()
+
+            # User feedback and redirect
+            flash("Resource added successfully!", "success")
+            return redirect(url_for("dashboard.dashboard_main"))
+
+        except Exception as e:
+            # Rollback on failure
+            db.rollback()
+            flash("Failed to add resource. Please try again.", "danger")
+            return render_template("add_resource.html")
+
+        finally:
+            # Ensure session is closed
+            db.close()
+
+    # Render the creation form
     return render_template("add_resource.html")
+
 
 # =======================================================
 # Edit a Resource
 # =======================================================
 
-
-@resource.route("/edit/<resource_id>", methods=["GET", "POST"])
+@resource.route("/edit/<int:resource_id>", methods=["GET", "POST"])
 @login_required
 def edit_resource(resource_id):
     """Allow users to edit an existing resource."""
-    # Retrieve the resource data from the database
-    resource_data = mongo.db.resources.find_one({"_id": ObjectId(resource_id)})
 
-    # Ensure the current user owns the resource before proceeding
-    if not resource_data or resource_data["user_id"] != current_user.id:
-        flash("Unauthorized action!", "danger")
-        return redirect(url_for("dashboard.index"))
+    # Convert session id (string) to int PK
+    try:
+        uid = int(current_user.id)
+    except (TypeError, ValueError):
+        flash("Invalid user context.", "danger")
+        return redirect(url_for("dashboard.dashboard_main"))
 
-    if request.method == "POST":
-        # Update resource data with form input
-        updated_data = {
-            "title": request.form.get("title"),
-            "description": request.form.get("description"),
-            "link": request.form.get("link"),
-            "category": request.form.get("category")
-        }
+    # Open DB session
+    db = SessionLocal()
+    try:
+        # Fetch the resource row
+        row = db.get(ResourceSQL, resource_id)
 
-        # Update the resource in the database
-        mongo.db.resources.update_one(
-            {"_id": ObjectId(resource_id)}, {"$set": updated_data})
+        # Ensure resource exists and belongs to current user
+        if not row or row.user_id != uid:
+            flash("Unauthorized action!", "danger")
+            return redirect(url_for("dashboard.dashboard_main"))
 
-        # Flash a success message and redirect to the dashboard
-        flash("Resource updated successfully!", "success")
-        return redirect(url_for("dashboard.index"))
+        # Handle form submission
+        if request.method == "POST":
+            # Update fields from form
+            row.title = (request.form.get("title") or "").strip()
+            row.description = (request.form.get("description") or "").strip()
+            row.link = (request.form.get("link") or "").strip()
+            row.category = (request.form.get("category") or "").strip()
 
-    # Render the resource editing form template
-    return render_template("edit_resource.html", resource=resource_data)
+            # Validate title
+            if not row.title:
+                flash("Title is required.", "danger")
+                return render_template("edit_resource.html", resource=row)
+
+            # Commit the update
+            db.commit()
+            flash("Resource updated successfully!", "success")
+            return redirect(url_for("dashboard.dashboard_main"))
+
+        # GET: render the edit form with current data
+        return render_template("edit_resource.html", resource=row)
+
+    except Exception as e:
+        # Rollback on failure and report
+        db.rollback()
+        flash("Failed to update resource. Please try again.", "danger")
+        return redirect(url_for("dashboard.dashboard_main"))
+
+    finally:
+        # Close session
+        db.close()
+
 
 # =======================================================
 # Delete a Resource
 # =======================================================
 
-
-@resource.route("/delete/<resource_id>")
+@resource.route("/delete/<int:resource_id>")
 @login_required
 def delete_resource(resource_id):
     """Allow users to delete a resource."""
-    # Retrieve the resource data from the database
-    resource_data = mongo.db.resources.find_one({"_id": ObjectId(resource_id)})
 
-    # Ensure the current user owns the resource before proceeding
-    if not resource_data or resource_data["user_id"] != current_user.id:
-        flash("Unauthorized action!", "danger")
-        return redirect(url_for("dashboard.index"))
+    # Convert session id (string) to int PK
+    try:
+        uid = int(current_user.id)
+    except (TypeError, ValueError):
+        flash("Invalid user context.", "danger")
+        return redirect(url_for("dashboard.dashboard_main"))
 
-    # Delete the resource from the database
-    mongo.db.resources.delete_one({"_id": ObjectId(resource_id)})
+    # Open DB session
+    db = SessionLocal()
+    try:
+        # Fetch the resource row
+        row = db.get(ResourceSQL, resource_id)
 
-    # Flash a success message and redirect to the dashboard
-    flash("Resource deleted successfully!", "success")
-    return redirect(url_for("dashboard.index"))
+        # Ensure resource exists and belongs to current user
+        if not row or row.user_id != uid:
+            flash("Unauthorized action!", "danger")
+            return redirect(url_for("dashboard.dashboard_main"))
+
+        # Delete and commit
+        db.delete(row)
+        db.commit()
+
+        # Notify and return to dashboard
+        flash("Resource deleted successfully!", "success")
+        return redirect(url_for("dashboard.dashboard_main"))
+
+    except Exception as e:
+        # Rollback on error
+        db.rollback()
+        flash("Failed to delete resource. Please try again.", "danger")
+        return redirect(url_for("dashboard.dashboard_main"))
+
+    finally:
+        # Close session
+        db.close()

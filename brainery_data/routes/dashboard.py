@@ -2,307 +2,383 @@
 # User Routes
 # =======================================================
 
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+# Import Flask primitives for views, JSON responses, and redirects
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, session
+
+# Import login/session helpers
 from flask_login import login_required, current_user, logout_user
-from brainery_data import mongo
-from bson.objectid import ObjectId
-from datetime import datetime
-from dotenv import load_dotenv
-from flask import session
-import os
+
+# Import database session and models
+from brainery_data.sql.db import SessionLocal
+from brainery_data.sql.models import Subject, Topic, SavedTopic
 
 
-# ==============================================
-# Load environment variables from .env
-# ==============================================
-load_dotenv()
-
-# ==============================================
+# =======================================================
 # Initialize Dashboard Blueprint
-# ==============================================
+# =======================================================
+
+# Create the dashboard blueprint with URL prefix /dashboard
 dashboard = Blueprint("dashboard", __name__, url_prefix="/dashboard")
+
 
 # =======================================================
 # Dashboard Home Route (Main Dashboard)
 # =======================================================
 
-
 @dashboard.route("/")
 @login_required
 def dashboard_main():
-    """Render the main dashboard."""
+    """Render the main dashboard page for logged-in users."""
 
-    # Log current user information for debugging
+    # Log who is visiting for diagnostic purposes
     print(f"🔍 Current User: {current_user} (ID: {current_user.id})")
 
-    # Render dashboard template
+    # Render the dashboard template (no DB access required here)
     return render_template("dashboard.html")
+
 
 # =======================================================
 # Retrieve All Subjects
 # =======================================================
 
-
 @dashboard.route("/subjects", methods=["GET"])
 @login_required
 def get_subjects():
-    """Fetch all subjects from the database."""
+    """Fetch all subjects from the database and return as JSON."""
 
     try:
-        # Retrieve subjects from database
-        subjects = list(mongo.db.subjects.find())
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Query all subjects ordered by name (A→Z)
+            rows = db.query(Subject).order_by(Subject.name.asc()).all()
+        finally:
+            # Ensure the session is closed even on errors
+            db.close()
 
-        # Convert ObjectId to string for JSON serialization
-        for subject in subjects:
-            subject["_id"] = str(subject["_id"])
+        # Shape results for the UI (keep _id as string for data attributes)
+        subjects = [
+            {"_id": str(s.id), "name": s.name, "icon": s.icon or ""}
+            for s in rows
+        ]
 
-        # Return subjects as JSON response
+        # Return JSON payload
         return jsonify(subjects), 200
 
     except Exception as e:
-        # Log error details for debugging
-        print(f"🚨 Error Fetching Subjects: {e}")
+        # Log the error and return a safe message
+        print(f"🚨 Error Fetching Subjects (SQL): {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Retrieve Topics by Subject ID
 # =======================================================
 
-
 @dashboard.route("/topics/<subject_id>", methods=["GET"])
 @login_required
 def get_topics(subject_id):
-    """Fetch topics for a specific subject."""
+    """Fetch topics for a specific subject and return titles/descriptions."""
 
-    # Validate Subject ID format
-    if not ObjectId.is_valid(subject_id):
+    # Validate that the path parameter is a valid integer
+    try:
+        sid = int(subject_id)
+    except (TypeError, ValueError):
         return jsonify({"error": "Invalid Subject ID"}), 400
 
     try:
-        # Fetch topics from database matching subject ID
-        topics = list(mongo.db.topics.find(
-            {"subject_id": ObjectId(subject_id)}))
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Query topics for the given subject id; order alphabetically by title
+            rows = (
+                db.query(Topic)
+                  .filter(Topic.subject_id == sid)
+                  .order_by(Topic.title.asc())
+                  .all()
+            )
+        finally:
+            # Always close the session
+            db.close()
 
-        # Convert ObjectIds to strings for JSON serialization
-        for topic in topics:
-            topic["_id"] = str(topic["_id"])
-            topic["subject_id"] = str(topic["subject_id"])
+        # Reduce fields to what the UI expects
+        topics = [
+            {"title": t.title, "description": t.description or ""}
+            for t in rows
+        ]
 
-        # Return topics as JSON response
+        # Return JSON payload
         return jsonify(topics), 200
 
     except Exception as e:
-        # Log error details for debugging
-        print(f"🚨 Error Fetching Topics: {e}")
+        # Log the error and return a safe message
+        print(f"🚨 Error Fetching Topics (SQL): {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Retrieve a Specific Saved Topic
 # =======================================================
 
-
 @dashboard.route("/get_topic/<topic_id>", methods=["GET"])
 @login_required
 def get_topic(topic_id):
-    """Retrieve details for a specific saved topic."""
+    """Retrieve details for a specific saved topic belonging to the user."""
 
-    # Validate provided topic ID
-    if not ObjectId.is_valid(topic_id):
+    # Validate that the path parameter is a valid integer
+    try:
+        tid = int(topic_id)
+    except (TypeError, ValueError):
         return jsonify({"error": "Invalid Topic ID format"}), 400
 
     try:
-        # Retrieve topic from the database for the current user
-        topic = mongo.db.saved_topics.find_one(
-            {"_id": ObjectId(topic_id), "user_id": str(current_user.id)}
-        )
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Fetch the saved topic by primary key
+            row = db.get(SavedTopic, tid)
 
-        # Return topic details if found
-        if topic:
-            topic["_id"] = str(topic["_id"])
-            topic["timestamp"] = topic.get("timestamp", "Unknown Date")
-            return jsonify(topic), 200
+            # Enforce ownership: topic must belong to the current user
+            if not row or str(row.user_id) != str(current_user.id):
+                return jsonify({"error": "Topic not found"}), 404
 
-        # Return error if topic not found
-        return jsonify({"error": "Topic not found"}), 404
+            # Shape payload for the UI
+            payload = {
+                "_id": str(row.id),
+                "title": row.title,
+                "summary": row.summary or "No summary available.",
+                "timestamp": (row.created_at.isoformat() if row.created_at else "Unknown Date"),
+            }
+
+            # Return JSON payload
+            return jsonify(payload), 200
+
+        finally:
+            # Ensure the session is closed
+            db.close()
 
     except Exception as e:
-        # Log error details for debugging
-        print(f"🚨 Error Fetching Topic: {e}")
+        # Log the error and return a safe message
+        print(f"🚨 Error Fetching Topic (SQL): {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Save a New Topic
 # =======================================================
 
-
 @dashboard.route("/save_topic", methods=["POST"])
 @login_required
 def save_topic():
-    """Save a topic to the user's account."""
+    """Save a topic title (and optional summary) into the user's saved list."""
 
-    # Log received data from JavaScript
     try:
+        # Parse inbound JSON body
         data = request.get_json()
         print("🔍 Received Data from JS:", data)
 
-        # Validate incoming request data
+        # Validate presence of title in payload
         if not data or "title" not in data:
             return jsonify({"error": "Invalid data - Title missing"}), 400
 
-        # Retrieve and validate topic title
-        topic_title = data["title"].strip()
+        # Normalise title value
+        topic_title = (data["title"] or "").strip()
         if not topic_title:
             return jsonify({"error": "Invalid data - Title missing"}), 400
 
-        # Check if the topic already exists in user's saved topics
-        existing_topic = mongo.db.saved_topics.find_one(
-            {"user_id": str(current_user.id), "title": topic_title}
-        )
+        # Convert current_user.id (string) → integer PK
+        try:
+            uid = int(current_user.id)
+        except (TypeError, ValueError):
+            return jsonify({"error": "Invalid user context"}), 400
 
-        # Return error if topic already saved
-        if existing_topic:
-            return jsonify({"error": "Topic already saved!"}), 400
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Prevent duplicate titles for the same user
+            exists = (
+                db.query(SavedTopic)
+                  .filter(SavedTopic.user_id == uid, SavedTopic.title == topic_title)
+                  .first()
+            )
+            if exists:
+                return jsonify({"error": "Topic already saved!"}), 400
 
-        # Retrieve topic description from database
-        topic_data = mongo.db.topics.find_one({"title": topic_title})
-        summary = topic_data["description"] if topic_data else "No summary available."
+            # Try to derive a summary from Topic table by title (optional)
+            src = db.query(Topic).filter(Topic.title == topic_title).first()
+            summary = src.description if src and src.description else "No summary available."
 
-        # Generate timestamp for saved topic
-        timestamp = datetime.utcnow().isoformat()
+            # Create and persist the SavedTopic record
+            st = SavedTopic(user_id=uid, title=topic_title, summary=summary)
+            db.add(st)
+            db.commit()
+            db.refresh(st)
 
-        # Insert new topic into user's saved topics collection
-        mongo.db.saved_topics.insert_one({
-            "title": topic_title,
-            "summary": summary,
-            "user_id": str(current_user.id),
-            "timestamp": timestamp
-        })
+            # Return success and the created record's id/timestamp
+            return jsonify({
+                "message": "Topic saved successfully!",
+                "timestamp": (st.created_at.isoformat() if st.created_at else None),
+                "_id": str(st.id),
+            }), 201
 
-        # Return success response
-        return jsonify({"message": "Topic saved successfully!", "timestamp": timestamp}), 201
+        finally:
+            # Ensure the session is closed
+            db.close()
 
     except Exception as e:
-        # Log error details for debugging
-        print("🚨 Error saving topic:", str(e))
+        # Log the error and return a safe message
+        print("🚨 Error saving topic (SQL):", str(e))
         return jsonify({"error": "Internal server error"}), 500
+
 
 # =======================================================
 # Retrieve Saved Study Topics
 # =======================================================
 
-
 @dashboard.route("/saved_topics", methods=["GET"])
 @login_required
 def get_saved_topics():
-    """Fetch saved study topics for the logged-in user."""
+    """Fetch the current user's saved topics (most recent first)."""
 
     try:
-        # Retrieve user's saved topics from database
-        saved_topics = list(mongo.db.saved_topics.find(
-            {"user_id": str(current_user.id)}))
+        # Convert current_user.id (string) → integer PK
+        try:
+            uid = int(current_user.id)
+        except (TypeError, ValueError):
+            return jsonify({"error": "Invalid user context"}), 400
 
-        # Convert ObjectIds and handle missing timestamps
-        for topic in saved_topics:
-            topic["_id"] = str(topic["_id"])
-            topic["timestamp"] = topic.get("timestamp", "Unknown Date")
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Query all saved topics for the user, newest first
+            rows = (
+                db.query(SavedTopic)
+                  .filter(SavedTopic.user_id == uid)
+                  .order_by(SavedTopic.created_at.desc())
+                  .all()
+            )
 
-        # Log successful retrieval for debugging
-        print("Saved Topics Retrieved Successfully!")
+            # Shape results for UI expectations
+            payload = []
+            for r in rows:
+                payload.append({
+                    "_id": str(r.id),   # keep property name for the frontend
+                    "title": r.title,
+                    "summary": r.summary or "No summary available.",
+                    "timestamp": (r.created_at.isoformat() if r.created_at else "Unknown Date"),
+                })
 
-        # Return saved topics as JSON
-        return jsonify(saved_topics), 200
+            # Log success for diagnostics
+            print("Saved Topics Retrieved Successfully!")
+
+            # Return JSON payload
+            return jsonify(payload), 200
+
+        finally:
+            # Ensure the session is closed
+            db.close()
 
     except Exception as e:
-        # Log error details for debugging
-        print("🚨 Error Fetching Saved Topics:", str(e))
+        # Log the error and return a safe message
+        print("🚨 Error Fetching Saved Topics (SQL):", str(e))
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Update a Saved Topic
 # =======================================================
 
-
 @dashboard.route("/update_topic/<topic_id>", methods=["PUT"])
 @login_required
 def update_topic(topic_id):
-    """Rename a saved topic for the user."""
+    """Rename a saved topic for the current user."""
 
     try:
-        # Retrieve new title from request data
+        # Parse inbound JSON body
         data = request.get_json()
-        new_title = data.get("new_title")
 
-        # Validate new title presence
+        # Extract and validate the new title
+        new_title = (data.get("new_title") or "").strip()
         if not new_title:
             return jsonify({"error": "New title required"}), 400
 
-        # Validate topic ID format
-        if not ObjectId.is_valid(topic_id):
-            return jsonify({"error": "Invalid Topic ID format"}), 400
+        # Validate and normalise path/user ids
+        try:
+            tid = int(topic_id)
+            uid = int(current_user.id)
+        except (TypeError, ValueError):
+            return jsonify({"error": "Invalid IDs"}), 400
 
-        # Check topic exists and belongs to the current user
-        existing_topic = mongo.db.saved_topics.find_one(
-            {"_id": ObjectId(topic_id), "user_id": str(current_user.id)}
-        )
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Fetch the saved topic and check ownership
+            row = db.get(SavedTopic, tid)
+            if not row or row.user_id != uid:
+                return jsonify({"error": "Topic not found"}), 404
 
-        # Return error if topic not found
-        if not existing_topic:
-            return jsonify({"error": "Topic not found"}), 404
+            # Update the title and commit
+            row.title = new_title
+            db.commit()
 
-        # Update topic title in database
-        result = mongo.db.saved_topics.update_one(
-            {"_id": ObjectId(topic_id), "user_id": str(current_user.id)},
-            {"$set": {"title": new_title}}
-        )
-
-        # Return success message if update successful
-        if result.modified_count:
+            # Return success
             return jsonify({"message": "Topic updated successfully!"}), 200
 
-        # Return error if no changes were made
-        return jsonify({"error": "Update failed"}), 400
+        finally:
+            # Ensure the session is closed
+            db.close()
 
     except Exception as e:
-        # Log error details for debugging
-        print(f"🚨 Error Updating Topic: {e}")
+        # Log the error and return a safe message
+        print(f"🚨 Error Updating Topic (SQL): {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Delete a Saved Topic (DELETE)
 # =======================================================
 
-
 @dashboard.route("/delete_topic/<topic_id>", methods=["DELETE"])
 @login_required
 def delete_topic(topic_id):
-    """Delete a saved topic."""
-
-    # Validate provided topic ID format
-    if not ObjectId.is_valid(topic_id):
-        return jsonify({"error": "Invalid Topic ID format"}), 400
+    """Delete a saved topic belonging to the current user."""
 
     try:
-        # Delete topic from the database
-        result = mongo.db.saved_topics.delete_one(
-            {"_id": ObjectId(topic_id), "user_id": str(current_user.id)}
-        )
+        # Validate and normalise path/user ids
+        try:
+            tid = int(topic_id)
+            uid = int(current_user.id)
+        except (TypeError, ValueError):
+            return jsonify({"error": "Invalid Topic ID format"}), 400
 
-        # Return success response if deletion succeeded
-        if result.deleted_count:
+        # Open a new SQLAlchemy session
+        db = SessionLocal()
+        try:
+            # Fetch the topic and check ownership
+            row = db.get(SavedTopic, tid)
+            if not row or row.user_id != uid:
+                return jsonify({"error": "Topic not found"}), 404
+
+            # Delete the record and commit
+            db.delete(row)
+            db.commit()
+
+            # Return success
             return jsonify({"message": "Topic deleted successfully!"}), 200
 
-        # Return error if topic not found
-        return jsonify({"error": "Topic not found"}), 404
+        finally:
+            # Ensure the session is closed
+            db.close()
 
     except Exception as e:
-        # Log error details for debugging
-        print(f"🚨 Error Deleting Topic: {e}")
+        # Log the error and return a safe message
+        print(f"🚨 Error Deleting Topic (SQL): {e}")
         return jsonify({"error": "Internal Server Error"}), 500
+
 
 # =======================================================
 # Logout User
 # =======================================================
-
 
 @dashboard.route("/auth/logout", methods=["POST", "GET"])
 @login_required
@@ -311,23 +387,23 @@ def logout():
     Log the user out and redirect to login.
     """
     try:
-        # Log out the current user
+        # Terminate the Flask-Login session
         logout_user()
 
-        # Ensure session is cleared
+        # Clear the server-side session store
         session.clear()
 
-        # Debugging: Output session status
+        # Diagnostic log for visibility
         print("🔴 User session cleared.")
 
-        # Check if request is AJAX (JavaScript fetch or $.ajax)
+        # Return JSON for AJAX calls; redirect for normal navigation
         if request.headers.get("X-Requested-With") == "XMLHttpRequest":
             return jsonify({"message": "You have been logged out."}), 200
 
-        # Redirect normal requests to login page
+        # Redirect the user back to the login page
         return redirect(url_for("auth.login"))
 
     except Exception as e:
-        # Log error details for debugging
+        # Log the error and return a safe message
         print(f"🚨 Logout Error: {e}")
         return jsonify({"error": "Internal Server Error"}), 500

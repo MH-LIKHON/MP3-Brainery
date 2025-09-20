@@ -1,19 +1,35 @@
-# =======================================================
+﻿# =======================================================
 # Authentication Routes
 # =======================================================
 
+# Import Flask utilities
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
+
+# Import Flask-Login helpers
 from flask_login import login_user, logout_user, login_required, current_user
+
+# Import password hashing utilities
 from werkzeug.security import check_password_hash, generate_password_hash
-from brainery_data.models import User
-from brainery_data import mongo
+
+# Import database session/model
+from brainery_data.sql.db import SessionLocal
+from brainery_data.sql.models import UserSQL
+
+# Import forms and session user adapter
 from brainery_data.routes.form import LoginForm
+from brainery_data.models import SessionUser
+
+# Import SQL helpers
+from sqlalchemy import func
+
 
 # =======================================================
 # Initialize Authentication Blueprint
 # =======================================================
 
+# Create blueprint for authentication routes
 auth = Blueprint("auth", __name__)
+
 
 # =======================================================
 # User Login Route
@@ -21,49 +37,53 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
-    """Authenticate user credentials and handle login requests."""
+    """
+    Authenticate against the database and start a Flask-Login session.
+    """
+    # Instantiate login form
     form = LoginForm()
 
+    # Validate and process POST submissions
     if form.validate_on_submit():
-        email = form.email.data.strip().lower()
-        password = form.password.data.strip()
+        # Normalise inputs
+        email = (form.email.data or "").strip().lower()
+        password = (form.password.data or "").strip()
 
+        # Open database session and look up user by case-insensitive email
+        db = SessionLocal()
         try:
-            # Retrieve user from MongoDB
-            user_data = mongo.db.users.find_one(
-                {"email": {"$regex": f"^{email}$", "$options": "i"}}
+            sql_user = (
+                db.query(UserSQL)
+                  .filter(func.lower(UserSQL.email) == email)
+                  .one_or_none()
             )
+        finally:
+            db.close()
 
-            # Debugging: Print retrieved user data
-            print(f"Retrieved User Data: {user_data}")
-
-            # Ensure correct credentials
-            if not user_data or not check_password_hash(user_data.get("password", ""), password):
-                flash("Invalid email or password.", "danger")
-                return render_template("login.html", form=form)
-
-            # User authentication successful
-            user_obj = User(user_data)
-            login_user(user_obj, remember=True)
-
-            # Redirect based on user role
-            if user_obj.is_admin():
-                flash("Logged in as Admin!", "success")
-                return redirect(url_for("admin.admin_dashboard"))
-            else:
-                flash("Logged in successfully!", "success")
-                return redirect(url_for("dashboard.dashboard_main"))
-
-        except Exception as e:
-            print(f"Unexpected Login Error: {e}")
+        # Check credentials
+        if not sql_user or not check_password_hash(sql_user.password or "", password):
+            flash("Invalid email or password.", "danger")
             return render_template("login.html", form=form)
 
+        # Build session user from DB row and log them in
+        user_obj = SessionUser(sql_user)
+        login_user(user_obj, remember=True)
+
+        # Role-based redirect
+        if user_obj.role == "admin":
+            flash("Logged in as Admin!", "success")
+            return redirect(url_for("admin.admin_dashboard"))
+
+        flash("Logged in successfully!", "success")
+        return redirect(url_for("dashboard.dashboard_main"))
+
+    # For GET or invalid form, render the login page
     return render_template("login.html", form=form)
+
 
 # =======================================================
 # User Logout Route
 # =======================================================
-
 
 @auth.route("/logout", methods=["POST", "GET"])
 @login_required
@@ -71,75 +91,72 @@ def logout():
     """
     Log out the current user and clear session data.
     """
-    # Log the user out
+    # Terminate login session
     logout_user()
 
-    # Clear session data
-    session.pop('_flashes', None) 
+    # Clear any pending flash messages
+    session.pop('_flashes', None)
 
-    # Debugging: output session status
-    print("🔴 Session after clearing:", session)
-
-    # Check if the request is AJAX (JavaScript fetch or $.ajax)
+    # JSON-aware response for AJAX vs normal navigation
     if request.headers.get("X-Requested-With") == "XMLHttpRequest":
         return jsonify({"message": "You have been logged out."}), 200
 
-    # Redirect to login page for normal requests (non-AJAX)
+    # Redirect to login page
     return redirect(url_for("auth.login"))
+
 
 # =======================================================
 # Password Reset Route
 # =======================================================
 
-
 @auth.route("/reset_password", methods=["POST"])
 def reset_password():
     """
-    Handle password reset requests securely.
+    Reset user password. CSRF is enforced by the app-wide CSRF protection.
+    Expects JSON: { "email": "...", "new_password": "..." }
     """
-    # Log incoming request headers and data
-    print(f"🔍 Incoming Request Headers: {request.headers}")
-    print(f"🔍 Incoming Request Data: {request.get_data(as_text=True)}")
-
-    # Verify request is JSON formatted
+    # Ensure request is JSON
     if not request.is_json:
-        print("❌ ERROR: Request is NOT JSON")
         return jsonify({"error": "Request must be JSON"}), 400
 
+    # Parse body and normalise inputs
     try:
-        # Parse email and new password from request JSON
         data = request.get_json()
-        email = data.get("email", "").strip().lower()
-        new_password = data.get("new_password", "").strip()
-
-    except Exception as e:
-        print(f"❌ ERROR: JSON Parsing Failed - {e}")
+        email = (data.get("email") or "").strip().lower()
+        new_password = (data.get("new_password") or "").strip()
+    except Exception:
         return jsonify({"error": "Invalid JSON format"}), 400
 
-    # Validate required fields
+    # Basic validation
     if not email or not new_password:
-        print("❌ ERROR: Missing email or password")
         return jsonify({"error": "Email and new password are required."}), 400
-
-    # Check new password strength
     if len(new_password) < 6:
-        print("❌ ERROR: Password too short")
         return jsonify({"error": "Password must be at least 6 characters long."}), 400
 
-    # Hash the new password securely
-    hashed_password = generate_password_hash(new_password)
+    # Hash new password
+    hashed = generate_password_hash(new_password)
 
-    # Update user password in MongoDB
-    result = mongo.db.users.update_one(
-        {"email": {"$regex": f"^{email}$", "$options": "i"}},
-        {"$set": {"password": hashed_password}}
-    )
+    # Open database session
+    db = SessionLocal()
+    try:
+        # Case-insensitive email lookup
+        user = (
+            db.query(UserSQL)
+              .filter(func.lower(UserSQL.email) == email)
+              .one_or_none()
+        )
 
-    # Handle case where user is not found
-    if result.matched_count == 0:
-        print("❌ ERROR: User not found")
-        return jsonify({"error": "User not found."}), 404
+        # Fail if no matching user
+        if not user:
+            return jsonify({"error": "User not found."}), 404
 
-    # Confirm successful password reset
-    print("✅ SUCCESS: Password reset successful")
-    return jsonify({"message": "Password reset successful."}), 200
+        # Update password and commit
+        user.password = hashed
+        db.commit()
+
+        # Success response
+        return jsonify({"message": "Password reset successful."}), 200
+
+    # Always close session
+    finally:
+        db.close()

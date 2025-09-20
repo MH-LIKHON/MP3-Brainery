@@ -1,220 +1,77 @@
 """
-Database Models and Utilities
+Database Session User Adapter and Utility Models
 """
 
 # =======================================================
 # Import Required Modules
 # =======================================================
 
-# Import modules for user model, authentication, and data security
+# Import logging for diagnostics
 import logging
-from flask_login import UserMixin
-from bson.objectid import ObjectId
-from werkzeug.security import generate_password_hash, check_password_hash
 
-# Set up logging
+# Import Flask-Login mixin for session identity
+from flask_login import UserMixin
+
+# Configure logging level for this module
 logging.basicConfig(level=logging.ERROR)
 
+
 # =======================================================
-# User Model
+# SQL Session User Adapter
 # =======================================================
 
+class SessionUser(UserMixin):
+    """
+    Minimal user object for Flask-Login sessions, backed by SQL rows.
+    Only includes fields the app actually uses.
+    """
 
-class User(UserMixin):
-    """User model for authentication and session handling."""
+    def __init__(self, row):
+        # Primary key is int in SQL; Flask-Login expects string
+        self.id = str(getattr(row, "id", ""))
 
-    def __init__(self, user_data):
-        """Initialize the user with MongoDB data."""
-        # Initialize user attributes from MongoDB document
-        self.id = str(user_data.get("_id", ""))
-        self.username = user_data.get("username", "").strip()
-        self.first_name = user_data.get("first_name", "").strip()
-        self.last_name = user_data.get("last_name", "").strip()
-        self.email = user_data.get("email", "").strip().lower()
-        self.password = user_data.get("password", "")
-        self.phone = user_data.get("phone", "").strip()
-        self.dob = user_data.get("dob", "") if user_data.get("dob") else "N/A"
-        self.address_line1 = user_data.get("address_line1", "").strip()
-        self.address_line2 = user_data.get("address_line2", "") or ""
-        self.city = user_data.get("city", "").strip()
-        self.country = user_data.get("country", "").strip()
-        self.postcode = user_data.get("postcode", "").strip()
-        self.selected_plan = user_data.get("selected_plan", "").strip()
-        self.role = user_data.get("role", "user")
+        # Basic identity fields
+        self.username = getattr(row, "username", "") or ""
+        self.first_name = getattr(row, "first_name", "") or ""
+        self.last_name = getattr(row, "last_name", "") or ""
 
+        # Normalised email (lowercased, trimmed)
+        email = getattr(row, "email", "") or ""
+        self.email = email.strip().lower()
+
+        # Stored password hash (not used directly by Flask-Login)
+        self.password = getattr(row, "password", "") or ""
+
+        # Role string (defaults to "user")
+        self.role = (getattr(row, "role", "") or "user").lower()
+
+    # Check if the current session user has admin role
     def is_admin(self):
-        """Check if the user has admin privileges.
-
-        Returns:
-            bool: True if the user has an admin role, otherwise False.
-        """
-        # Returns True if the user has the "admin" role
-        return self.role == "admin"
-
-    @staticmethod
-    def find_by_email(email, mongo):
-        """Find a user by email (case-insensitive) and return a User object.
-
-        Args:
-            email (str): The email address to search for.
-            mongo (object): MongoDB connection instance.
-
-        Returns:
-            User object if found, otherwise None.
-        """
-        try:
-            user_data = mongo.db.users.find_one(
-                {"email": {"$regex": f"^{email.strip()}$", "$options": "i"}})
-            return User(user_data) if user_data else None
-        except Exception as e:
-            logging.error(f"Error finding user by email {email}: {e}")
-            return None
-
-    @staticmethod
-    def find_by_id(user_id, mongo):
-        """Find a user by ID and return a User object.
-
-        Args:
-            user_id (str): The user ID to search for.
-            mongo (object): MongoDB connection instance.
-
-        Returns:
-            User object if found, otherwise None.
-        """
-        try:
-            # Convert string ID to ObjectId for MongoDB lookup
-            obj_id = ObjectId(user_id)
-            user_data = mongo.db.users.find_one({"_id": obj_id})
-            return User(user_data) if user_data else None
-        except Exception as e:
-            logging.error(f"Error finding user by ID {user_id}: {e}")
-            return None
-
-    def save(self, mongo):
-        """Save a new user to MongoDB."""
-        print("SAVE METHOD CALLED")  # Debugging: Ensure this runs
-
-        if not self.username or not self.email or not self.password or not self.selected_plan:
-            logging.error("User registration failed: Missing required fields.")
-            return None
-
-        if mongo.db.users.find_one({"email": self.email.lower()}):
-            logging.error(
-                f"Duplicate registration attempt: Email already exists ({self.email}).")
-            return None
-
-        if not self.password.startswith("pbkdf2:"):
-            self.password = generate_password_hash(
-                self.password, method="pbkdf2:sha256")
-
-        # Force role to be "user" if missing
-        if not hasattr(self, 'role') or not self.role:
-            self.role = "user"
-
-        print(f"ROLE BEFORE INSERTION: {self.role}")  # Debugging print
-
-        # Prepare user data
-        user_data = {
-            "username": self.username,
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "email": self.email.lower(),
-            "password": self.password,
-            "phone": self.phone,
-            "dob": self.dob,
-            "address_line1": self.address_line1,
-            "address_line2": self.address_line2,
-            "city": self.city,
-            "country": self.country,
-            "postcode": self.postcode,
-            "selected_plan": self.selected_plan,
-            "role": self.role
-        }
-
-        print("USER DATA BEFORE INSERTION:", user_data)  # Debugging print
-
-        try:
-            inserted = mongo.db.users.insert_one(user_data)
-            print("User successfully inserted into MongoDB")  # Debugging print
-            return str(inserted.inserted_id)
-        except Exception as e:
-            logging.error(f"Error saving user {self.email}: {e}")
-            return None
-
-    def check_password(self, password):
-        """Check if the provided password matches the stored hashed password."""
-        return check_password_hash(self.password, password)
-
-    def is_admin(self):
-        """Check if the user is an admin."""
         return self.role == "admin"
 
 
 # =======================================================
-# Resource Model
+# Resource Model (Container Only)
 # =======================================================
-
 
 class Resource:
-    """Model for learning resources contributed by users."""
+    """
+    Lightweight resource container used by routes/templates.
+    Persistence is handled in the SQL layer (see sql.models / routes).
+    """
 
     def __init__(self, title, description, link, category, user_id):
-        """Initialize a resource object."""
-        # Initialize resource attributes
+        # Resource title
         self.title = title
+
+        # Short description / summary
         self.description = description
+
+        # External link to the resource
         self.link = link
+
+        # Category/tag name
         self.category = category
+
+        # Owning user id (string for template compatibility)
         self.user_id = str(user_id)
-
-    def save(self, mongo):
-        """Save the resource to MongoDB."""
-        try:
-            # Insert resource into MongoDB and return the inserted ID
-            inserted = mongo.db.resources.insert_one(self.__dict__)
-            return str(inserted.inserted_id)
-        except Exception as e:
-            logging.error(f"Error saving resource: {e}")
-            return None
-
-    @staticmethod
-    def find_by_id(resource_id, mongo):
-        """Retrieve a single resource by ID."""
-        try:
-            # Convert string ID to ObjectId and query MongoDB
-            obj_id = ObjectId(resource_id)
-            return mongo.db.resources.find_one({"_id": obj_id})
-        except Exception as e:
-            logging.error(f"Error finding resource by ID {resource_id}: {e}")
-            return None
-
-    @staticmethod
-    def delete(resource_id, mongo):
-        """Delete a resource by ID."""
-        try:
-            # Convert string ID to ObjectId and delete resource
-            obj_id = ObjectId(resource_id)
-            result = mongo.db.resources.delete_one({"_id": obj_id})
-            return result.deleted_count > 0
-        except Exception as e:
-            logging.error(f"Error deleting resource by ID {resource_id}: {e}")
-            return False
-
-    @staticmethod
-    def update(resource_id, updated_data, mongo):
-        """Update a resource by ID."""
-        try:
-            # Convert string ID to ObjectId and update resource
-            obj_id = ObjectId(resource_id)
-
-            # Ensure only valid fields are updated
-            valid_fields = {"title", "description", "link", "category"}
-            updated_data = {k: v for k,
-                            v in updated_data.items() if k in valid_fields}
-
-            result = mongo.db.resources.update_one(
-                {"_id": obj_id}, {"$set": updated_data})
-            return result.modified_count > 0
-        except Exception as e:
-            logging.error(f"Error updating resource by ID {resource_id}: {e}")
-            return False
