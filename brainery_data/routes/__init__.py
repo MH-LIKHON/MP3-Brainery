@@ -117,19 +117,13 @@ def create_app():
     from brainery_data.routes.admin import admin
 
     if _prefix:
-        # Mount everything under /mp3 (or whatever MP3_PREFIX is set to)
-        root = Blueprint("root", __name__, url_prefix=_prefix)
-
-        root.register_blueprint(auth, url_prefix="/auth")
-        root.register_blueprint(dashboard, url_prefix="/dashboard")
-        root.register_blueprint(main)  # main defines its own "/"
-        root.register_blueprint(register, url_prefix="/register")
-        root.register_blueprint(resource, url_prefix="/resource")
-        root.register_blueprint(admin, url_prefix="/admin")
-
-        app.register_blueprint(root)
+        app.register_blueprint(auth, url_prefix=f"{_prefix}/auth")
+        app.register_blueprint(dashboard, url_prefix=f"{_prefix}/dashboard")
+        app.register_blueprint(main, url_prefix=_prefix)
+        app.register_blueprint(register, url_prefix=f"{_prefix}/register")
+        app.register_blueprint(resource, url_prefix=f"{_prefix}/resource")
+        app.register_blueprint(admin, url_prefix=f"{_prefix}/admin")
     else:
-        # No prefix (normal dev mode)
         app.register_blueprint(auth, url_prefix="/auth")
         app.register_blueprint(dashboard, url_prefix="/dashboard")
         app.register_blueprint(main)
