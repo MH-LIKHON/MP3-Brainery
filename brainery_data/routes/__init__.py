@@ -99,18 +99,16 @@ def create_app():
         finally:
             db.close()
 
-    # =======================================================
+        # =======================================================
     # Proxy & Middleware Configuration
     # =======================================================
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     app.wsgi_app = _PrefixFromHeaderMiddleware(app.wsgi_app)
 
     # =======================================================
-    # Register Application Blueprints
-    # (Prefix handled via SCRIPT_NAME from middleware)
+    # Register Application Blueprints (Prefix-Aware)
     # =======================================================
 
-    # Import blueprints
     from brainery_data.routes.auth import auth
     from brainery_data.routes.dashboard import dashboard
     from brainery_data.routes.main import main
@@ -118,13 +116,26 @@ def create_app():
     from brainery_data.routes.resource import resource
     from brainery_data.routes.admin import admin
 
-    # Register blueprints (no root wrapper)
-    app.register_blueprint(auth, url_prefix="/auth")
-    app.register_blueprint(dashboard, url_prefix="/dashboard")
-    app.register_blueprint(main)
-    app.register_blueprint(register, url_prefix="/register")
-    app.register_blueprint(resource, url_prefix="/resource")
-    app.register_blueprint(admin, url_prefix="/admin")
+    if _prefix:
+        # Mount everything under /mp3 (or whatever MP3_PREFIX is set to)
+        root = Blueprint("root", __name__, url_prefix=_prefix)
+
+        root.register_blueprint(auth, url_prefix="/auth")
+        root.register_blueprint(dashboard, url_prefix="/dashboard")
+        root.register_blueprint(main)  # main defines its own "/"
+        root.register_blueprint(register, url_prefix="/register")
+        root.register_blueprint(resource, url_prefix="/resource")
+        root.register_blueprint(admin, url_prefix="/admin")
+
+        app.register_blueprint(root)
+    else:
+        # No prefix (normal dev mode)
+        app.register_blueprint(auth, url_prefix="/auth")
+        app.register_blueprint(dashboard, url_prefix="/dashboard")
+        app.register_blueprint(main)
+        app.register_blueprint(register, url_prefix="/register")
+        app.register_blueprint(resource, url_prefix="/resource")
+        app.register_blueprint(admin, url_prefix="/admin")
 
     return app
 
