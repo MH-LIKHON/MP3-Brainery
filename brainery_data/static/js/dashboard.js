@@ -329,7 +329,7 @@ $(document).ready(function () {
         const userRole = $(this).data("role");
         
         // Get user role from button attribute
-        const logoutEndpoint = base + (userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout");
+        const logoutEndpoint = base + "/auth/logout";
 
         // Server expects GET, do a simple redirect
         window.location.href = logoutEndpoint;
