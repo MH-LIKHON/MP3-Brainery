@@ -141,7 +141,7 @@ $(document).ready(function () {
     ======================================================= */
 
     $("#logout-button").click(function () {
-        window.location.href = "/auth/logout";
+        window.location.href = (window.APP_PREFIX || "") + "/auth/logout";
     });
 
     /* =======================================================

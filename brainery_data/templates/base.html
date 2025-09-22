@@ -32,7 +32,13 @@
     <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg"
         type="image/svg+xml">
 
+    <!-- Subpath prefix for JS -->
+    <script>
+        window.APP_PREFIX = {{ request.script_root | tojson | safe }};
+    </script>
+
     {% block extra_head %}{% endblock %}
+
 </head>
 
 <body>

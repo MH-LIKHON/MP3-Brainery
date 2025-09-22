@@ -325,8 +325,9 @@ $(document).ready(function () {
 
     // When the logout button is clicked, log the user out and redirect to login page
     $(document).on("click", "#logout-button", function () {
-        const userRole = $(this).data("role"); // Get user role from button attribute
-        const logoutEndpoint = userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout";
+    const base = (window.APP_PREFIX || "");
+    const userRole = $(this).data("role"); // Get user role from button attribute
+    const logoutEndpoint = base + (userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout");
 
         $.ajax({
             url: logoutEndpoint, // Use correct logout URL based on role
@@ -336,7 +337,7 @@ $(document).ready(function () {
                 // Show success message and redirect to login page after 1 second
                 showToast("✅ " + response.message);
                 setTimeout(() => {
-                    window.location.href = "/auth/login";
+                    window.location.href = (window.APP_PREFIX || "") + "/auth/login";
                 }, 1000);
             },
             error: function () {
