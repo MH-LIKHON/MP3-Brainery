@@ -320,31 +320,19 @@ $(document).ready(function () {
     });
 
     /* =======================================================
-    SECTION 12: Logout Functionality
+        SECTION 12: Logout Functionality
     ======================================================= */
 
     // When the logout button is clicked, log the user out and redirect to login page
     $(document).on("click", "#logout-button", function () {
-    const base = (window.APP_PREFIX || "");
-    const userRole = $(this).data("role"); // Get user role from button attribute
-    const logoutEndpoint = base + (userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout");
+        const base = (window.APP_PREFIX || "");
+        const userRole = $(this).data("role");
+        
+        // Get user role from button attribute
+        const logoutEndpoint = base + (userRole === "admin" ? "/auth/logout" : "/dashboard/auth/logout");
 
-        $.ajax({
-            url: logoutEndpoint, // Use correct logout URL based on role
-            method: "POST",
-            headers: { "X-CSRFToken": csrfToken },
-            success: function (response) {
-                // Show success message and redirect to login page after 1 second
-                showToast("✅ " + response.message);
-                setTimeout(() => {
-                    window.location.href = (window.APP_PREFIX || "") + "/auth/login";
-                }, 1000);
-            },
-            error: function () {
-                // Show error message if logout fails
-                showToast("❌ Logout failed. Please try again.", "danger");
-            }
-        });
+        // Server expects GET, do a simple redirect
+        window.location.href = logoutEndpoint;
     });
 
     /* =======================================================
