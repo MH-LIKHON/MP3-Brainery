@@ -32,13 +32,21 @@
     <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/brain.svg"
         type="image/svg+xml">
 
-    <!-- Subpath prefix for JS -->
-    <script>
-        window.APP_PREFIX = {{ request.script_root | tojson | safe }};
-    </script>
-
     {% block extra_head %}{% endblock %}
 
+    <!-- Subpath prefix for JS -->
+    <script>
+        (function () {
+            // 1) Prefer Flask/Jinja injection if Flask knows the prefix
+            var injected = {{ request.script_root | tojson | safe }};
+            if (injected && injected !== "/") { window.APP_PREFIX = injected; return; }
+
+            // 2) Fallback: infer '/MP3-Brainery' from current path if present
+            var m = location.pathname.match(/^\/[^\/]+-Brainery(?=\/|$)/);
+            window.APP_PREFIX = m ? m[0] : "";
+        })();
+    </script>
+    
 </head>
 
 <body>
