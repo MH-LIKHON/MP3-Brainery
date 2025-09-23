@@ -1,6 +1,13 @@
 $(document).ready(function () {
     console.log("✅ Dashboard Loaded!");
 
+    // Prefix-aware base path (works both at "/" and "/MP3-Brainery")
+    const APP_BASE = (function () {
+    if (typeof window !== "undefined" && window.APP_PREFIX) return window.APP_PREFIX;
+    const m = location.pathname.match(/^\/[^/]+-Brainery(?=\/|$)/);
+    return m ? m[0] : "";
+    })();
+
     /* =======================================================
      SECTION 1: CSRF Token Setup
     ======================================================= */
@@ -60,7 +67,7 @@ $(document).ready(function () {
 
     // Function to fetch and display the list of subjects in the sidebar
     function loadSubjects() {
-        $.getJSON("/dashboard/subjects", function (subjects) {
+        $.getJSON(`${APP_BASE}/dashboard/subjects`, function (subjects) {
             let subjectHtml = "";
 
             // Loop through each subject and create a list item
@@ -96,7 +103,7 @@ $(document).ready(function () {
 
     // Function to fetch and display topics for a given subject
     function loadTopics(subjectId) {
-        $.getJSON(`/dashboard/topics/${subjectId}`, function (topics) {
+        $.getJSON(`${APP_BASE}/dashboard/topics/${subjectId}`, function (topics) {
             let topicHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
 
             // Loop through each topic and create a card for it
@@ -140,7 +147,7 @@ $(document).ready(function () {
 
         // Send an AJAX request to save the topic to the database
         $.ajax({
-            url: "/dashboard/save_topic",
+            url: `${APP_BASE}/dashboard/save_topic`,
             method: "POST",
             contentType: "application/json",
             headers: { "X-CSRFToken": csrfToken },
@@ -168,7 +175,7 @@ $(document).ready(function () {
         $("#subject-title").text("📌 Saved Topics");
 
         // Send an AJAX request to fetch saved topics from the server
-        $.getJSON("/dashboard/saved_topics", function (savedTopics) {
+        $.getJSON(`${APP_BASE}/dashboard/saved_topics`, function (savedTopics) {
             let savedHtml = `<div class="row row-cols-1 row-cols-md-3 g-3">`;
 
             // Check if there are any saved topics
@@ -249,7 +256,7 @@ $(document).ready(function () {
         if (newTitle) {
             // Send an AJAX request to update the topic title in the database
             $.ajax({
-                url: `/dashboard/update_topic/${topicId}`,
+                url: `${APP_BASE}/dashboard/update_topic/${topicId}`,
                 method: "PUT",
                 contentType: "application/json",
                 headers: { "X-CSRFToken": csrfToken },
@@ -277,7 +284,7 @@ $(document).ready(function () {
 
         // Send an AJAX request to delete the topic from the database
         $.ajax({
-            url: `/dashboard/delete_topic/${topicId}`,
+            url: `${APP_BASE}/dashboard/delete_topic/${topicId}`,
             method: "DELETE",
             headers: { "X-CSRFToken": csrfToken },
             success: function (response) {
@@ -325,13 +332,7 @@ $(document).ready(function () {
 
     // When the logout button is clicked, log the user out and redirect to login page
     $(document).on("click", "#logout-button", function () {
-        const base = (window.APP_PREFIX || "");
-        const userRole = $(this).data("role");
-        
-        // Get user role from button attribute
-        const logoutEndpoint = base + "/auth/logout";
-
-        // Server expects GET, do a simple redirect
+        const logoutEndpoint = `${APP_BASE}/auth/logout`;
         window.location.href = logoutEndpoint;
     });
 
