@@ -41,11 +41,16 @@ csrf = CSRFProtect()
 def create_app():
     """Application factory to create and configure the Flask app."""
 
-    # Create Flask application
+    # Read deployment prefix once (empty on Heroku/local root)
+    _prefix = os.getenv("MP3_PREFIX", "").strip()
+    _static_url_path = f"{_prefix}/static" if _prefix else "/static"
+
+    # Create Flask application (prefix-aware static URL)
     app = Flask(
         __name__,
         template_folder="../templates",
         static_folder="../static",
+        static_url_path=_static_url_path,  # <-- key line
     )
 
     # =======================================================
@@ -62,9 +67,8 @@ def create_app():
     # =======================================================
     # Prefix-Aware Deployment (Environment-Driven)
     # =======================================================
-    # If MP3_PREFIX is set (e.g., "/mp3-brainery" on hosting),
+    # If MP3_PREFIX is set (e.g., "/MP3-Brainery" on hosting),
     # adjust Flask root path and cookie path accordingly.
-    _prefix = os.getenv("MP3_PREFIX", "").strip()
     if _prefix:
         app.config["APPLICATION_ROOT"] = _prefix
         app.config["SESSION_COOKIE_PATH"] = _prefix
@@ -99,7 +103,7 @@ def create_app():
         finally:
             db.close()
 
-        # =======================================================
+    # =======================================================
     # Proxy & Middleware Configuration
     # =======================================================
     app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
