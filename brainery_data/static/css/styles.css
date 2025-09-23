@@ -1381,6 +1381,7 @@ body {
     position: fixed;
     left: 0;
     top: 0;
+    overflow-y: auto;
     background-color: #343a40;
     color: white;
     display: flex;
@@ -1686,6 +1687,7 @@ body {
     position: fixed;
     left: 0;
     top: 0;
+    overflow-y: auto;
     background-color: #343a40;
     color: white;
     display: flex;
@@ -1757,10 +1759,11 @@ body {
     font-size: 16px;
     padding: 10px 15px;
     display: flex;
+    margin-top: auto;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin: 10px auto;
+    margin: auto auto 10px;
     border-radius: 8px;
 }
 
