@@ -2050,93 +2050,116 @@ td:nth-child(4) {
 }
 
 /* -------------------------------
-   Responsive Adjustments
+   Responsive Adjustments — ADMIN
    ------------------------------- */
+
 /* Adjustments for screens smaller than 768px */
 @media (max-width: 768px) {
-    /* defined in Dashbaord Styles Dashbaord Styles
-    .sidebar {
-        transform: translateX(-280px);
-        position: fixed;
-        overflow-x: visible !important;
-        overflow-y: auto !important;
-    } */
+  /* Sidebar: fixed, full height, hidden by default */
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: auto;
+    transform: translateX(-280px);
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
 
-    .sidebar-toggle {
-        right: -20px;
-        width: 20px;
-        height: 100px;
-        background-color: #ff9d00;
-    }
+  /* Expanded state */
+  .sidebar:not(.collapsed) {
+    transform: translateX(0);
+  }
 
-    .sidebar:not(.collapsed) {
-        transform: translateX(0);
-    }
+  /* Handle: must be the SIBLING of .sidebar (fixed at left edge) */
+  .sidebar + .sidebar-toggle {
+    position: fixed;
+    left: 0;
+    right: auto;
+    top: 50%;
+    width: 15px;
+    height: 80px;
+    background: #ff9d00;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    z-index: 5000;
+    transform: translateY(-50%) translateX(0);
+    transition: transform .3s ease-in-out;
+  }
 
-    .dashboard-content {
-        margin-left: 0;
-        text-align: center;
-    }
+  /* When sidebar is open, move handle to outer edge */
+  .sidebar:not(.collapsed) + .sidebar-toggle {
+    transform: translateY(-50%) translateX(280px);
+  }
 
-    .table {
-        font-size: 14px;
-        width: 100%;
-        display: block;
-        overflow-x: auto;
-    }
+  /* Content: never pushed on mobile */
+  .dashboard-content {
+    margin-left: 0 !important;
+    text-align: center;
+  }
 
-    .table th,
-    .table td {
-        font-size: 14px;
-        padding: 10px;
-        white-space: nowrap;
-    }
+  /* Table responsiveness */
+  .table {
+    font-size: 14px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
 
-    th:nth-child(4),
-    td:nth-child(4) {
-        text-align: center;
-        width: auto;
-    }
+  .table th,
+  .table td {
+    font-size: 14px;
+    padding: 10px;
+    white-space: nowrap;
+  }
 
-    .action-icons {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 40px;
-        width: 100%;
-    }
+  th:nth-child(4),
+  td:nth-child(4) {
+    text-align: center;
+    width: auto;
+  }
 
-    .icon-promote,
-    .icon-delete {
-        font-size: 24px;
-    }
+  .action-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .icon-promote,
+  .icon-delete {
+    font-size: 24px;
+  }
 }
 
-/* Adjustments for screens smaller than 576px */
+/* ≤ 576px: tighter table/icon sizing */
 @media (max-width: 576px) {
-    .table {
-        width: 100%;
-        display: block;
-        overflow-x: auto;
-    }
+  .table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
 
-    .table th,
-    .table td {
-        font-size: 12px;
-        padding: 8px;
-        text-align: center;
-    }
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+  }
 
-    .action-icons {
-        flex-direction: row;
-        gap: 25px;
-    }
+  .action-icons {
+    flex-direction: row;
+    gap: 24px;
+  }
 
-    .icon-promote {
-        font-size: 20px;
-    }
+  .icon-promote {
+    font-size: 20px;
+  }
 
-    .icon-delete {
-        font-size: 22px;
-    }
+  .icon-delete {
+    font-size: 22px;
+  }
 }

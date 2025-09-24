@@ -51,8 +51,6 @@
 
         <!-- Collapsible sidebar with stats and logout -->
         <aside class="sidebar bg-dark text-white collapsed">
-            <!-- Sidebar Toggle Button -->
-            <button class="sidebar-toggle">☰</button>
 
             <!-- Display Admin Username -->
             <h3 id="username" class="text-uppercase text-center mt-3">{{ current_user.username }}</h3>
@@ -69,11 +67,14 @@
             </button>
         </aside>
 
+        <!-- Sidebar Toggle Button -->
+        <button class="sidebar-toggle">☰</button>
+
         <!-- =======================================================
         Main Content Section
         ======================================================= -->
 
-        <main class="flex-grow-1 p-4">
+        <main class="dashboard-content p-4">
             <!-- Admin Dashboard Title -->
             <h2 class="mb-3">User Management</h2>
 
