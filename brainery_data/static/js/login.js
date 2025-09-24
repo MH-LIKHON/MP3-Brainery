@@ -87,7 +87,7 @@ resetForm.addEventListener("submit", function (event) {
     const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
     // Send a request to the Flask backend to reset the user's password with CSRF protection
-    fetch("/auth/reset_password", {
+    fetch((window.APP_PREFIX || "") + "/auth/reset_password", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

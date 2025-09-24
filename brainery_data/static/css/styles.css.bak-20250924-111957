@@ -1,0 +1,2081 @@
+/* =======================================================
+   HEADER & FOOTER ALL PAGES
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility class for container max-width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Ensure the full-page layout dynamically adjusts */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* -------------------------------
+   Top Bar
+   ------------------------------- */
+/* Top bar styling */
+.top-bar {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+/* Centering social icons */
+.social-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Styling for social media icons */
+.social-icons a {
+    font-size: 20px;
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effect for social icons */
+.social-icons a:hover {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* -------------------------------
+   Navbar
+   ------------------------------- */
+/* Navbar styling */
+.navbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    padding: 10px 0;
+}
+
+/* Navbar Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Logo Icon */
+.logo-icon {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for Logo */
+.navbar-brand:hover .logo-icon {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: #333;
+    font-size: 16px;
+    transition: color 0.3s ease, transform 0.3s ease;
+    gap: 20px;
+}
+
+/* Hover effect for Navbar Links */
+.navbar-nav .nav-link:hover {
+    color: #20c997;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Footer Container
+   ------------------------------- */
+/* Footer styling */
+footer {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+    text-align: center;
+    color: #333;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* Main wrapper to control page layout */
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+}
+
+/* Push the main content to take available space */
+.footer-content {
+    flex: 1;
+    padding-bottom: 20px;
+}
+
+/* Footer Logo */
+footer .fa-brain {
+    font-size: 32px;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Footer Hover Effect */
+footer .fa-brain:hover {
+    color: #20c997;
+    transform: scale(1.2);
+}
+
+/* Footer Text */
+.footer-text {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Footer Links */
+footer a {
+    color: #20c997;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect for Footer Links */
+footer a:hover {
+    color: #333;
+}
+
+/* -------------------------------
+    Mobile & Tablet View (Responsive)
+    ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .navbar-collapse {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    .navbar-nav {
+        width: 100%;
+        text-align: right;
+    }
+
+    .navbar-nav .nav-item {
+        padding-right: 15px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .navbar-nav .nav-item:hover {
+        transform: translateX(10px);
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .social-icons {
+        gap: 10px;
+    }
+
+    .social-icons a {
+        font-size: 18px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .hero-section {
+        height: 300px;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 0.9rem;
+    }
+
+    .hero-section .btn {
+        font-size: 16px;
+    }
+}
+
+
+
+
+/* =======================================================
+   HOME PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base styles for body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Utility class for container max-width */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* -------------------------------
+   Hero Section Container
+   ------------------------------- */
+.hero-section {
+    flex-shrink: 0;
+    height: auto;
+    min-height: 70vh;
+    padding-bottom: 60px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* -------------------------------
+   Background Video
+   ------------------------------- */
+/* Full-width background video */
+.video-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 70vh;
+    overflow: hidden;
+}
+
+/* Video Styling */
+#video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 70vh;
+    object-fit: cover;
+    rotate: 180deg;
+}
+
+/* -------------------------------
+   Hero Text
+   ------------------------------- */
+/* Hero Text Container */
+.hero-text {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    top: 20%;
+    text-align: center;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Small Title */
+.hero-text .small-title {
+    font-weight: 700;
+    color: #20c997;
+}
+
+/* Main Hero Heading */
+.hero-text h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+/* Subtext */
+.hero-text h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 25px;
+}
+
+/* Additional Subtext */
+.hero-text h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 70px;
+}
+
+/* -------------------------------
+   Hero Button
+   ------------------------------- */
+/* Hero Button Styling */
+.hero-btn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+/* Hover Effect */
+.hero-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Features Section Layout
+   ------------------------------- */
+/* Features Section */
+.feature-section {
+    padding: 60px 0;
+}
+
+/* Features Title */
+.feature-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* -------------------------------
+   Features Grid
+   ------------------------------- */
+/* Grid layout for features */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* -------------------------------
+   Feature Cards
+   ------------------------------- */
+/* Feature Card Styling */
+.feature-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover Effect */
+.feature-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* -------------------------------
+   Feature Card Elements
+   ------------------------------- */
+/* Feature Icon */
+.feature-icon {
+    font-size: 40px;
+    color: #20c997;
+    margin-bottom: 15px;
+}
+
+/* Feature Title */
+.feature-card h5 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+/* Feature Description */
+.feature-card p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #666;
+}
+
+/* -------------------------------
+   Feature Modal Buttons
+   ------------------------------- */
+.feature-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: 2px solid #20c997;
+    color: #20c997;
+    background: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.feature-btn:hover {
+    background-color: #20c997;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 1024px) */
+@media (max-width: 1024px) {
+    .hero-text h1 {
+        font-size: 3rem;
+    }
+
+    .hero-text h2 {
+        font-size: 2.5rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1.5rem;
+    }
+
+    .hero-text {
+        top: 150px;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-section {
+        height: 80vh;
+    }
+
+    .hero-text h1 {
+        font-size: 1.3rem;
+    }
+
+    .hero-text h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero-text h3 {
+        font-size: 1rem;
+    }
+
+    .hero-text {
+        top: 50px;
+    }
+}
+
+
+
+
+/* =======================================================
+   REGISTER PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Page Layout
+   ------------------------------- */
+/* Page container for register form */
+.register-container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Smooth fade-in effect */
+.register-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.register-container.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* -------------------------------
+   Titles
+   ------------------------------- */
+/* Register Page Title */
+h2.plan-title {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* -------------------------------
+   Package Selection Layout
+   ------------------------------- */
+/* Package selection container */
+.package-selection {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+/* -------------------------------
+   Package Cards
+   ------------------------------- */
+/* Individual package card */
+.package {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+    border: 2px solid #20c997;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 200px;
+    position: relative;
+}
+
+/* Hover effect & selection */
+.package:hover,
+.package.selected {
+    background: #20c997;
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Small pulse effect when selected */
+.package.selected::after {
+    content: "✔";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* -------------------------------
+   Form Sections
+   ------------------------------- */
+/* Smooth fade-in effect */
+.step-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.step-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* -------------------------------
+   Form Input Fields
+   ------------------------------- */
+/* Form group wrapper */
+.form-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Input Labels */
+label {
+    font-weight: bold;
+    display: block;
+}
+
+/* Input Fields */
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Input focus effect */
+input:focus {
+    border-color: #20c997;
+    box-shadow: 0px 0px 8px rgba(32, 201, 151, 0.3);
+    outline: none;
+}
+
+/* -------------------------------
+   Payment Section
+   ------------------------------- */
+/* Smooth fade-in effect */
+.payment-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease-in-out;
+}
+
+.payment-section.active {
+    display: block;
+    opacity: 1;
+}
+
+/* -------------------------------
+   Promo Code Section
+   ------------------------------- */
+/* Promo code input */
+.promo-code input {
+    width: 70%;
+    display: inline-block;
+}
+
+/* Promo code apply button */
+.promo-code button {
+    width: 28%;
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.promo-code button:hover {
+    background: #198754;
+}
+
+/* Promo Message */
+#promo-message {
+    margin-top: 5px;
+    font-size: 14px;
+    transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* -------------------------------
+   All Button
+   ------------------------------- */
+/* Main submit button */
+.submit-btn {
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.submit-btn:hover {
+    background: #198754;
+    transform: scale(1.02);
+}
+
+/* Click effect */
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+/* Loading Spinner for Button */
+.spinner {
+    width: 15px;
+    height: 15px;
+    border: 2px solid white;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    animation: spin 0.6s linear infinite;
+    margin-right: 5px;
+}
+
+/* Spinner for Button */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Style for next button - matching submit button */
+.next-btn {
+    background: #20c997;
+    /* Same color as submit button */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.next-btn:hover {
+    background: #198754;
+    /* Darker shade for hover */
+    transform: scale(1.02);
+}
+
+/* Click effect */
+.next-btn:active {
+    transform: scale(0.98);
+}
+
+/* -------------------------------
+   Step Sections - Smooth Transitions
+   ------------------------------- */
+.step-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Active step - Fades in smoothly */
+.step-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* -------------------------------
+   Funny Success Message
+   ------------------------------- */
+/* Initially hidden */
+.success-message {
+    display: none;
+    opacity: 0;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    transform: scale(0.9);
+    transition: opacity 0.5s ease-in-out, transform 0.4s ease-in-out;
+}
+
+/* When shown, smoothly appears */
+.success-message.show {
+    display: block;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .register-container {
+        max-width: 95%;
+        padding: 20px;
+    }
+
+    .package-selection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .package {
+        width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .step-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .step-section.active {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .success-message {
+        font-size: 18px;
+        padding: 30px;
+    }
+
+    .register-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .next-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 480px) {
+    .register-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .submit-btn {
+        font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .package-selection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .package {
+        width: 100%;
+    }
+
+    .success-message {
+        font-size: 16px;
+        padding: 20px;
+    }
+
+    .next-btn {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+}
+
+
+
+
+
+/* =======================================================
+   LOGIN PAGE
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Calibri', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Main Container
+   ------------------------------- */
+/* Page layout container */
+.main-container {
+    min-height: 70vh;
+    min-width: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Flash message container */
+.flash-messages {
+    margin-top: 10px;
+    padding: 10px;
+}
+
+/* Success message style */
+.flash-messages .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Error message style */
+.flash-messages .alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Flash message styles */
+.flash-messages .alert {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 5px;
+    transition: opacity 0.5s ease-out;
+    /* Add fade-out effect */
+    opacity: 1;
+}
+
+/* Hide flash message after it fades */
+.flash-messages .alert.hide {
+    opacity: 0;
+    display: none;
+}
+
+/* -------------------------------
+   Login Form Box
+   ------------------------------- */
+/* Form wrapper styling */
+.form-container {
+    width: 400px;
+    height: auto;
+    display: grid;
+    position: relative;
+    padding: 25px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------------------
+   User Icon
+   ------------------------------- */
+/* Icon container */
+.icon {
+    position: absolute;
+    width: 70px;
+    font-size: 40px;
+    height: 70px;
+    display: grid;
+    place-content: center;
+    border: 1px solid #2a2a2a;
+    z-index: 1;
+    justify-self: center;
+    border-radius: 50%;
+    background: #0e0e0e;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Icon color */
+.icon .fa {
+    color: #a2a2a2;
+}
+
+/* -------------------------------
+   Form Layout
+   ------------------------------- */
+/* Form structure */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* -------------------------------
+   Titles and Messages
+   ------------------------------- */
+/* Form title */
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin: 50px 0 20px;
+    text-align: center;
+}
+
+/* -------------------------------
+   Input Fields
+   ------------------------------- */
+/* Input field container */
+.field {
+    width: 100%;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Input field icons */
+.field .fa {
+    position: absolute;
+    font-size: 14px;
+    right: 10px;
+    bottom: 12px;
+}
+
+/* Text input styling */
+input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* -------------------------------
+   Action Links
+   ------------------------------- */
+/* Remember Me & Forgot Password */
+.action {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Checkbox label */
+.action label {
+    cursor: pointer;
+    color: #7d7d7d;
+}
+
+/* Checkbox */
+.action input {
+    width: auto;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #009688;
+}
+
+/* -------------------------------
+   Button Container
+   ------------------------------- */
+/* Wrapper for buttons */
+.btn-container {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* -------------------------------
+   Login Button
+   ------------------------------- */
+/* Button appearance */
+#login-btn {
+    padding: 12px 20px;
+    border: none;
+    background: #20c997;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+}
+
+/* Button hover effect */
+#login-btn:hover {
+    background: #17a489;
+}
+
+/* -------------------------------
+   Sign Up Link
+   ------------------------------- */
+/* Signup text */
+.signup {
+    color: #666;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* -------------------------------
+   Password Reset Popup
+   ------------------------------- */
+
+/* Background overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+    /* Initially hidden */
+}
+
+/* Show overlay when popup is active */
+.popup-container.active~.overlay {
+    display: block;
+}
+
+/* Popup container */
+.popup-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    width: 350px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border-radius: 10px;
+    z-index: 1001;
+    display: none;
+}
+
+/* Popup title */
+.popup h3 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Input fields */
+.popup input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Buttons */
+.popup button {
+    width: 100%;
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+/* Button hover effect */
+.popup button:hover {
+    background: #17a589;
+}
+
+/* Close button */
+.popup button#close-popup {
+    background: #dc3545;
+}
+
+/* Close button hover effect */
+.popup button#close-popup:hover {
+    background: #c82333;
+}
+
+/* -------------------------------
+   Mobile & Tablet View (Responsive)
+   ------------------------------- */
+/* Adjust Navbar for Mobile (screens smaller than 768px) */
+@media (max-width: 768px) {
+    .popup-container {
+        width: 90%;
+        /* Make popup responsive */
+    }
+
+    .main-container {
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    .form-container {
+        width: 100%;
+        max-width: 350px;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    input {
+        font-size: 14px;
+    }
+
+    .action {
+        font-size: 12px;
+    }
+
+    .signup {
+        font-size: 12px;
+    }
+
+    #login-btn {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
+/* Adjust Navbar for Mobile (screens smaller than 576px) */
+@media (max-width: 576px) {
+    .form-container {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .signup {
+        font-size: 11px;
+    }
+}
+
+
+
+
+
+/* =======================================================
+   DASHBOARD PAGE STYLING
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* -------------------------------
+   Body Styling
+   ------------------------------- */
+/* Set background color */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Sidebar Container
+   ------------------------------- */
+/* Sidebar layout and positioning */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    transition: left 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* Hides sidebar when collapsed */
+.sidebar.collapsed {
+    left: -280px;
+}
+
+/* -------------------------------
+   Sidebar Toggle Button
+   ------------------------------- */
+/* Button to toggle sidebar visibility */
+.sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+    width: 15px;
+    height: 80px;
+    background-color: #ff9d00;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Toggle when Collapsed */
+.sidebar.collapsed .sidebar-toggle {
+    right: -15px;
+}
+
+/* -------------------------------
+   Username Styling
+   ------------------------------- */
+/* Centered username display */
+#username {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* -------------------------------
+   Subject List Layout
+   ------------------------------- */
+/* Structure for subject list */
+#subject-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+    gap: 10px;
+}
+
+/* -------------------------------
+   Subject Button Styling
+   ------------------------------- */
+/* Appearance of subject buttons */
+.subject-item {
+    text-align: left;
+    white-space: nowrap;
+    width: 90%;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+    background: #6c757d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+.subject-item:hover {
+    background-color: #495057;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Saved Topics Styling
+   ------------------------------- */
+/* Layout and appearance of saved topics */
+#saved-topics {
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+/* Saved Topics Icon */
+#saved-topics i {
+    color: #dc3545;
+}
+
+/* -------------------------------
+   Saved Topics Button Styling
+   ------------------------------- */
+/* Saved Topics Button */
+#load-saved-topics {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Hover Effect */
+#load-saved-topics:hover {
+    background-color: #20c997;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Saved Topics List Items
+   ------------------------------- */
+/* Saved Topics Button */
+#load-saved-topics {
+    display: block;
+    width: fit-content;
+    max-width: 90%;
+    margin: 10px auto;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 2px solid #20c997;
+    color: #20c997;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+#load-saved-topics:hover {
+    background-color: #20c997;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* -------------------------------
+   Logout Button Styling
+   ------------------------------- */
+/* Styles for logout button */
+.btn-danger {
+    width: 80%;
+    max-width: 250px;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px auto;
+    border-radius: 8px;
+}
+
+/* -------------------------------
+   Main Content Layout
+   ------------------------------- */
+/* Dashboard content structure */
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar Expanded State */
+/* Pushes content when sidebar is open */
+.sidebar:not(.collapsed)~.dashboard-content {
+    margin-left: 280px;
+}
+
+/* -------------------------------
+   Study Box Styling
+   ------------------------------- */
+/* Appearance of study content */
+#study-content {
+    height: 70vh;
+    overflow-y: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+   ------------------------------- */
+/* Adjustments for screens smaller than 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: -280px;
+        position: fixed;
+    }
+
+    .sidebar-toggle {
+        right: -20px;
+        width: 20px;
+        height: 100px;
+        background-color: #ff9d00;
+    }
+
+    .sidebar:not(.collapsed) {
+        left: 0;
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .subject-item {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    #saved-topics {
+        font-size: 16px;
+    }
+
+    #load-saved-topics {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    #saved-topics .list-group-item {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+/* Adjustments for screens smaller than 576px */
+@media (max-width: 576px) {
+    .subject-item {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    #saved-topics {
+        font-size: 14px;
+    }
+}
+
+
+
+
+
+/* =======================================================
+   ADMIN PAGE STYLING
+   ======================================================= */
+
+/* -------------------------------
+   Global Resets
+   ------------------------------- */
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* -------------------------------
+   Body Styling
+   ------------------------------- */
+/* Set background color */
+body {
+    background: #f8f9fa;
+}
+
+/* -------------------------------
+   Sidebar Container
+   ------------------------------- */
+/* Sidebar layout and positioning */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+/* Hides sidebar when collapsed */
+.sidebar.collapsed {
+    transform: translateX(-280px);
+}
+
+/* -------------------------------
+   Sidebar Toggle Button
+   ------------------------------- */
+/* Button to toggle sidebar visibility */
+.sidebar-toggle {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -15px;
+    width: 15px;
+    height: 80px;
+    background-color: #ff9d00;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Toggle when Collapsed */
+.sidebar.collapsed .sidebar-toggle {
+    right: -15px;
+}
+
+/* -------------------------------
+   Username Styling
+   ------------------------------- */
+/* Centered username display */
+#username {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* -------------------------------
+   Admin Stats Section
+   ------------------------------- */
+/* List styling for user stats */
+.list-group-item {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+/* -------------------------------
+   Logout Button Styling
+   ------------------------------- */
+/* Styles for logout button */
+#logout-button {
+    width: 80%;
+    max-width: 250px;
+    font-size: 16px;
+    padding: 10px 15px;
+    display: flex;
+    margin-top: auto;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: auto auto 10px;
+    border-radius: 8px;
+}
+
+/* -------------------------------
+   Main Content Layout
+   ------------------------------- */
+/* Admin dashboard content structure */
+.dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Sidebar Expanded State */
+.sidebar:not(.collapsed)~.dashboard-content {
+    margin-left: 280px;
+}
+
+/* -------------------------------
+   Admin Login Button In Login Page
+   ------------------------------- */
+/* Admin Login */
+.admin-login {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Admin Login Button */
+.admin-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+
+/* Admin Login Button Hover */
+.admin-btn:hover {
+    background-color: #cc0000;
+}
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------
+   User Table Styling Fix
+   ------------------------------- */
+/* Table structure */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Header Styling */
+.table-dark th {
+    background-color: #212529;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+/* Alternating Row Colors */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Table Cell Styling */
+.table td,
+.table th {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure uniform row heights */
+.table tbody tr {
+    height: 60px;
+}
+
+/* Force "Actions" column to center */
+th:nth-child(4),
+td:nth-child(4) {
+    text-align: center;
+    width: 20%;
+}
+
+/* -------------------------------
+   User Actions Styling Fix
+   ------------------------------- */
+/* Action Column */
+.action-icons {
+    display: flex;
+    gap: 35px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-width: 150px;
+    flex-shrink: 0;
+}
+
+/* Promote Icon */
+.icon-promote {
+    color: #28a745;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Delete Icon */
+.icon-delete {
+    color: #dc3545;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Row Borders for Consistency */
+.table-striped tbody tr {
+    border-bottom: 1px solid #ddd !important;
+}
+
+/* Ensure uniform row heights */
+.table-striped tbody tr>td {
+    height: 60px;
+    vertical-align: middle;
+}
+
+/* -------------------------------
+   User Table Styling Fix
+   ------------------------------- */
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.table-dark th {
+    background-color: #212529;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.table td,
+.table th {
+    padding: 15px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Ensure all rows and columns take full width */
+.table tbody tr {
+    height: 60px;
+    display: table-row;
+    width: 100%;
+}
+
+/* Ensure "Actions" column is centered and doesn't expand unnecessarily */
+th:nth-child(4),
+td:nth-child(4) {
+    text-align: center;
+    width: auto;
+}
+
+/* -------------------------------
+   User Actions Styling Fix
+   ------------------------------- */
+
+.action-icons {
+    display: flex;
+    gap: 40px;
+    /* Increased spacing between icons */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* Promote Icon */
+.icon-promote {
+    color: #28a745;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Delete Icon */
+.icon-delete {
+    color: #dc3545;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.table-striped tbody tr {
+    border-bottom: 1px solid #ddd !important;
+}
+
+.table-striped tbody tr>td {
+    height: 60px;
+    vertical-align: middle;
+}
+
+/* -------------------------------
+   Responsive Adjustments
+   ------------------------------- */
+/* Adjustments for screens smaller than 768px */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-280px);
+        position: fixed;
+    }
+
+    .sidebar-toggle {
+        right: -20px;
+        width: 20px;
+        height: 100px;
+        background-color: #ff9d00;
+    }
+
+    .sidebar:not(.collapsed) {
+        transform: translateX(0);
+    }
+
+    .dashboard-content {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .table {
+        font-size: 14px;
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        font-size: 14px;
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    th:nth-child(4),
+    td:nth-child(4) {
+        text-align: center;
+        width: auto;
+    }
+
+    .action-icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        width: 100%;
+    }
+
+    .icon-promote,
+    .icon-delete {
+        font-size: 24px;
+    }
+}
+
+/* Adjustments for screens smaller than 576px */
+@media (max-width: 576px) {
+    .table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        font-size: 12px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .action-icons {
+        flex-direction: row;
+        gap: 25px;
+    }
+
+    .icon-promote {
+        font-size: 20px;
+    }
+
+    .icon-delete {
+        font-size: 22px;
+    }
+}

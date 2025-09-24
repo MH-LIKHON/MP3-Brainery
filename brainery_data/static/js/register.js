@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log(`📧 Checking email: ${emailValue}`);
 
             // Send AJAX request to check if email is already registered
-            fetch("/register/check_email", {
+            fetch((window.APP_PREFIX || "") + "/register/check_email", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email: emailValue })
@@ -516,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("📌 Form Data with Selected Plan:", formObject);
 
         // Send form data to the backend for registration
-        fetch("/register/register", {
+        fetch((window.APP_PREFIX || "") + "/register/register", {
             method: "POST",
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams(formData).toString(),
@@ -529,12 +529,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Send confirmation email before redirecting to the success page
                     sendConfirmationEmail(formObject.first_name, formObject.email, selectedPlan)
                         .then(() => {
-                            window.location.href = "/register/register?success=true";
+                            window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
                         })
                         .catch(error => {
                             console.error("❌ Email sending failed:", error);
                             alert("⚠ Registration completed but confirmation email failed.");
-                            window.location.href = "/register/register?success=true";
+                            window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
                         });
 
                 } else {

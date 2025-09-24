@@ -8,6 +8,15 @@ $(document).ready(function () {
     return m ? m[0] : "";
     })();
 
+    // Safety-net: keep horizontal overflow visible so handle can stick out
+    (function ensureSidebarOverflowX(){
+    const side = document.querySelector('aside.sidebar');
+    if (side) {
+        side.style.setProperty('overflow-x', 'visible', 'important'); // ← force win
+        side.style.setProperty('overflow-y', 'auto', 'important');    // keep scroll
+    }
+    })();
+
     /* =======================================================
      SECTION 1: CSRF Token Setup
     ======================================================= */
@@ -25,7 +34,7 @@ $(document).ready(function () {
     });
 
     // Ensure the sidebar starts in a collapsed state on page load
-    $(".sidebar").addClass("collapsed");
+    if (window.innerWidth < 768) { $(".sidebar").addClass("collapsed"); }
 
     // Function to automatically collapse the sidebar
     function autoCollapseSidebar() {

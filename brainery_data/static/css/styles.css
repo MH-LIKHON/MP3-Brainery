@@ -1381,15 +1381,17 @@ body {
     position: fixed;
     left: 0;
     top: 0;
-    overflow-y: auto;
     background-color: #343a40;
-    color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px 0;
-    transition: transform 0.3s ease-in-out;
+    transition: transform .3s ease-in-out;
     z-index: 1000;
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Hides sidebar when collapsed */
@@ -1412,7 +1414,28 @@ body {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all .3s ease;
+    }
+
+/* Handle placed as sibling so it never gets clipped by transformed sidebar */
+.sidebar + .sidebar-toggle {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 15px;
+  height: 80px;
+  background: #ff9d00;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+  z-index: 5000;
+  transform: translateY(-50%) translateX(0);
+  transition: transform .3s ease-in-out;
+}
+
+/* when sidebar is expanded, move handle to the outer edge */
+.sidebar:not(.collapsed) + .sidebar-toggle {
+  transform: translateY(-50%) translateX(280px);
 }
 
 /* Sidebar Toggle when Collapsed */
@@ -1600,6 +1623,8 @@ body {
     .sidebar {
         transform: translateX(-280px);
         position: fixed;
+        overflow-x: visible !important;
+        overflow-y: auto !important;
     }
 
     .sidebar-toggle {
@@ -1680,23 +1705,25 @@ body {
 /* -------------------------------
    Sidebar Container
    ------------------------------- */
-/* Sidebar layout and positioning */
+/* Sidebar layout and positioning, defined in Dashbaord Styles
 .sidebar {
     width: 280px;
     height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
-    overflow-y: auto;
     background-color: #343a40;
-    color: white;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px 0;
-    transition: transform 0.3s ease-in-out;
+    transition: transform .3s ease-in-out;
     z-index: 1000;
-}
+    overflow-x: visible;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}*/
 
 /* Hides sidebar when collapsed */
 .sidebar.collapsed {
@@ -1718,7 +1745,7 @@ body {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all .3s ease;
 }
 
 /* Sidebar Toggle when Collapsed */
@@ -1759,11 +1786,10 @@ body {
     font-size: 16px;
     padding: 10px 15px;
     display: flex;
-    margin-top: auto;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin: auto auto 10px;
+    margin: 10px auto;
     border-radius: 8px;
 }
 
@@ -1996,10 +2022,13 @@ td:nth-child(4) {
    ------------------------------- */
 /* Adjustments for screens smaller than 768px */
 @media (max-width: 768px) {
+    /* defined in Dashbaord Styles Dashbaord Styles
     .sidebar {
         transform: translateX(-280px);
         position: fixed;
-    }
+        overflow-x: visible !important;
+        overflow-y: auto !important;
+    } */
 
     .sidebar-toggle {
         right: -20px;

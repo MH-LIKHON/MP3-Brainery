@@ -37,28 +37,31 @@
         Sidebar Section
         ======================================================= -->
 
-    <aside class="sidebar bg-dark text-white collapsed">
-      <!-- Sidebar Toggle Button -->
-      <button class="sidebar-toggle">☰</button>
+        <!-- Collapsible sidebar with stats and logout -->
+        <aside class="sidebar bg-dark text-white collapsed">
 
-      <!-- Display Username -->
-      <h3 id="username" class="text-uppercase text-center mt-3">{{ current_user.username }}</h3>
+            <!-- Display Username -->
+            <h3 id="username" class="text-uppercase text-center mt-3">{{ current_user.username }}</h3>
 
-      <!-- Subjects List (Dynamically Loaded) -->
-      <ul id="subject-list" class="list-group mt-3"></ul>
+            <!-- Subjects List (Dynamically Loaded) -->
+            <ul id="subject-list" class="list-group mt-3"></ul>
 
-      <!-- Saved Topics Section -->
-      <h5 class="text-center mt-3">
-        <button id="load-saved-topics" class="btn btn-primary">📌 Saved Topics</button>
-      </h5>
-      <ul id="saved-topic-list" class="list-group px-2"></ul>
+            <!-- Saved Topics Section -->
+            <h5 class="text-center mt-3">
+              <button id="load-saved-topics" class="btn btn-primary">📌 Saved Topics</button>
+            </h5>
 
-      <!-- Logout Button -->
-      <button id="logout-button" class="btn btn-danger mt-auto mb-3" data-role="{{ current_user.role }}">
-        🚪 Logout
-      </button>
-    </aside>
+            <ul id="saved-topic-list" class="list-group px-2"></ul>
 
+            <!-- Logout Button -->
+            <button id="logout-button" class="btn btn-danger mt-auto mb-3" data-role="{{ current_user.role }}">
+              🚪 Logout
+            </button>
+        </aside>
+
+        <!-- Sidebar Toggle Button -->
+        <button class="sidebar-toggle">☰</button>
+        
     <!-- =======================================================
         Main Content Section
         ======================================================= -->
