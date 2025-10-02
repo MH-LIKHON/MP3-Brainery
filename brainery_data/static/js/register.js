@@ -491,10 +491,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Listen for the form submission event
     registerForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+        const useAjax = false;
+        if (useAjax) event.preventDefault();
 
         // Prevent duplicate submissions by checking submission flag
         if (this.dataset.submitted === "true") {
+            if (!useAjax) event.preventDefault();
             console.warn("⚠ Form already submitted. Preventing duplicate submission.");
             return;
         }
@@ -504,6 +506,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         console.log("🚀 Proceeding with registration...");
 
+    if (useAjax) {
         // Get selected plan from the hidden input
         const selectedPlan = document.getElementById("selected_plan")?.value || "No Plan Selected";
 
@@ -569,6 +572,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("⚠ Unexpected error. Please try again.");
                 registerForm.dataset.submitted = "false";
             });
+        }
 
     });
 
