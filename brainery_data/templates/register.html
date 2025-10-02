@@ -85,8 +85,8 @@
         <!-- CSRF Token -->
         {{ form.hidden_tag() }}
 
-        <!-- Hidden Input for Selected Plan -->
-        <input type="hidden" id="selected_plan" name="selected_plan" required>
+        <!-- Hidden Input for Selected Plan 
+        <input type="hidden" id="selected_plan" name="selected_plan" required> -->
 
         <!-- STEP 1: PERSONAL INFO (User's Information) -->
         <div id="personal-info" class="step-section">
@@ -219,14 +219,16 @@
 
 <!-- EmailJS Initialize -->
 <script>
+  try {
     // Use your EmailJS PUBLIC KEY here (not the service ID)
-    emailjs.init("W2YSRyqhhCt5N8kVj")
-        .then(() => console.log("EmailJS Initialized Successfully!"))
-        .catch(error => {
-            console.error("❌ EmailJS Initialization Failed!", error);
-            alert("⚠ EmailJS failed to initialize. Check your API key.");
-        });
+    emailjs.init("W2YSRyqhhCt5N8kVj");
+    console.log("✅ EmailJS Initialized Successfully!");
+  } catch (error) {
+    console.error("❌ EmailJS Initialization Failed!", error);
+    alert("⚠ EmailJS failed to initialize. Check your API key.");
+  }
 </script>
+
 
 <!-- JavaScript -->
 <script src="{{ url_for('static', filename='js/register.js') }}"></script>

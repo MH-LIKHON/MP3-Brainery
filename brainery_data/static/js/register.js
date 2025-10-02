@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Ensure the registration form exists before proceeding
     if (!registerForm) {
-        console.error("❌ Registration form not found! Ensure the correct ID is used.");
+        console.warn("[register] No form present (success screen). Skipping JS wiring.");
         return;
     } else {
         console.log("✅ Registration form detected.");
@@ -322,6 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Enable the next button only if a valid promo is applied
         nextButton.disabled = !isValidPromo;
     }
+    window.applyPromoCode = applyPromoCode;
 
     // Reset payment fields when promo code input is cleared
     promoCodeInput.addEventListener("input", function () {
