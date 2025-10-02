@@ -537,12 +537,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     return { kind: "json", ok: response.ok, data, status: response.status };
                 }
 
-                // Non-JSON (likely success/redirect HTML). Treat as success.
-                const html = await response.text();
-                return { kind: "html", ok: response.ok, html, status: response.status, url: response.url };
+                // Non-JSON (likely success HTML). Navigate immediately to success page.
+                window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
+                return { kind: "html-navigated" };
             })
             .then((res) => {
-                if (res.kind === "redirect") return; // already navigated
+                if (res.kind === "redirect" || res.kind === "html-navigated") return;
 
                 if (res.kind === "json") {
                     const data = res.data || {};
