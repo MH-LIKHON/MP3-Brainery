@@ -262,7 +262,13 @@ def register_user():
 
                 # Indicate successful registration
                 flash("Registration successful! You selected: " + selected_plan + ".", "success")
-                return jsonify({"success": True, "message": "Registration successful!"}), 200
+
+                # If it's an AJAX request (fetch / JSON), return JSON
+                if request.accept_mimetypes.best == "application/json" or request.is_json:
+                    return jsonify({"success": True, "message": "Registration successful!"}), 200
+
+                # Otherwise (normal browser form POST), redirect to success page
+                return redirect(url_for('register.register_user', success="true"))
 
             # Handle unexpected server errors during registration
             except Exception as e:
