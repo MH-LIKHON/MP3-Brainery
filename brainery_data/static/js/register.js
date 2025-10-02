@@ -522,37 +522,54 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             body: new URLSearchParams(formData).toString(),
         })
-            .then(response => response.json())
-            .then(jsonData => {
-                if (jsonData.success) {
-                    console.log("User successfully registered in MongoDB!");
-
-                    // Send confirmation email before redirecting to the success page
-                    sendConfirmationEmail(formObject.first_name, formObject.email, selectedPlan)
-                        .then(() => {
-                            window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
-                        })
-                        .catch(error => {
-                            console.error("❌ Email sending failed:", error);
-                            alert("⚠ Registration completed but confirmation email failed.");
-                            window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
-                        });
-
-                } else {
-                    console.error("❌ Registration failed:", jsonData.message);
-                    alert(`⚠ Registration failed: ${jsonData.message}`);
-
-                    // Reset submission flag in case of an error
-                    this.dataset.submitted = "false";
+            .then(async (response) => {
+                // If backend issues an HTTP redirect, follow it
+                if (response.redirected) {
+                    window.location.href = response.url;
+                    return { kind: "redirect" };
                 }
+
+                const ct = (response.headers.get("content-type") || "").toLowerCase();
+
+                if (ct.includes("application/json")) {
+                    let data = null;
+                    try { data = await response.json(); } catch (_) {}
+                    return { kind: "json", ok: response.ok, data, status: response.status };
+                }
+
+                // Non-JSON (likely success/redirect HTML). Treat as success.
+                const html = await response.text();
+                return { kind: "html", ok: response.ok, html, status: response.status, url: response.url };
             })
-            .catch(error => {
+            .then((res) => {
+                if (res.kind === "redirect") return; // already navigated
+
+                if (res.kind === "json") {
+                    const data = res.data || {};
+                    // Only block if server explicitly says success:false
+                    if (data.success === false) {
+                        console.error("❌ Registration failed:", data.message);
+                        alert(`⚠ Registration failed: ${data.message || "Unknown error"}`);
+                        registerForm.dataset.submitted = "false";
+                        return;
+                    }
+                }
+
+                // JSON success/ambiguous or HTML: proceed to email + success page
+                return sendConfirmationEmail(formObject.first_name, formObject.email, selectedPlan)
+                    .catch(() => {
+                        // Don’t block redirect on email failure
+                    })
+                    .finally(() => {
+                        window.location.href = (window.APP_PREFIX || "") + "/register/register?success=true";
+                    });
+            })
+            .catch((error) => {
                 console.error("❌ Unexpected error:", error);
                 alert("⚠ Unexpected error. Please try again.");
-
-                // Reset submission flag if an error occurs
-                this.dataset.submitted = "false";
+                registerForm.dataset.submitted = "false";
             });
+
     });
 
 });
