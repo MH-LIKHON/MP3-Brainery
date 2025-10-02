@@ -522,7 +522,10 @@ document.addEventListener("DOMContentLoaded", function () {
         // Send form data to the backend for registration
         fetch((window.APP_PREFIX || "") + "/register/register", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Accept": "application/json"     // <-- add this line
+            },
             body: new URLSearchParams(formData).toString(),
         })
             .then(async (response) => {
