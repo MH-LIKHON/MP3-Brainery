@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Listen for the form submission event
     registerForm.addEventListener("submit", function (event) {
-        const useAjax = false;
+        const useAjax = true;
         if (useAjax) event.preventDefault();
 
         // Prevent duplicate submissions by checking submission flag
