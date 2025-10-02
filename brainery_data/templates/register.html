@@ -85,8 +85,8 @@
         <!-- CSRF Token -->
         {{ form.hidden_tag() }}
 
-        <!-- Hidden Input for Selected Plan 
-        <input type="hidden" id="selected_plan" name="selected_plan" required> -->
+       {{ form.selected_plan(id="selected_plan") }}
+
 
         <!-- STEP 1: PERSONAL INFO (User's Information) -->
         <div id="personal-info" class="step-section">
