@@ -10,6 +10,8 @@ cloudinary_python.txtvenv/
 venv/
 .env
 
+
+
 # Env & local DB
 .env
 .env.*
@@ -19,8 +21,14 @@ instance/*.db
 *.sqlite
 
 
+
 # Allow safe env template
 !.env.sample
 MP3-Brainery-main_(MongoDB).zip
 NOTES
 *.bak*
+
+
+
+# Temporary files
+TEMP

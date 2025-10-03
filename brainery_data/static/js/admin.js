@@ -7,15 +7,90 @@ $(document).ready(function () {
 
     // Sidebar Toggle Functionality
     $(".sidebar-toggle").click(function () {
-        $(".sidebar").toggleClass("collapsed");
-    });
+        const s  = document.querySelector(".sidebar");
+        const $s = $(s);
+        const collapsing = !$s.hasClass("collapsed"); // true if we're about to collapse
 
-    // Close sidebar when clicking anywhere on the main content
-    $(".flex-grow-1").click(function () {
-        if (!$(".sidebar").hasClass("collapsed")) {
-            $(".sidebar").addClass("collapsed");
+        $s.toggleClass("collapsed");
+
+        if (collapsing) {
+            // collapsing: wait for transform transition to finish, then clear inline height
+            const onEnd = (e) => {
+            if (e.propertyName !== "transform") return;
+            s.removeEventListener("transitionend", onEnd);
+            if ($s.hasClass("collapsed")) {
+                s.style.removeProperty("height");
+                s.style.removeProperty("min-height");
+            }
+            };
+            s.addEventListener("transitionend", onEnd);
+
+            // fallback in case transitionend doesn’t fire
+            setTimeout(() => {
+            if ($s.hasClass("collapsed")) {
+                s.style.removeProperty("height");
+                s.style.removeProperty("min-height");
+            }
+            }, 400);
+        } else {
+            // expanding: re-apply height on next frame
+            requestAnimationFrame(() => window.dispatchEvent(new Event("resize")));
         }
     });
+
+
+    // Close sidebar when clicking anywhere on the main content (admin)
+    $(".dashboard-content").click(function () {
+        const s  = document.querySelector(".sidebar");
+        const $s = $(s);
+
+        if (!$s.hasClass("collapsed")) {
+            $s.addClass("collapsed");
+
+            const onEnd = (e) => {
+            if (e.propertyName !== "transform") return;
+            s.removeEventListener("transitionend", onEnd);
+            if ($s.hasClass("collapsed")) {
+                s.style.removeProperty("height");
+                s.style.removeProperty("min-height");
+            }
+            };
+            s.addEventListener("transitionend", onEnd);
+
+            // fallback
+            setTimeout(() => {
+            if ($s.hasClass("collapsed")) {
+                s.style.removeProperty("height");
+                s.style.removeProperty("min-height");
+            }
+            }, 400);
+        }
+    });
+
+
+    // Sidebar to match viewport height
+    (function fixSidebarHeight(){
+    const s = document.querySelector('.sidebar');
+    if (!s) return;
+
+    const apply = () => {
+    // skip when collapsed (no need to set height while hidden)
+    if (s.classList.contains("collapsed")) return;
+
+    // prefer visualViewport on mobile, fallback to innerHeight
+    const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
+
+    // lock height so CSS can't override it
+    s.style.setProperty("height", h + "px", "important");
+    s.style.setProperty("min-height", h + "px", "important");
+    };
+
+
+    // apply now and on viewport changes
+    apply();
+    window.addEventListener('resize', apply);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', apply);
+    })();
 
     /* =======================================================
     SECTION 2: User Actions - Promote & Delete (API helpers)
@@ -183,3 +258,8 @@ $(document).ready(function () {
         console.log("[DEBUG] Button Clicked:", this);
     });
 });
+
+
+
+
+
