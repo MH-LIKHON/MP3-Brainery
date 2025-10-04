@@ -1649,11 +1649,15 @@ body {
     touch-action: pan-y !important;
   }
 
-  /* If your JS locks when menu opens */
+
+/* Prevent background from peeking when the sidebar is open */
+@media (max-width: 768px) {
   body.menu-open {
-    overflow-x: hidden !important;
-    overflow-y: visible !important;
+    overflow: hidden !important;
+    height: 100% !important;
   }
+}
+
 
   .dashboard-content {
     margin-left: 0;
@@ -2065,6 +2069,7 @@ td:nth-child(4) {
     transform: translateX(-280px);
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   /* Expanded state */

@@ -1,6 +1,22 @@
 $(document).ready(function () {
     console.log("[DEBUG] Admin Dashboard JavaScript Loaded!");
 
+    // Mobile menu-open helpers (stop background peek)
+    function isMobile() {
+        return matchMedia('(max-width:768px)').matches;
+        }
+        function setMenuOpen(open) {
+        const html = document.documentElement;
+        const body = document.body;
+        if (open && isMobile()) {
+            html.classList.add('menu-open');
+            body.classList.add('menu-open');
+        } else {
+            html.classList.remove('menu-open');
+            body.classList.remove('menu-open');
+        }
+    }
+
     /* =======================================================
     SECTION 1: Sidebar Toggle Functionality
     ======================================================= */
@@ -12,6 +28,8 @@ $(document).ready(function () {
         const collapsing = !$s.hasClass("collapsed"); // true if we're about to collapse
 
         $s.toggleClass("collapsed");
+        // add/remove lock on mobile
+        setMenuOpen(!$s.hasClass("collapsed")); 
 
         if (collapsing) {
             // collapsing: wait for transform transition to finish, then clear inline height
@@ -46,6 +64,9 @@ $(document).ready(function () {
 
         if (!$s.hasClass("collapsed")) {
             $s.addClass("collapsed");
+            // remove lock when sidebar closes
+            setMenuOpen(false);
+
 
             const onEnd = (e) => {
             if (e.propertyName !== "transform") return;
@@ -69,27 +90,82 @@ $(document).ready(function () {
 
 
     // Sidebar to match viewport height
-    (function fixSidebarHeight(){
+    (function fixSidebarHeight () {
     const s = document.querySelector('.sidebar');
     if (!s) return;
 
+    // compute and set the height
     const apply = () => {
-    // skip when collapsed (no need to set height while hidden)
-    if (s.classList.contains("collapsed")) return;
+        // skip when collapsed (no need to set height while hidden)
+        if (s.classList.contains('collapsed')) return;
 
-    // prefer visualViewport on mobile, fallback to innerHeight
-    const h = (window.visualViewport && window.visualViewport.height) || window.innerHeight || 0;
+        // use VV only on real iOS Safari, else innerHeight (fixes Chrome DevTools scaling)
+        const isIOS =
+        /iP(hone|ad|od)/.test(navigator.platform) ||
+        (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const useVV = isIOS && isSafari && !!window.visualViewport;
 
-    // lock height so CSS can't override it
-    s.style.setProperty("height", h + "px", "important");
-    s.style.setProperty("min-height", h + "px", "important");
+        const h = useVV ? Math.round(window.visualViewport.height) : window.innerHeight;
+
+        s.style.setProperty('height', h + 'px', 'important');
+        s.style.setProperty('min-height', h + 'px', 'important');
+    }; // <-- CLOSE apply BEFORE declaring kick/listeners
+
+    // apply now and on viewport/UA changes (with a small “kick”)
+    const kick = () => {
+        apply();
+        requestAnimationFrame(apply);
+        setTimeout(apply, 120);
     };
 
+    // initial run
+    kick();
 
-    // apply now and on viewport changes
-    apply();
-    window.addEventListener('resize', apply);
-    if (window.visualViewport) window.visualViewport.addEventListener('resize', apply);
+    // window listeners
+    window.addEventListener('resize', kick, { passive: true });
+    window.addEventListener('orientationchange', kick, { passive: true });
+
+    // only use visualViewport events when we actually rely on VV
+    (function maybeAttachVV () {
+        const isIOS =
+        /iP(hone|ad|od)/.test(navigator.platform) ||
+        (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        const useVV = isIOS && isSafari && !!window.visualViewport;
+        if (useVV) {
+        window.visualViewport.addEventListener('resize', kick, { passive: true });
+        }
+    })();
+
+    // respond when the media query boundary crosses (e.g., switching device presets)
+    try {
+        const mq = window.matchMedia('(max-width: 768px)');
+        mq.addEventListener?.('change', kick);
+        // fallback for older browsers
+        mq.addListener?.(kick);
+    } catch (_) { /* ignore */ }
+
+    // if the sidebar class toggles (collapsed <-> open), re-apply
+    try {
+        const mo = new MutationObserver(kick);
+        mo.observe(s, { attributes: true, attributeFilter: ['class'] });
+    } catch (_) { /* ignore */ }
+    })();
+
+
+    // keep menu-open lock consistent when resizing
+    window.addEventListener('resize', () => {
+    const s = document.querySelector('.sidebar');
+    if (!s) return;
+    setMenuOpen(!s.classList.contains('collapsed'));
+    }, { passive: true });
+
+    // NEW: sync once on load so the initial state is correct
+    (() => {
+    const s = document.querySelector('.sidebar');
+    if (!s) return;
+    setMenuOpen(!s.classList.contains('collapsed'));
     })();
 
     /* =======================================================
@@ -110,7 +186,8 @@ $(document).ready(function () {
     window.promoteUser = function (userId) {
         console.log("[DEBUG] Sending Promote Request for User ID:", userId);
 
-        fetch(`/admin/promote/${userId}`, {
+        fetch(`${(window.APP_PREFIX || "")}/admin/promote/${userId}`, {
+
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -144,7 +221,7 @@ $(document).ready(function () {
     window.deleteUser = function (userId) {
         console.log("[DEBUG] Sending Delete Request for User ID:", userId);
 
-        fetch(`/admin/delete/${userId}`, {
+            fetch(`${(window.APP_PREFIX || "")}/admin/delete/${userId}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
