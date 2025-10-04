@@ -19,6 +19,7 @@ venv/
 venv/
 instance/*.db
 *.sqlite
+_make_er.py
 
 
 

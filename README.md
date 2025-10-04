@@ -72,9 +72,8 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 12. **[Bugs & Fixes](#bugs--fixes)**
 
 13. **[Deployment](#deployment)**
-    - [Deployment to Heroku](#steps-for-deployment-on-heroku)
-    - [Accessing Live Application](#accessing-the-live-application)
-    - [Local Setup](#running-the-project-locally)
+    - [Current Production (Ubuntu Server + Gunicorn + Nginx)](#current-production-ubuntu-server--gunicorn--nginx)
+    - [Running the Project Locally](#running-the-project-locally)
 
 14. **[Credits](#credits)**
     - [Icons & Visual Assets](#icons--visual-assets)
@@ -88,7 +87,10 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 ---
 
 ## Live Site
-[**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
+
+**Current (VM):**
+- **HTTP:** `http://178.255.91.3:20003` → **301 redirect** to HTTPS
+- **HTTPS:** `https://178.255.91.3:30003` *(self-signed certificate; browser warning expected)*
 
 ---
 
@@ -533,8 +535,6 @@ Contains individual learning topics under a subject.
 ### ER Diagram
 ![SQL ER Diagram](brainery_data/static/images/sql_er_diagram.png)
 
-![MongoDB Schema](brainery_data/static/images/mongodb_schema_structured.png)
-
 ---
 
 ### How to Query Data (SQLAlchemy)
@@ -602,20 +602,24 @@ A group of 5 users was asked to complete various tasks without guidance to asses
 ---
 
 ### **Functional Testing (Live Site)**
-The following user features were tested manually on the deployed Heroku site:
+The following user features were tested manually on the **production VM**:
 
-| **Feature**            | **Expected Behavior**                  | **Test Result** |
-|-----------------------|--------------------------------------|--------------|
-| **User Registration** | New users can sign up and receive a verification email | ✅ Working |
-| **User Login**        | Registered users can log in with valid credentials | ✅ Working |
-| **User Logout**       | Logged-in users can successfully log out | ✅ Working |
-| **Create Record**     | Users can add new records to the database | ✅ Working |
-| **Edit Record**       | Users can update existing records | ✅ Working |
-| **Delete Record**     | Users can delete records from the database | ✅ Working |
-| **Database Connection** | Data is properly stored in the SQL database (via SQLAlchemy) | ✅ Working |
-| **Email Functionality** | Verification emails are sent and received | ✅ Working |
+**Base URLs used during testing**
+- **HTTP:** `http://178.255.91.3:20003` → auto-redirects (301) to HTTPS
+- **HTTPS:** `https://178.255.91.3:30003` *(self-signed certificate; browser warning expected)*
 
-📌 **All tests were performed manually by interacting with the live version of the site. The application successfully handled user authentication, CRUD operations, and data storage.**
+| **Feature**            | **Expected Behavior**                                      | **Test Result** |
+|------------------------|-------------------------------------------------------------|-----------------|
+| **User Registration**  | New users can sign up and receive a confirmation message    | ✅ Working       |
+| **User Login**         | Registered users can log in with valid credentials          | ✅ Working       |
+| **User Logout**        | Logged-in users can successfully log out                    | ✅ Working       |
+| **Create Record**      | Users can add new records to the database                   | ✅ Working       |
+| **Edit Record**        | Users can update existing records                           | ✅ Working       |
+| **Delete Record**      | Users can delete records from the database                  | ✅ Working       |
+| **Database Connection**| Data is stored and retrieved via SQLAlchemy (PostgreSQL)    | ✅ Working       |
+| **Email Functionality**| Registration/notification emails are sent (EmailJS)         | ✅ Working       |
+
+📌 **All tests were performed manually against the production VM endpoints shown above.**
 
 ---
 
@@ -666,14 +670,14 @@ Brainery’s core pages were analyzed using Google Lighthouse to measure perform
 All critical pages and associated stylesheets were validated using W3C tools to ensure compliance with modern web standards:
 
 - **HTML Validation:**
-  - [Home Page Validation](brainery_data/static/images//home-html.png)
-  - [Login Page Validation](brainery_data/static/images//login-html.png)
-  - [Registration Validation](brainery_data/static/images//register-html.png)
-  - [Dashboard Validation](brainery_data/static/images//dashboard-html.png) 
-  - [Admin Validation](brainery_data/static/images//admin-html.png) 
+  - [Home Page Validation](brainery_data/static/images/home-html.png)
+  - [Login Page Validation](brainery_data/static/images/login-html.png)
+  - [Registration Validation](brainery_data/static/images/register-html.png)
+  - [Dashboard Validation](brainery_data/static/images/dashboard-html.png) 
+  - [Admin Validation](brainery_data/static/images/admin-html.png) 
 
 - **CSS Validation:**
-  - [Stylesheet Validation](brainery_data/static/images//styles-css.png)
+  - [Stylesheet Validation](brainery_data/static/images/styles-css.png)
 
 ---
 
@@ -735,132 +739,160 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ---
 
-### **Deployment**
+## Deployment
 
-This project was deployed using **Heroku**, a **cloud platform** that enables deployment and scaling of Python applications easily. Below are the **detailed steps** followed to **deploy Brainery** and make it accessible online.
+### Current Production (Ubuntu Server + Gunicorn + Nginx)
+*(Active deployment)*
+
+```
+Brainery is hosted on an Ubuntu Server (VM) using Gunicorn as the WSGI server and Nginx as a reverse proxy.
+This configuration provides a stable production environment with automatic HTTP→HTTPS redirection
+and secure access through a self-signed SSL certificate.
+```
 
 ---
 
-### **Steps for Deployment on Heroku**
-
-#### **1️⃣ Clone the Repository**
-To begin, I **cloned the project repository** to my local machine:
-```bash
-git clone https://github.com/MH-LIKHON/MP3-Brainery.git
+```
+OVERVIEW
+App Server   : Gunicorn (Flask app factory: brainery_data.routes:create_app())
+Bind Address : 127.0.0.1:10003 (internal loopback)
+Reverse Proxy: Nginx
+HTTP         : port 20003 → redirects permanently (301) → HTTPS 30003
+HTTPS        : port 30003 (self-signed certificate; browser warning expected)
 ```
 
-#### **2️⃣ Navigate to the Project Directory**
+---
+
+```ini
+SYSTEMD SERVICE  (/etc/systemd/system/mp3-brainery.service)
+
+[Unit]
+Description=MP3 Brainery (Gunicorn)
+After=network.target
+
+[Service]
+User=opsengine_admin
+Group=opsengine_admin
+WorkingDirectory=/srv/mp3-brainery
+ExecStart=/usr/local/bin/run_gunicorn_brainery.sh
+EnvironmentFile=/etc/mp3-brainery.env
+Restart=always
+RestartSec=3
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
+```
+
+---
+
 ```bash
+GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_brainery.sh)
+
+#!/usr/bin/env bash
+set -euo pipefail
+cd /srv/mp3-brainery
+export PATH="/srv/mp3-brainery/venv/bin:$PATH"
+if [ -f /etc/mp3-brainery.env ]; then
+    set -a
+    . /etc/mp3-brainery.env
+    set +a
+fi
+exec gunicorn --workers 3 --threads 2 --timeout 120 \
+  --bind 127.0.0.1:10003 "brainery_data.routes:create_app()"
+```
+
+---
+
+```nginx
+NGINX CONFIGURATION  (/etc/nginx/sites-available/mp3_brainery_20003_30003)
+
+# HTTP :20003 → HTTPS :30003
+server {
+    listen 20003;
+    server_name _;
+    return 301 https://$host:30003$request_uri;
+}
+
+# HTTPS :30003 (self-signed certificate)
+server {
+    listen 30003 ssl;
+    server_name _;
+
+    ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+    location = /healthz {
+        return 200 'ok';
+        add_header Content-Type text/plain;
+    }
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Host              $http_host;
+        proxy_set_header X-Forwarded-Host  $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Port  $server_port;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_pass http://127.0.0.1:10003;
+    }
+}
+```
+
+---
+
+```bash
+PUBLIC ACCESS
+HTTP  : http://178.255.91.3:20003   → 301 redirect → HTTPS
+HTTPS : https://178.255.91.3:30003  (self-signed SSL; browser warning expected)
+```
+
+---
+
+### Running the Project Locally
+*(For local testing and development)*
+
+```bash
+CLONE THE REPOSITORY
+git clone https://github.com/MH-LIKHON/MP3-Brainery.git
 cd MP3-Brainery
 ```
 
-#### **3️⃣ Set Up a Virtual Environment (Optional for Local Development)**
 ```bash
+SET UP A VIRTUAL ENVIRONMENT
 python3 -m venv venv
-source venv/bin/activate  # For macOS/Linux
-venv\Scripts\activate     # For Windows
+source venv/bin/activate      # macOS/Linux
+# venv\Scripts\activate       # Windows
 ```
 
-#### **4️⃣ Install Dependencies**
 ```bash
+INSTALL DEPENDENCIES
 pip install -r requirements.txt
 ```
 
-#### **5️⃣ Deploying to Heroku**
-This project uses **GitHub Actions** to **automatically deploy to Heroku** whenever changes are pushed to the repository.
-
-##### **Steps to Set Up Deployment:**
-1. **Connected GitHub Repository to Heroku**:
-   - Created a new Heroku app using:
-     ```bash
-     heroku create mp3-brainery
-     ```
-   - Set up GitHub Actions to automatically deploy changes.
-
-2. **Stored Environment Variables in Heroku**:
-   - Added `MONGO_URI` and `SECRET_KEY` to **Heroku Config Vars**:
-     ```bash
-     heroku config:set MONGO_URI="your-mongodb-connection-string"
-     heroku config:set SECRET_KEY="your-secret-key"
-     ```
-
-3. **Configured GitHub Actions for Continuous Deployment**:
-   - Created a GitHub Actions workflow in `.github/workflows/deploy.yml` to automate deployment.
-   - Secrets like `HEROKU_API_KEY` were stored in **GitHub Secrets**.
-
-4. **Pushed Changes to Trigger Deployment**:
-   - After making changes, I committed and pushed them:
-     ```bash
-     git add .
-     git commit -m "Deploying updated version to Heroku"
-     git push origin main
-     ```
-   - **GitHub Actions automatically deployed the updated version to Heroku**.
-
----
-
-### **Accessing the Live Application**
-Once deployment was successful, the app was accessible at:
-🔗 [**Brainery - Live Site**](https://mp3-brainery-7e2da4fb6ce9.herokuapp.com/)
-
----
-
-### **Running the Project Locally**
-To run the project **locally**, follow these steps:
-
-#### **1️⃣ Clone the Repository**
 ```bash
-git clone https://github.com/MH-LIKHON/MP3-Brainery.git
-```
-
-#### **2️⃣ Navigate to the Project Directory**
-```bash
-cd MP3-Brainery
-```
-
-#### **3️⃣ Set Up a Virtual Environment**
-```bash
-python3 -m venv venv
-source venv/bin/activate  # For macOS/Linux
-venv\Scripts\activate     # For Windows
-```
-
-#### **4️⃣ Install Project Dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-#### **5️⃣ Set Environment Variables Locally**
-If testing locally, create a `.env` file and add:
-```
-MONGO_URI=your-mongodb-connection-string
+CONFIGURE ENVIRONMENT VARIABLES (.env file)
+DATABASE_URL=sqlite:///instance/brainery.db
 SECRET_KEY=your-secret-key
 ```
-📌 **Note:** The `.env` file is ignored in `.gitignore` for security.
 
-#### **6️⃣ Run the Flask Application**
 ```bash
+RUN THE APPLICATION
 python3 app.py
 ```
 
-#### **7️⃣ Open the Project in Your Browser**
-- Once the server is running, open **http://127.0.0.1:5000** in a web browser.
-
----
-
-### **Why Use Heroku Instead of GitHub Pages?**
-✅ **Supports Full-Stack Apps** - Unlike GitHub Pages (static hosting), Heroku can host **Flask, Django, and databases**.
-✅ **Continuous Deployment** - GitHub Actions ensures **automatic deployment on every push**.
-✅ **Environment Variable Management** - Heroku securely stores **MongoDB credentials and API keys**.
-
----
-
-### **Next Steps**
-**Commit and push the updated README file**:
 ```bash
-git add README.md
-git commit -m "Updated Deployment section for Heroku"
-git push origin main
+ACCESS LOCALLY
+http://127.0.0.1:5000
+```
+
+```bash
+DEPLOYMENT SUMMARY
+Production : Ubuntu VM + Gunicorn + Nginx
+Local Dev  : Flask built-in server
+Database   : PostgreSQL (via SQLAlchemy)
+Security   : HTTPS redirect, CSRF protection, secure session cookies
 ```
 ---
 
@@ -906,6 +938,8 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ### **Deployment & Version Control**
 - **GitHub** – Hosted **repository, version control, and GitHub Pages deployment**.
 - **GitHub Actions** – Used for **CI/CD pipeline and automated testing**.
+- **Nginx** – Reverse proxy and TLS termination on the production VM.
+- **Gunicorn** – WSGI server running the Flask application.
 
 ---
 
@@ -916,7 +950,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 
 ---
 
-## Acknowledgements
+## **Acknowledgements**
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance!
 
-Special thanks to Miguel for their guidance throughout the project.
+Special thanks to **Miguel** for their guidance throughout the project.
