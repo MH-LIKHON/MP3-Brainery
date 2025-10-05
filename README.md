@@ -88,9 +88,8 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Live Site
 
-**Current (VM):**
-- **HTTP:** `http://178.255.91.3:20003` → **301 redirect** to HTTPS
-- **HTTPS:** `https://178.255.91.3:30003` *(self-signed certificate; browser warning expected)*
+- **HTTP:** [http://178.255.91.3:20003](http://178.255.91.3:20003) → **301 redirect** to HTTPS
+- **HTTPS:** [https://178.255.91.3:30003](https://178.255.91.3:30003) *(self-signed certificate; browser warning expected)*
 
 ---
 
