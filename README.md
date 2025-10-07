@@ -823,6 +823,8 @@ server {
     ssl_certificate_key /etc/ssl/private/example.key;
 
     location = /healthz {
+        allow 127.0.0.1;
+        deny all;
         return 200 'ok';
         add_header Content-Type text/plain;
     }
