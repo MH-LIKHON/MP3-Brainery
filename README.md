@@ -88,7 +88,6 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Live Site
 
-- **HTTP:** [http://178.255.91.3:20003](http://178.255.91.3:20003) → **301 redirect** to HTTPS
 - **HTTPS:** [https://178.255.91.3:30003](https://178.255.91.3:30003) *(self-signed certificate; browser warning expected)*
 
 ---
@@ -604,8 +603,8 @@ A group of 5 users was asked to complete various tasks without guidance to asses
 The following user features were tested manually on the **production VM**:
 
 **Base URLs used during testing**
-- **HTTP:** `http://178.255.91.3:20003` → auto-redirects (301) to HTTPS
-- **HTTPS:** `https://178.255.91.3:30003` *(self-signed certificate; browser warning expected)*
+[https://your-server-ip:EXTERNAL_PORT/](https://your-server-ip:EXTERNAL_PORT/)
+*(self-signed certificate; browser warning expected)*
 
 | **Feature**            | **Expected Behavior**                                      | **Test Result** |
 |------------------------|-------------------------------------------------------------|-----------------|
@@ -745,7 +744,7 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ```
 Brainery is hosted on an Ubuntu Server (VM) using Gunicorn as the WSGI server and Nginx as a reverse proxy.
-This configuration provides a stable production environment with automatic HTTP→HTTPS redirection
+This configuration provides a stable production environment with automatic HTTP to HTTPS redirection
 and secure access through a self-signed SSL certificate.
 ```
 
@@ -753,73 +752,75 @@ and secure access through a self-signed SSL certificate.
 
 ```
 OVERVIEW
-App Server   : Gunicorn (Flask app factory: brainery_data.routes:create_app())
-Bind Address : 127.0.0.1:10003 (internal loopback)
+App Server   : Gunicorn (Flask app factory: <your_app_module>:create_app())
+Bind Address : 127.0.0.1:INTERNAL_PORT (internal loopback)
 Reverse Proxy: Nginx
-HTTP         : port 20003 → redirects permanently (301) → HTTPS 30003
-HTTPS        : port 30003 (self-signed certificate; browser warning expected)
+HTTP         : EXTERNAL_HTTP_PORT → 301 redirect → HTTPS (EXTERNAL_PORT)
+HTTPS        : EXTERNAL_PORT (self-signed certificate; browser warning expected)
 ```
+
 
 ---
 
-```ini
-SYSTEMD SERVICE  (/etc/systemd/system/mp3-brainery.service)
+```bash
+SYSTEMD SERVICE  (/etc/<project-name>.service)
 
 [Unit]
-Description=MP3 Brainery (Gunicorn)
+Description=Brainery (Gunicorn)
 After=network.target
 
 [Service]
-User=opsengine_admin
-Group=opsengine_admin
-WorkingDirectory=/srv/mp3-brainery
-ExecStart=/usr/local/bin/run_gunicorn_brainery.sh
-EnvironmentFile=/etc/mp3-brainery.env
+User=appuser
+Group=appuser
+WorkingDirectory=/srv/<project-name>
+ExecStart=/usr/local/bin/run_gunicorn_<project-name>.sh
+EnvironmentFile=/etc/<project-name>.env
 Restart=always
 RestartSec=3
 TimeoutStopSec=30
 
 [Install]
 WantedBy=multi-user.target
+
 ```
 
 ---
 
 ```bash
-GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_brainery.sh)
+GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_<project-name>.sh)
 
 #!/usr/bin/env bash
 set -euo pipefail
-cd /srv/mp3-brainery
-export PATH="/srv/mp3-brainery/venv/bin:$PATH"
-if [ -f /etc/mp3-brainery.env ]; then
+cd /srv/<project-name>
+export PATH="/srv/<project-name>/venv/bin:$PATH"
+if [ -f /etc/<project-name>.env ]; then
     set -a
-    . /etc/mp3-brainery.env
+    . /etc/<project-name>.env
     set +a
 fi
 exec gunicorn --workers 3 --threads 2 --timeout 120 \
-  --bind 127.0.0.1:10003 "brainery_data.routes:create_app()"
+  --bind 127.0.0.1:INTERNAL_PORT "<your_app_module>:create_app()"
 ```
 
 ---
 
-```nginx
-NGINX CONFIGURATION  (/etc/nginx/sites-available/mp3_brainery_20003_30003)
+```bash
+NGINX CONFIGURATION  (/etc/nginx/sites-available/<project-name>_nginx.conf)
 
-# HTTP :20003 → HTTPS :30003
+# HTTP :EXTERNAL_HTTP_PORT → HTTPS :EXTERNAL_PORT
 server {
-    listen 20003;
+    listen EXTERNAL_HTTP_PORT;
     server_name _;
-    return 301 https://$host:30003$request_uri;
+    return 301 https://$host:EXTERNAL_PORT$request_uri;
 }
 
-# HTTPS :30003 (self-signed certificate)
+# HTTPS :EXTERNAL_PORT (self-signed certificate)
 server {
-    listen 30003 ssl;
+    listen EXTERNAL_PORT ssl;
     server_name _;
 
-    ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
-    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+    ssl_certificate     /etc/ssl/certs/example.crt;
+    ssl_certificate_key /etc/ssl/private/example.key;
 
     location = /healthz {
         return 200 'ok';
@@ -834,7 +835,9 @@ server {
         proxy_set_header X-Forwarded-Port  $server_port;
         proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Real-IP         $remote_addr;
-        proxy_pass http://127.0.0.1:10003;
+
+        # IMPORTANT: proxy to INTERNAL_PORT, not external
+        proxy_pass http://127.0.0.1:INTERNAL_PORT;
     }
 }
 ```
@@ -843,8 +846,8 @@ server {
 
 ```bash
 PUBLIC ACCESS
-HTTP  : http://178.255.91.3:20003   → 301 redirect → HTTPS
-HTTPS : https://178.255.91.3:30003  (self-signed SSL; browser warning expected)
+HTTP  : http://your-server-ip:EXTERNAL_HTTP_PORT   → 301 redirect → HTTPS
+HTTPS : https://your-server-ip:EXTERNAL_PORT       (self-signed SSL; browser warning expected)
 ```
 
 ---
