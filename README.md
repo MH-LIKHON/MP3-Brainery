@@ -88,7 +88,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Live Site
 
-- **HTTPS:** [https://178.255.91.3:30003](https://178.255.91.3:30003) *(self-signed certificate; browser warning expected)*
+- **HTTPS:** https://www.sovcore.com/mp3-brainery
 
 ---
 
@@ -238,7 +238,7 @@ brainery_data/static/pdfs/
 ```
 ---
 
-  - [All Pages Wireframe](brainery_data\static\pdfs\brainery_allpages_desktop_tablet_mobile.pdf)
+- [All Pages Wireframe](brainery_data/static/pdfs/brainery_allpages_desktop_tablet_mobile.pdf)
 
 ---
 
@@ -479,7 +479,7 @@ This project **does NOT process real payments** and **does NOT store any credit 
 
 ### **Technologies Used**
 - **Flask** – Lightweight **Python web framework** for backend development.
-- **SQLAlchemy + SQLite/PostgreSQL** – Relational database for users & roles.
+- **SQLAlchemy + PostgreSQL** – Relational database for users & roles.
 - **Werkzeug PBKDF2** – Secure password hashing for user accounts.
 - **Flask-Login** – Ensures **secure authentication and session management**.
 - **Flask-WTF** – Provides **CSRF protection and secure form handling**.
@@ -488,6 +488,7 @@ This project **does NOT process real payments** and **does NOT store any credit 
 - **GitHub** – Used for **version control, collaboration, and deployment**.
 - **EmailJS** – Handles **email notifications** and **account recovery emails**.
 - **FontAwesome** – Provides **icons for UI elements**.
+- **CDN** – TLS termination and caching
 
 ---
 
@@ -600,11 +601,11 @@ A group of 5 users was asked to complete various tasks without guidance to asses
 ---
 
 ### **Functional Testing (Live Site)**
-The following user features were tested manually on the **production VM**:
+The following user features were tested manually on the **live site**:
 
-**Base URLs used during testing**
-[https://your-server-ip:EXTERNAL_PORT/](https://your-server-ip:EXTERNAL_PORT/)
-*(self-signed certificate; browser warning expected)*
+**Base URL used during testing**
+https://www.sovcore.com/mp3-brainery/
+
 
 | **Feature**            | **Expected Behavior**                                      | **Test Result** |
 |------------------------|-------------------------------------------------------------|-----------------|
@@ -743,9 +744,7 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 *(Active deployment)*
 
 ```
-Brainery is hosted on an Ubuntu Server (VM) using Gunicorn as the WSGI server and Nginx as a reverse proxy.
-This configuration provides a stable production environment with automatic HTTP to HTTPS redirection
-and secure access through a self-signed SSL certificate.
+Brainery runs on an Ubuntu Server (VM) using Gunicorn (WSGI) behind Nginx (reverse proxy). The application is served under a single canonical URL and subpath for reliable, production-ready access.
 ```
 
 ---
@@ -753,103 +752,34 @@ and secure access through a self-signed SSL certificate.
 ```
 OVERVIEW
 App Server   : Gunicorn (Flask app factory: <your_app_module>:create_app())
-Bind Address : 127.0.0.1:INTERNAL_PORT (internal loopback)
 Reverse Proxy: Nginx
-HTTP         : EXTERNAL_HTTP_PORT → 301 redirect → HTTPS (EXTERNAL_PORT)
-HTTPS        : EXTERNAL_PORT (self-signed certificate; browser warning expected)
+Edge         : CDN (TLS + caching)
+URL Scheme   : https://www.sovcore.com/mp3-brainery
+Database     : SQLAlchemy (PostgreSQL)
 ```
 
 
 ---
 
-```bash
 SYSTEMD SERVICE  (/etc/<project-name>.service)
+# Service unit present for Gunicorn (production).
+# Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
 
-[Unit]
-Description=Brainery (Gunicorn)
-After=network.target
 
-[Service]
-User=appuser
-Group=appuser
-WorkingDirectory=/srv/<project-name>
-ExecStart=/usr/local/bin/run_gunicorn_<project-name>.sh
-EnvironmentFile=/etc/<project-name>.env
-Restart=always
-RestartSec=3
-TimeoutStopSec=30
-
-[Install]
-WantedBy=multi-user.target
-
-```
-
----
-
-```bash
 GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_<project-name>.sh)
+# Launcher script present for Gunicorn (production).
+# Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
 
-#!/usr/bin/env bash
-set -euo pipefail
-cd /srv/<project-name>
-export PATH="/srv/<project-name>/venv/bin:$PATH"
-if [ -f /etc/<project-name>.env ]; then
-    set -a
-    . /etc/<project-name>.env
-    set +a
-fi
-exec gunicorn --workers 3 --threads 2 --timeout 120 \
-  --bind 127.0.0.1:INTERNAL_PORT "<your_app_module>:create_app()"
-```
 
----
-
-```bash
 NGINX CONFIGURATION  (/etc/nginx/sites-available/<project-name>_nginx.conf)
-
-# HTTP :EXTERNAL_HTTP_PORT → HTTPS :EXTERNAL_PORT
-server {
-    listen EXTERNAL_HTTP_PORT;
-    server_name _;
-    return 301 https://$host:EXTERNAL_PORT$request_uri;
-}
-
-# HTTPS :EXTERNAL_PORT (self-signed certificate)
-server {
-    listen EXTERNAL_PORT ssl;
-    server_name _;
-
-    ssl_certificate     /etc/ssl/certs/example.crt;
-    ssl_certificate_key /etc/ssl/private/example.key;
-
-    location = /healthz {
-        allow 127.0.0.1;
-        deny all;
-        return 200 'ok';
-        add_header Content-Type text/plain;
-    }
-
-    location / {
-        proxy_http_version 1.1;
-        proxy_set_header Host              $http_host;
-        proxy_set_header X-Forwarded-Host  $http_host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Port  $server_port;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header X-Real-IP         $remote_addr;
-
-        # IMPORTANT: proxy to INTERNAL_PORT, not external
-        proxy_pass http://127.0.0.1:INTERNAL_PORT;
-    }
-}
-```
+# Nginx reverse proxy routes the app under the canonical subpath.
+# Static and media are served via Nginx aliases. (Details intentionally omitted.)
 
 ---
 
 ```bash
 PUBLIC ACCESS
-HTTP  : http://your-server-ip:EXTERNAL_HTTP_PORT   → 301 redirect → HTTPS
-HTTPS : https://your-server-ip:EXTERNAL_PORT       (self-signed SSL; browser warning expected)
+HTTPS : https://www.sovcore.com/mp3-brainery
 ```
 
 ---
@@ -893,10 +823,10 @@ http://127.0.0.1:5000
 
 ```bash
 DEPLOYMENT SUMMARY
-Production : Ubuntu VM + Gunicorn + Nginx
+Production : Ubuntu VM + Gunicorn + Nginx (served under a canonical subpath)
 Local Dev  : Flask built-in server
 Database   : PostgreSQL (via SQLAlchemy)
-Security   : HTTPS redirect, CSRF protection, secure session cookies
+Security   : CSRF protection, secure session cookies
 ```
 ---
 
@@ -921,7 +851,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 
 ### **Libraries & Frameworks**
 - **Flask** – Python-based **web framework** for backend development.
-- **SQLAlchemy + SQLite/PostgreSQL** – ORM + relational database for users, topics, and subjects.
+- **SQLAlchemy + PostgreSQL** – ORM + relational database for users, topics, and subjects.
 - **Bootstrap 5** – **Responsive UI framework** for styling and layout.
 - **Flask-Login** – Managed **user authentication and session handling**.
 - **Flask-WTF** – Used for **form validation and CSRF protection**.
@@ -940,10 +870,10 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **Deployment & Version Control**
-- **GitHub** – Hosted **repository, version control, and GitHub Pages deployment**.
-- **GitHub Actions** – Used for **CI/CD pipeline and automated testing**.
-- **Nginx** – Reverse proxy and TLS termination on the production VM.
-- **Gunicorn** – WSGI server running the Flask application.
+- **GitHub** – Repository and version control.
+- **Nginx** – Reverse proxy on the production VM.
+- **Gunicorn** – WSGI server for the Flask application.
+- **CDN** – TLS and caching at the edge.
 
 ---
 
