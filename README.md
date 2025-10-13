@@ -72,7 +72,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 12. **[Bugs & Fixes](#bugs--fixes)**
 
 13. **[Deployment](#deployment)**
-    - [Current Production (Ubuntu Server + Gunicorn + Nginx)](#current-production-ubuntu-server--gunicorn--nginx)
+    - [Deployment (Ubuntu Server + Gunicorn + Nginx)](#deployment-ubuntu-server--gunicorn--nginx)
     - [Running the Project Locally](#running-the-project-locally)
 
 14. **[Credits](#credits)**
@@ -88,7 +88,7 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Live Site
 
-- **HTTPS:** https://www.sovcore.com/mp3-brainery
+[**MP3-Brainery**](https://www.sovcore.com/mp3-brainery)
 
 ---
 
@@ -740,7 +740,7 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ## Deployment
 
-### Current Production (Ubuntu Server + Gunicorn + Nginx)
+### Deployment (Ubuntu Server + Gunicorn + Nginx)
 *(Active deployment)*
 
 ```
@@ -762,18 +762,18 @@ Database     : SQLAlchemy (PostgreSQL)
 ---
 
 SYSTEMD SERVICE  (/etc/<project-name>.service)
-# Service unit present for Gunicorn (production).
-# Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
+- Service unit present for Gunicorn (production).
+- Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
 
 
 GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_<project-name>.sh)
-# Launcher script present for Gunicorn (production).
-# Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
+- Launcher script present for Gunicorn (production).
+- Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
 
 
 NGINX CONFIGURATION  (/etc/nginx/sites-available/<project-name>_nginx.conf)
-# Nginx reverse proxy routes the app under the canonical subpath.
-# Static and media are served via Nginx aliases. (Details intentionally omitted.)
+- Nginx reverse proxy routes the app under the canonical subpath.
+- Static and media are served via Nginx aliases. (Details intentionally omitted.)
 
 ---
 
@@ -823,7 +823,7 @@ http://127.0.0.1:5000
 
 ```bash
 DEPLOYMENT SUMMARY
-Production : Ubuntu VM + Gunicorn + Nginx (served under a canonical subpath)
+Live : Ubuntu VM + Gunicorn + Nginx (served under a canonical subpath)
 Local Dev  : Flask built-in server
 Database   : PostgreSQL (via SQLAlchemy)
 Security   : CSRF protection, secure session cookies
