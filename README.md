@@ -51,23 +51,25 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 9. **[Technologies Used](#technologies-used)**
 
 10. **[Database Schema](#database-schema)**
-   - [Users Table (SQL)](#users-table-sql)
-   - [Subjects Table (SQL)](#subjects-table-sql)
-   - [Topics Table (SQL)](#topics-table-sql)
-   - [Schema Relationships](#schema-relationships)
-   - [ER Diagram](#er-diagram)
-   - [How to Query Data (SQLAlchemy)](#how-to-query-data-sqlalchemy)
+
+- [Users Table (SQL)](#users-table-sql)
+- [Subjects Table (SQL)](#subjects-table-sql)
+- [Topics Table (SQL)](#topics-table-sql)
+- [Schema Relationships](#schema-relationships)
+- [ER Diagram](#er-diagram)
+- [How to Query Data (SQLAlchemy)](#how-to-query-data-sqlalchemy)
 
 11. **[Testing](#testing)**
-   - [Manual Testing](#manual-testing)
-     - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)
-     - [Testing Responsiveness](#testing-responsiveness)
-   - [User Testing](#user-testing)
-     - [Promocode for Testing](#promocode-for-testing)
-   - [Functional Testing (Live Site)](#functional-testing-live-site)
-   - [Security Testing](#security-testing)
-   - [Lighthouse Testing](#lighthouse-testing)
-   - [Validation Testing](#validation-testing)
+
+- [Manual Testing](#manual-testing)
+  - [Testing Links, Forms, and Navigation](#testing-links-forms-and-navigation)
+  - [Testing Responsiveness](#testing-responsiveness)
+- [User Testing](#user-testing)
+  - [Promocode for Testing](#promocode-for-testing)
+- [Functional Testing (Live Site)](#functional-testing-live-site)
+- [Security Testing](#security-testing)
+- [Lighthouse Testing](#lighthouse-testing)
+- [Validation Testing](#validation-testing)
 
 12. **[Bugs & Fixes](#bugs--fixes)**
 
@@ -88,34 +90,40 @@ Brainery is an **interactive web platform** designed for learners to **store, ma
 
 ## Live Site
 
-[**MP3-Brainery**](https://www.sovcore.com/mp3-brainery)
+[**MP3-Brainery**](https://mp3-brainery.sovcore.com/)
 
 ---
 
 ## Repository
+
 [**GitHub Repository**](https://github.com/MH-LIKHON/MP3-Brainery.git)
 
 ---
 
 ## Demo Accounts
+
 Use these ready-made logins for reviewing:
 
 **Admin**
+
 - Email: `TA1@gamil.com`
 - Password: `TemPPass@2025`
 
 **Non-admin**
+
 - Email: `TA2@gamil.com`
 - Password: `TemPPass@2025`
 
 ---
 
 ## Project Overview
+
 Brainery is a **community-driven** web platform designed to help learners store, manage, and share educational resources efficiently. It provides an interactive and secure environment where students, educators, and professionals can collaborate and enhance their knowledge base.
 
 In addition, Brainery features an **Admin Dashboard**, where **administrators can manage users, oversee study topics, and moderate shared content** to maintain a safe and productive learning space.
 
 ### Key Features:
+
 - **User Authentication:** Secure **registration, login, and logout** functionality using Flask-Login.
 - **Study Topic Management:** Users can **create, edit, delete, and organize** their study topics.
 - **Public Learning Resources:** Users can **browse and contribute to a shared knowledge base** to support collaborative learning.
@@ -150,14 +158,15 @@ To kick off the Brainery project, I evaluated different **educational and knowle
 
 Based on these factors, I ranked different **web application ideas** to determine the best approach for my **full-stack milestone project**.
 
-| **Project Type** | **Portfolio-Weight** | **Complexity** | **Time to Research** | **Scalability & Market Demand** | **Total Score** |
-|-----------------|------------------|------------|------------------|-------------------|-------------|
-| **Online Study Hub (Brainery)** | **10** | **9** | **7** | **10** | **36** |
-| **E-Commerce Store** | 8 | 9 | 6 | 8 | 31 |
-| **Event Management System** | 7 | 7 | 5 | 7 | 26 |
-| **Personal Finance Tracker** | 8 | 8 | 7 | 6 | 29 |
+| **Project Type**                | **Portfolio-Weight** | **Complexity** | **Time to Research** | **Scalability & Market Demand** | **Total Score** |
+| ------------------------------- | -------------------- | -------------- | -------------------- | ------------------------------- | --------------- |
+| **Online Study Hub (Brainery)** | **10**               | **9**          | **7**                | **10**                          | **36**          |
+| **E-Commerce Store**            | 8                    | 9              | 6                    | 8                               | 31              |
+| **Event Management System**     | 7                    | 7              | 5                    | 7                               | 26              |
+| **Personal Finance Tracker**    | 8                    | 8              | 7                    | 6                               | 29              |
 
 ### **Why Brainery?**
+
 After analyzing the above options, I chose **Brainery** because:
 ✅ It **aligns with my skills** in **Flask, SQLAlchemy, Bootstrap, and user authentication**.
 ✅ It offers a **high-value, real-world application** that can be expanded over time.
@@ -167,17 +176,18 @@ After analyzing the above options, I chose **Brainery** because:
 ---
 
 ### **Platform Feature Ranking**
+
 I also ranked specific **core features** of the project to prioritize development and ensure **maximum impact** on user experience.
 
-| **No.** | **Feature** | **Importance** |
-|-----|-----------------------|--------------|
-| 1️⃣ | **Secure User Authentication** | ⭐⭐⭐⭐⭐ |
-| 2️⃣ | **Save & Manage Study Topics** | ⭐⭐⭐⭐⭐ |
-| 3️⃣ | **Search & Filter Functionality** | ⭐⭐⭐⭐ |
-| 4️⃣ | **Public Resource Sharing** | ⭐⭐⭐⭐ |
-| 5️⃣ | **User Dashboard & Progress Tracking** | ⭐⭐⭐ |
-| 6️⃣ | **Admin Page & User Management** | ⭐⭐⭐⭐ |
-| 7️⃣ | **Collaborative Study Features** (Future) | ⭐⭐⭐ |
+| **No.** | **Feature**                               | **Importance** |
+| ------- | ----------------------------------------- | -------------- |
+| 1️⃣      | **Secure User Authentication**            | ⭐⭐⭐⭐⭐     |
+| 2️⃣      | **Save & Manage Study Topics**            | ⭐⭐⭐⭐⭐     |
+| 3️⃣      | **Search & Filter Functionality**         | ⭐⭐⭐⭐       |
+| 4️⃣      | **Public Resource Sharing**               | ⭐⭐⭐⭐       |
+| 5️⃣      | **User Dashboard & Progress Tracking**    | ⭐⭐⭐         |
+| 6️⃣      | **Admin Page & User Management**          | ⭐⭐⭐⭐       |
+| 7️⃣      | **Collaborative Study Features** (Future) | ⭐⭐⭐         |
 
 Feature ranking guided development, ensuring authentication and topic management were completed before optional enhancements.
 
@@ -186,6 +196,7 @@ Feature ranking guided development, ensuring authentication and topic management
 ## User Experience (UX)
 
 ### Project Goals
+
 Brainery aims to create an interactive, accessible, and **user-friendly platform** that enhances the learning experience through technology. Below are the primary objectives that guide the design and functionality of the platform:
 
 - **User-Centric Design:** Provide an **intuitive online knowledge hub** that is easy to navigate for learners of all skill levels.
@@ -195,33 +206,41 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 - **Seamless User Interaction:** Create an **engaging and responsive UI** that enhances the user experience across devices.
 
 ### User Stories
+
 #### New Users
+
 - I want to **create an account** to save my study topics.
 - I want to **log in securely** to access my resources.
 - I want to **search for learning materials** shared by the community.
 
 #### Returning Users
+
 - I want to **edit my saved topics** for better organization.
 - I want to **delete outdated topics** to keep my list relevant.
 - I want to **view my study progress** and track saved resources.
 
 #### Site Admins
+
 - I want to **view all registered users** in an organized dashboard.
 - I want to **promote regular users to admin** when necessary.
 - I want to **delete user accounts** in case of inactivity or violation of guidelines.
 - I want to **restrict unauthorized access to admin-only pages**.
 
 ### Design
+
 #### Colour Scheme
+
 - **Primary Color:** `#20c997` (Green) – Represents growth and learning.
 - **Secondary Color:** `#f8f9fa` (Light Grey) – Clean, modern UI.
 - **Accent Colors:** `#333` (Dark Text) and `#ffffff` (White Background).
 
 #### Typography
+
 - **Roboto:** Used for general text.
 - **Montserrat:** Used for headings.
 
 #### Imagery & UI Elements
+
 - **Interactive Cards** for study topics.
 - **Progress Tracking Bars** to visualize learning engagement.
 - **Icons & Buttons** for **intuitive navigation**.
@@ -233,9 +252,11 @@ Brainery aims to create an interactive, accessible, and **user-friendly platform
 The wireframes provide a **visual structure** of Brainery’s **core pages**, ensuring a well-organized **user experience**. These were designed using **Balsamiq** and serve as the **foundation for UI development**.
 
 **Wireframe Directory:**
+
 ```
 brainery_data/static/pdfs/
 ```
+
 ---
 
 - [All Pages Wireframe](brainery_data/static/pdfs/brainery_allpages_desktop_tablet_mobile.pdf)
@@ -247,9 +268,11 @@ brainery_data/static/pdfs/
 Brainery is designed to provide a seamless **learning experience** through interactive **study topic management, public resource sharing, and user-friendly navigation**. Below are the **core features**, accompanied by visual representations.
 
 **Image Directory:**
+
 ```
 brainery_data/static/images/
 ```
+
 ---
 
 ### **Existing Features**
@@ -257,6 +280,7 @@ brainery_data/static/images/
 ---
 
 #### **Home Page**
+
 - **Engaging Hero Section**
   - Features an **immersive hero video background** sourced from [Tactus Marketing](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4).
   - Smooth **fade-in animations** on the title and tagline enhance interactivity.
@@ -265,7 +289,6 @@ brainery_data/static/images/
   - Nav menu and logo have animation effect.
   - Features section with multiple cards and popup messages.
   - ![Home Page](brainery_data/static/images/home.png)
-
     - ![Hero Section](brainery_data/static/images/homehero.png)
 
     - ![Features Section](brainery_data/static/images/homefeature.png)
@@ -279,13 +302,13 @@ brainery_data/static/images/
 ---
 
 #### **User Authentication**
+
 - **Secure Login**
   - Users can **login** using **email and a secure password**.
   - Users can **reset password** using **email address, if registered**.
   - Flask-Login **manages session authentication**.
   - **CSRF protection** is implemented to prevent cross-site request forgery.
   - ![Login Page](brainery_data/static/images/login.png)
-
     - ![Empty Field Message](brainery_data/static/images/loginmessage1.png)
 
     - ![Proceed Message](brainery_data/static/images/loginmessage3.png)
@@ -294,13 +317,14 @@ brainery_data/static/images/
 
     - ![Password Reset](brainery_data/static/images/passwordreset.png)
 
-  ---
+  ***
 
 #### **User Registration**
+
 - **Secure Registration**
   - Users can **register** using:
     - **Personal Information** (name, email, phone, address, etc.).
-    - **A dummy payment form** *(no real transactions, UI demonstration only)*.
+    - **A dummy payment form** _(no real transactions, UI demonstration only)_.
     - **A promo code option** to bypass the payment step.
 
   #### **Payment Page Details**
@@ -320,7 +344,6 @@ brainery_data/static/images/
   - **CSRF protection** is implemented to **prevent cross-site request forgery**.
 
   - ![Register Page](brainery_data/static/images/register1.png)
-
     - ![Registered Email Message](brainery_data/static/images/emailregistered.png)
 
   - ![Register Page](brainery_data/static/images/register2.png)
@@ -329,11 +352,12 @@ brainery_data/static/images/
 
   - ![Register Page](brainery_data/static/images/register4.png)
 
-   - ![Register Page](brainery_data/static/images/successfulmessage.png)
+  - ![Register Page](brainery_data/static/images/successfulmessage.png)
 
 ---
 
 #### **Registration Email**
+
 - **EmailJS**
   - Users will receive an email after completing their registration.
   - Email contains the necessary information regarding their registration.
@@ -342,6 +366,7 @@ brainery_data/static/images/
 ---
 
 #### **Study Topics Management**
+
 - **CRUD (Create, Read, Update, Delete) Operations**
   - Users can **save, update, and delete study topics** in their personal dashboard.
   - Topics (and users) are stored in the **SQL database via SQLAlchemy**.
@@ -351,6 +376,7 @@ brainery_data/static/images/
 ---
 
 #### **Public Resource Sharing**
+
 - **Explore & Save Shared Study Materials**
   - Users can browse **public learning resources** shared by the community through Wikipedia.
   - Resources are categorized by **subject type, popularity, and user contributions**.
@@ -360,6 +386,7 @@ brainery_data/static/images/
 ---
 
 #### **User Dashboard**
+
 - **Personalized Dashboard**
   - Displays **saved study topics, edit and bookmarked resources**.
   - Features **quick actions** to edit or delete topics.
@@ -368,40 +395,43 @@ brainery_data/static/images/
 ---
 
 #### **Admin Dashboard**
+
 The **Admin Dashboard** provides tools for managing users. Admins have **exclusive access** to user role management and content moderation tools.
 
 ### **Admin Features**
+
 - **User Management**: View, promote, or delete users.
 - **Promote Users to Admin**: Upgrade regular users to **admin**.
 - **Delete Users**: Remove inactive or problematic accounts.
 - **Role-Based Access**: Only admins can access **admin tools**.
 
 ### **How Admins Access the Dashboard**
+
 1. **Log in** with an **admin account**.
 2. You will be at the **Admin Dashboard**.
 3. Use the available tools to **manage users**.
 
-| Feature | Description |
-|---------|------------|
-| **View Users** | Admins can **see all registered users** and check their roles. |
+| Feature           | Description                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------- |
+| **View Users**    | Admins can **see all registered users** and check their roles.                                     |
 | **Promote Users** | Admins can **upgrade regular users to admin status**. Once promoted, demotion is **not possible**. |
-| **Delete Users** | Admins can **remove inactive or inappropriate users** permanently. |
+| **Delete Users**  | Admins can **remove inactive or inappropriate users** permanently.                                 |
 
 ### **Updated User Roles**
-| Role | Permissions |
-|------|------------|
-| **User** | Can **create, edit, and delete their own topics**. |
+
+| Role      | Permissions                                                          |
+| --------- | -------------------------------------------------------------------- |
+| **User**  | Can **create, edit, and delete their own topics**.                   |
 | **Admin** | Can **view all users, promote users to admin, and delete accounts**. |
 
 ![Admin Dashboard](brainery_data/static/images/admin1.png)
 
-
 ![Admin Dashboard](brainery_data/static/images/admin2.png)
-
 
 ---
 
 #### **Security Features**
+
 - **CSRF Protection & Secure Sessions**
   - **Flask-WTF prevents CSRF attacks** on all form submissions.
   - **Session cookies** are encrypted and set to expire for added security.
@@ -409,6 +439,7 @@ The **Admin Dashboard** provides tools for managing users. Admins have **exclusi
 ---
 
 #### **Mobile Responsive UI**
+
 - **Optimized for all devices**
   - Uses **Bootstrap 5 Grid System** for seamless responsiveness.
   - UI elements **automatically adjust** based on screen size.
@@ -435,23 +466,28 @@ The **Admin Dashboard** provides tools for managing users. Admins have **exclusi
 ### **Future Features**
 
 #### **Note-Taking System**
+
 - **Attach personal notes** to study topics.
 - **Store notes in the SQL database (via SQLAlchemy)** for easy retrieval.
 - **Edit, delete, and organize notes** in the user dashboard.
 
 #### **Learning Progress Analytics**
+
 - **Track study progress** visually.
 - **Display progress bars and charts** for completed topics.
 
 #### **Community Forum**
+
 - **Create discussion boards** where users can ask and answer questions.
 - **Categorized threads** based on subject areas.
 
 #### **Study Schedule Planner**
+
 - Users can **set reminders and study schedules** for different topics.
 - **Google Calendar API** will be integrated for **syncing schedules**.
 
 #### **File Upload for Study Materials**
+
 - Users will be able to **upload and attach** PDF, DOC, and PPT files to their study topics.
 - Uploaded files will be **securely stored and downloadable**.
 
@@ -464,9 +500,11 @@ The **Admin Dashboard** provides tools for managing users. Admins have **exclusi
 ---
 
 ## Security & Payment Disclaimer
+
 This project **does NOT process real payments** and **does NOT store any credit card information**.
 
 ### How Payments Work:
+
 - The payment form is **for UI demonstration only**.
 - No real transactions take place.
 - No payment details are stored in the database.
@@ -478,6 +516,7 @@ This project **does NOT process real payments** and **does NOT store any credit 
 ---
 
 ### **Technologies Used**
+
 - **Flask** – Lightweight **Python web framework** for backend development.
 - **SQLAlchemy + PostgreSQL** – Relational database for users & roles.
 - **Werkzeug PBKDF2** – Secure password hashing for user accounts.
@@ -495,43 +534,48 @@ This project **does NOT process real payments** and **does NOT store any credit 
 ## Database Schema
 
 ### Users Table (SQL)
+
 Stores user accounts, roles, and hashed credentials.
 
-| Field Name   | Data Type        | Description                         |
-|--------------|------------------|-------------------------------------|
-| `id`         | Integer (PK)     | Auto-increment primary key          |
-| `username`   | String           | Full name of the user               |
-| `email`      | String (unique)  | User’s email address                |
-| `password`   | String (hash)    | Hashed with PBKDF2 (Werkzeug)       |
-| `role`       | String           | `admin` or `user`                   |
-| `created_at` | Timestamp        | Creation time (UTC)                 |
+| Field Name   | Data Type       | Description                   |
+| ------------ | --------------- | ----------------------------- |
+| `id`         | Integer (PK)    | Auto-increment primary key    |
+| `username`   | String          | Full name of the user         |
+| `email`      | String (unique) | User’s email address          |
+| `password`   | String (hash)   | Hashed with PBKDF2 (Werkzeug) |
+| `role`       | String          | `admin` or `user`             |
+| `created_at` | Timestamp       | Creation time (UTC)           |
 
 ### Subjects Table (SQL)
+
 Defines the categories of learning.
 
-| Field Name   | Data Type     | Description                          |
-|--------------|---------------|--------------------------------------|
-| `id`         | Integer (PK)  | Auto-increment primary key           |
-| `name`       | String        | Subject title (e.g., “IT”)           |
-| `icon`       | String        | Optional emoji/icon string           |
-| `created_at` | Timestamp     | Creation time (UTC)                  |
+| Field Name   | Data Type    | Description                |
+| ------------ | ------------ | -------------------------- |
+| `id`         | Integer (PK) | Auto-increment primary key |
+| `name`       | String       | Subject title (e.g., “IT”) |
+| `icon`       | String       | Optional emoji/icon string |
+| `created_at` | Timestamp    | Creation time (UTC)        |
 
 ### Topics Table (SQL)
+
 Contains individual learning topics under a subject.
 
-| Field Name    | Data Type     | Description                                     |
-|---------------|---------------|-------------------------------------------------|
-| `id`          | Integer (PK)  | Auto-increment primary key                      |
-| `subject_id`  | Integer (FK)  | References `subjects.id`                        |
-| `title`       | String        | Topic title                                     |
-| `description` | Text          | Brief summary                                   |
-| `created_at`  | Timestamp     | Creation time (UTC)                             |
+| Field Name    | Data Type    | Description                |
+| ------------- | ------------ | -------------------------- |
+| `id`          | Integer (PK) | Auto-increment primary key |
+| `subject_id`  | Integer (FK) | References `subjects.id`   |
+| `title`       | String       | Topic title                |
+| `description` | Text         | Brief summary              |
+| `created_at`  | Timestamp    | Creation time (UTC)        |
 
 ### Schema Relationships
+
 1. Each **topic** belongs to a **subject** (`topics.subject_id → subjects.id`).
 2. Users authenticate via the **users** table; role-based access uses `users.role`.
 
 ### ER Diagram
+
 ![SQL ER Diagram](brainery_data/static/images/sql_er_diagram.png)
 
 ---
@@ -539,6 +583,7 @@ Contains individual learning topics under a subject.
 ### How to Query Data (SQLAlchemy)
 
 **Find a user by email**
+
 ```python
 from brainery_data.sql.db import SessionLocal
 from brainery_data.sql.models import UserSQL
@@ -555,30 +600,31 @@ finally:
 ## Testing
 
 ### Manual Testing
+
 Brainery was manually tested across multiple browsers (Chrome, Firefox, Safari, and Edge) and on various devices (mobile, tablet, and desktop) to confirm the platform’s responsiveness, functionality, and overall user experience. Detailed results of the tests conducted are outlined below:
 
 ---
 
 #### Testing Links, Forms, and Navigation
 
-| Test                                            | Outcome |
-|-------------------------------------------------|---------|
-| All navigation bar links direct to their intended pages | Pass    |
-| The "Get Started" button on the home page leads to the registration form | Pass    |
-| The footer social media icons redirect to the correct social media platforms | Pass    |
-| Registration and login forms submit successfully with valid input | Pass    |
+| Test                                                                                        | Outcome |
+| ------------------------------------------------------------------------------------------- | ------- |
+| All navigation bar links direct to their intended pages                                     | Pass    |
+| The "Get Started" button on the home page leads to the registration form                    | Pass    |
+| The footer social media icons redirect to the correct social media platforms                | Pass    |
+| Registration and login forms submit successfully with valid input                           | Pass    |
 | Users are prompted to correct invalid inputs (e.g., missing fields, incorrect email format) | Pass    |
-| Users are prevented from submitting forms with empty required fields | Pass    |
+| Users are prevented from submitting forms with empty required fields                        | Pass    |
 
 ---
 
 #### Testing Responsiveness
 
-| Test                                             | Outcome |
-|--------------------------------------------------|---------|
-| Layout displays correctly on large screens (desktops and larger tablets) | Pass    |
+| Test                                                                                                      | Outcome |
+| --------------------------------------------------------------------------------------------------------- | ------- |
+| Layout displays correctly on large screens (desktops and larger tablets)                                  | Pass    |
 | Content remains readable and navigation stays functional on small screens (smartphones and small tablets) | Pass    |
-| Interactive elements (buttons, dropdowns, and input fields) remain usable across screen sizes | Pass    |
+| Interactive elements (buttons, dropdowns, and input fields) remain usable across screen sizes             | Pass    |
 
 ---
 
@@ -587,36 +633,37 @@ Brainery was manually tested across multiple browsers (Chrome, Firefox, Safari, 
 **Testing Scenarios:**
 A group of 5 users was asked to complete various tasks without guidance to assess the intuitiveness and usability of the platform. These tasks and results are detailed below:
 
-| Task                                                         | Success Rate |
-|--------------------------------------------------------------|--------------|
-| Register for an account, log in, and add a study topic       | 100%         |
-| Update a saved topic’s details                               | 100%         |
-| Navigate to the Explore page and bookmark a public resource  | 100%         |
-| Logout and log back in to verify bookmarked items            | 100%         |
-| Submit the contact form to reach the support team            | 100%         |
+| Task                                                        | Success Rate |
+| ----------------------------------------------------------- | ------------ |
+| Register for an account, log in, and add a study topic      | 100%         |
+| Update a saved topic’s details                              | 100%         |
+| Navigate to the Explore page and bookmark a public resource | 100%         |
+| Logout and log back in to verify bookmarked items           | 100%         |
+| Submit the contact form to reach the support team           | 100%         |
 
 #### **Promocode for Testing**
+
 📌 **Use the promocode `CI25MP3`** during registration to activate test access.
 
 ---
 
 ### **Functional Testing (Live Site)**
+
 The following user features were tested manually on the **live site**:
 
 **Base URL used during testing**
-https://www.sovcore.com/mp3-brainery/
+https://mp3-brainery.sovcore.com/
 
-
-| **Feature**            | **Expected Behavior**                                      | **Test Result** |
-|------------------------|-------------------------------------------------------------|-----------------|
-| **User Registration**  | New users can sign up and receive a confirmation message    | ✅ Working       |
-| **User Login**         | Registered users can log in with valid credentials          | ✅ Working       |
-| **User Logout**        | Logged-in users can successfully log out                    | ✅ Working       |
-| **Create Record**      | Users can add new records to the database                   | ✅ Working       |
-| **Edit Record**        | Users can update existing records                           | ✅ Working       |
-| **Delete Record**      | Users can delete records from the database                  | ✅ Working       |
-| **Database Connection**| Data is stored and retrieved via SQLAlchemy (PostgreSQL)    | ✅ Working       |
-| **Email Functionality**| Registration/notification emails are sent (EmailJS)         | ✅ Working       |
+| **Feature**             | **Expected Behavior**                                    | **Test Result** |
+| ----------------------- | -------------------------------------------------------- | --------------- |
+| **User Registration**   | New users can sign up and receive a confirmation message | ✅ Working      |
+| **User Login**          | Registered users can log in with valid credentials       | ✅ Working      |
+| **User Logout**         | Logged-in users can successfully log out                 | ✅ Working      |
+| **Create Record**       | Users can add new records to the database                | ✅ Working      |
+| **Edit Record**         | Users can update existing records                        | ✅ Working      |
+| **Delete Record**       | Users can delete records from the database               | ✅ Working      |
+| **Database Connection** | Data is stored and retrieved via SQLAlchemy (PostgreSQL) | ✅ Working      |
+| **Email Functionality** | Registration/notification emails are sent (EmailJS)      | ✅ Working      |
 
 📌 **All tests were performed manually against the production VM endpoints shown above.**
 
@@ -625,15 +672,16 @@ https://www.sovcore.com/mp3-brainery/
 **Responsive Testing Feedback:**
 The same group of users also tested Brainery on mobile and tablet devices, providing insights into layout and navigation.
 
-| Test                                  | Feedback |
-|---------------------------------------|----------|
-| Navigation and forms on mobile        | No issues, clear layout |
-| Topic editing interface on tablet     | No issues, easy to use |
+| Test                                    | Feedback                     |
+| --------------------------------------- | ---------------------------- |
+| Navigation and forms on mobile          | No issues, clear layout      |
+| Topic editing interface on tablet       | No issues, easy to use       |
 | Explore resource cards on small screens | No overlap, smooth scrolling |
 
 ---
 
 ### Security Testing
+
 - The project was scanned using Bandit for security vulnerabilities.
 - No critical security issues were found in the project's source code.
 - Some warnings originated from third-party dependencies but do not affect the project's functionality.
@@ -644,14 +692,15 @@ The same group of users also tested Brainery on mobile and tablet devices, provi
 
 Brainery’s core pages were analyzed using Google Lighthouse to measure performance, accessibility, best practices, and SEO. Below are the scores and corresponding links to the full Lighthouse reports:
 
-| Page                     | Performance | Accessibility | Best Practices | SEO  |
-|--------------------------|-------------|----------------|----------------|------|
-| Home                    | **97**      | **92**         | **96**         | **90**   |
-| Dashboard               | **99**      | **97**         | **96**         | **90**   |
-| Login                   | **98**      | **89**         | **96**         | **90**   |
-| Register                | **97**      | **98**         | **96**         | **90**   |
+| Page      | Performance | Accessibility | Best Practices | SEO    |
+| --------- | ----------- | ------------- | -------------- | ------ |
+| Home      | **97**      | **92**        | **96**         | **90** |
+| Dashboard | **99**      | **97**        | **96**         | **90** |
+| Login     | **98**      | **89**        | **96**         | **90** |
+| Register  | **97**      | **98**        | **96**         | **90** |
 
 **Lighthouse Reports:**
+
 - [Home Page Report](brainery_data/static/pdfs/home-lh.pdf)
 
 - [Login Page Report](brainery_data/static/pdfs/login-lh.pdf)
@@ -672,8 +721,8 @@ All critical pages and associated stylesheets were validated using W3C tools to 
   - [Home Page Validation](brainery_data/static/images/home-html.png)
   - [Login Page Validation](brainery_data/static/images/login-html.png)
   - [Registration Validation](brainery_data/static/images/register-html.png)
-  - [Dashboard Validation](brainery_data/static/images/dashboard-html.png) 
-  - [Admin Validation](brainery_data/static/images/admin-html.png) 
+  - [Dashboard Validation](brainery_data/static/images/dashboard-html.png)
+  - [Admin Validation](brainery_data/static/images/admin-html.png)
 
 - **CSS Validation:**
   - [Stylesheet Validation](brainery_data/static/images/styles-css.png)
@@ -682,66 +731,67 @@ All critical pages and associated stylesheets were validated using W3C tools to 
 
 ## Bugs & Fixes
 
-| **Bug** | **Issue** | **Fix** |
-|------|-------|-----|
-| **Login Fails** | Incorrect form validation caused login attempts to fail even with correct credentials. | Fixed by adding `email_validator` and ensuring proper email formatting. |
-| **Topic Not Saving** | SQL schema issue (FK/type mismatch) prevented topic creation. | Fixed by aligning SQLAlchemy models & migrations, setting correct FK types, and committing the session. |
-| **Styling Issues on Mobile** | UI elements were misaligned on smaller screens, making navigation difficult. | Fixed with Bootstrap media queries to enhance responsiveness. |
-| **Session Not Persisting** | Users were logged out unexpectedly due to incorrect session handling. | Fixed by ensuring session tokens were stored correctly with `SESSION_PERMANENT=False`. |
-| **CSRF Token Missing** | Forms failed to submit due to missing CSRF protection. | Fixed by adding `csrf_token` in all form submissions and implementing Flask-WTF validation. |
-| **Database Connection Timeout** | SQL queries/sessions were slow due to engine configuration. | Fixed by enabling connection pooling, adding indexes, and optimizing SQLAlchemy queries. |
-| **Duplicate Study Topics** | Users could accidentally save duplicate topics without warnings. | Fixed by adding a **duplicate-check system** before saving a new topic. |
-| **Password Reset Not Working** | Users couldn't reset their passwords due to an incorrect email validation flow. | Fixed by ensuring email validation works and sending password reset links correctly via `EmailJS`. |
-| **Bookmarking System Bug** | Bookmarked topics were not displayed correctly after refresh. | Fixed by updating the **database query to fetch saved bookmarks properly**. |
-| **Flash Messages Not Displaying** | Success/error messages didn't appear after user actions. | Fixed by ensuring `flask.flash()` messages were properly included in the HTML templates. |
-| **Search Not Working Properly** | Search results were not filtering topics correctly. | Fixed by refining **SQLAlchemy filter/ILIKE logic** for better accuracy. |
-| **Dark Mode Not Saving** | Users' dark mode preferences reset after logout. | Fixed by storing dark mode settings in **localStorage** for persistence. |
-| **Broken Logout Button** | Clicking "Logout" didn't always end the session. | Fixed by ensuring `logout_user()` properly clears session cookies. |
-| **404 Errors on Deployment** | Static files like CSS and JS failed to load after deployment. | Fixed by adjusting GitHub Pages **file paths and CORS settings**. |
-| **Wiki API Not Fetching Data** | Study topics that relied on Wikipedia data were not displaying correctly. | Fixed by refining API calls and implementing **error handling for missing topics**. |
-| **Footer Overlapping Content** | The footer covered some content on smaller screens. | Fixed by adding `padding-bottom` to ensure proper spacing. |
-| **Broken Registration Form Validation** | Some required fields were not being validated correctly. | Fixed by ensuring Flask-WTF correctly processes all form fields. |
-| **User Dashboard Slow Load Times** | The dashboard took a long time to fetch study topics. | Fixed by implementing **pagination and lazy loading** for improved performance. |
-| **Search Bar Not Displaying Correctly** | The search bar was hidden under some UI elements on mobile. | Fixed by adjusting **CSS positioning** to ensure proper visibility. |
-| **Hero Video Not Autoplaying on iOS** | The background video on the home page did not autoplay in Safari. | Fixed by adding `playsinline` and `muted` attributes to the video tag. |
-| **User Passwords Stored in Plaintext** | Security vulnerability where passwords were not hashed. | Fixed by implementing **Werkzeug PBKDF2** (`generate_password_hash`) for password hashing. |
-| **Study Topics Editable by Other Users** | Users could edit study topics created by others. | Fixed by restricting edit permissions to **only the topic owner**. |
-| **Broken Social Media Links** | Footer links to social media pages were incorrect. | Fixed by updating the `href` attributes with valid URLs. |
-| **Wiki Fetching API Crashing on Invalid Topics** | If a topic was not found on Wikipedia, the app crashed. | Fixed by implementing **fallback messages for missing topics**. |
-| **Static Assets Not Loading on Mobile** | Some CSS and JS files failed to load on certain mobile devices. | Fixed by adjusting static file paths and clearing cache. |
-| **Form Submission Without Input Allowed** | Some fields allowed form submission without input. | Fixed by enforcing required fields and adding JavaScript validation. |
-| **Account Deletion Not Removing All Data** | Deleting an account did not remove saved study topics. | Fixed by adding SQLAlchemy relationship cascades (`cascade="all, delete-orphan"`) and enforcing FK constraints. |
-| **Pagination Not Working for Large Resource List** | Users could not navigate through long lists of public resources. | Fixed by implementing **server-side pagination** for efficient data retrieval. |
-| **Login Button Click Delay** | Clicking "Login" had a noticeable delay before response. | Fixed by optimizing event listeners and reducing unnecessary database queries. |
-| **Forgot Password Emails Not Sending** | Users were not receiving password reset emails. | Fixed by verifying EmailJS API credentials and enabling SMTP debugging. |
-| **Mobile Menu Not Collapsing After Click** | The mobile navbar stayed open after selecting an option. | Fixed by adding an event listener to close the menu after selection. |
-| **User Dashboard Graphs Not Rendering** | Progress tracking graphs were not loading on some browsers. | Fixed by updating the JavaScript chart library to a newer version. |
-| **Bookmarking Resources Resulted in Duplicates** | Clicking "Save" on a resource sometimes saved it multiple times. | Fixed by adding a **duplicate-check system before insertion**. |
-| **Incorrect Timestamp on Study Topics** | Topics were showing incorrect creation dates. | Fixed by ensuring UTC timestamps were used consistently across the database. |
-| **Hover Effects on Buttons Not Consistent** | Some buttons did not show hover animations in Firefox. | Fixed by standardizing CSS transition properties. |
-| **Contact Form Not Sending Messages** | The contact form failed to send messages to the admin. | Fixed by properly setting up EmailJS integration. |
-| **Study Topics Not Deleting Properly** | Deleting a topic sometimes failed without an error message. | Fixed by adding proper database commit handling. |
-| **Wiki Data Caching Issues** | Wikipedia data was fetched on every request, slowing down performance. | Fixed by **caching API responses** for improved speed. |
-| **Site Favicon Not Displaying** | The favicon was missing in some browsers. | Fixed by ensuring the correct favicon path in `base.html`. |
-| **Study Progress Stats Not Updating** | The user’s learning progress stats did not update in real-time. | Fixed by ensuring AJAX calls update the stats after changes. |
-| **File Upload Security Vulnerability** | Users could upload malicious files. | Fixed by restricting file types and scanning for viruses. |
-| **User Dashboard Not Showing Newly Saved Topics** | Topics did not appear immediately after saving. | Fixed by adding a **real-time update function** using JavaScript. |
-| **UI Inconsistencies in Dark Mode** | Some elements did not adjust to dark mode properly. | Fixed by ensuring dark mode styles applied to all components. |
-| **Database Backup Issues** | Regular backups were failing due to a script error. | Fixed by ensuring proper cron job execution for database backups. |
-| **Wiki Data Fetch Delay** | Wikipedia content took too long to load. | Fixed by implementing async fetching and caching. |
-| **Admin Page Not Loading** | The admin dashboard failed to load due to missing route permissions. | Fixed by adding `@login_required` and checking `role == 'admin'` before rendering the page. |
-| **Users Not Displaying** | The user management table was empty because of an incorrect SQLAlchemy query. | Fixed by using `db.query(UserSQL).all()` and ensuring the session is committed/closed properly. |
-| **Cannot Promote Users** | Admins couldn't promote users due to missing role update logic. | Fixed by updating the `role` field on the `UserSQL` instance and calling `db.commit()`. |
-| **Delete User Not Working** | Clicking "Delete" did not remove users due to ID type mismatch / missing commit. | Fixed by fetching via `db.get(UserSQL, user_id)`, deleting with `db.delete(user)`, then `db.commit()`. |
-| **Unauthorized Users Accessing Admin Panel** | Normal users could access the **admin panel URL** directly without authorization. | Fixed by restricting access using `if current_user.role != "admin": abort(403)` in admin routes. |
-| **Session Not Clearing After Admin Logout** | Logging out as an admin didn't properly clear session data. | Fixed by calling `logout_user()` followed by `session.clear()` to fully reset the session. |
+| **Bug**                                            | **Issue**                                                                              | **Fix**                                                                                                         |
+| -------------------------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Login Fails**                                    | Incorrect form validation caused login attempts to fail even with correct credentials. | Fixed by adding `email_validator` and ensuring proper email formatting.                                         |
+| **Topic Not Saving**                               | SQL schema issue (FK/type mismatch) prevented topic creation.                          | Fixed by aligning SQLAlchemy models & migrations, setting correct FK types, and committing the session.         |
+| **Styling Issues on Mobile**                       | UI elements were misaligned on smaller screens, making navigation difficult.           | Fixed with Bootstrap media queries to enhance responsiveness.                                                   |
+| **Session Not Persisting**                         | Users were logged out unexpectedly due to incorrect session handling.                  | Fixed by ensuring session tokens were stored correctly with `SESSION_PERMANENT=False`.                          |
+| **CSRF Token Missing**                             | Forms failed to submit due to missing CSRF protection.                                 | Fixed by adding `csrf_token` in all form submissions and implementing Flask-WTF validation.                     |
+| **Database Connection Timeout**                    | SQL queries/sessions were slow due to engine configuration.                            | Fixed by enabling connection pooling, adding indexes, and optimizing SQLAlchemy queries.                        |
+| **Duplicate Study Topics**                         | Users could accidentally save duplicate topics without warnings.                       | Fixed by adding a **duplicate-check system** before saving a new topic.                                         |
+| **Password Reset Not Working**                     | Users couldn't reset their passwords due to an incorrect email validation flow.        | Fixed by ensuring email validation works and sending password reset links correctly via `EmailJS`.              |
+| **Bookmarking System Bug**                         | Bookmarked topics were not displayed correctly after refresh.                          | Fixed by updating the **database query to fetch saved bookmarks properly**.                                     |
+| **Flash Messages Not Displaying**                  | Success/error messages didn't appear after user actions.                               | Fixed by ensuring `flask.flash()` messages were properly included in the HTML templates.                        |
+| **Search Not Working Properly**                    | Search results were not filtering topics correctly.                                    | Fixed by refining **SQLAlchemy filter/ILIKE logic** for better accuracy.                                        |
+| **Dark Mode Not Saving**                           | Users' dark mode preferences reset after logout.                                       | Fixed by storing dark mode settings in **localStorage** for persistence.                                        |
+| **Broken Logout Button**                           | Clicking "Logout" didn't always end the session.                                       | Fixed by ensuring `logout_user()` properly clears session cookies.                                              |
+| **404 Errors on Deployment**                       | Static files like CSS and JS failed to load after deployment.                          | Fixed by adjusting GitHub Pages **file paths and CORS settings**.                                               |
+| **Wiki API Not Fetching Data**                     | Study topics that relied on Wikipedia data were not displaying correctly.              | Fixed by refining API calls and implementing **error handling for missing topics**.                             |
+| **Footer Overlapping Content**                     | The footer covered some content on smaller screens.                                    | Fixed by adding `padding-bottom` to ensure proper spacing.                                                      |
+| **Broken Registration Form Validation**            | Some required fields were not being validated correctly.                               | Fixed by ensuring Flask-WTF correctly processes all form fields.                                                |
+| **User Dashboard Slow Load Times**                 | The dashboard took a long time to fetch study topics.                                  | Fixed by implementing **pagination and lazy loading** for improved performance.                                 |
+| **Search Bar Not Displaying Correctly**            | The search bar was hidden under some UI elements on mobile.                            | Fixed by adjusting **CSS positioning** to ensure proper visibility.                                             |
+| **Hero Video Not Autoplaying on iOS**              | The background video on the home page did not autoplay in Safari.                      | Fixed by adding `playsinline` and `muted` attributes to the video tag.                                          |
+| **User Passwords Stored in Plaintext**             | Security vulnerability where passwords were not hashed.                                | Fixed by implementing **Werkzeug PBKDF2** (`generate_password_hash`) for password hashing.                      |
+| **Study Topics Editable by Other Users**           | Users could edit study topics created by others.                                       | Fixed by restricting edit permissions to **only the topic owner**.                                              |
+| **Broken Social Media Links**                      | Footer links to social media pages were incorrect.                                     | Fixed by updating the `href` attributes with valid URLs.                                                        |
+| **Wiki Fetching API Crashing on Invalid Topics**   | If a topic was not found on Wikipedia, the app crashed.                                | Fixed by implementing **fallback messages for missing topics**.                                                 |
+| **Static Assets Not Loading on Mobile**            | Some CSS and JS files failed to load on certain mobile devices.                        | Fixed by adjusting static file paths and clearing cache.                                                        |
+| **Form Submission Without Input Allowed**          | Some fields allowed form submission without input.                                     | Fixed by enforcing required fields and adding JavaScript validation.                                            |
+| **Account Deletion Not Removing All Data**         | Deleting an account did not remove saved study topics.                                 | Fixed by adding SQLAlchemy relationship cascades (`cascade="all, delete-orphan"`) and enforcing FK constraints. |
+| **Pagination Not Working for Large Resource List** | Users could not navigate through long lists of public resources.                       | Fixed by implementing **server-side pagination** for efficient data retrieval.                                  |
+| **Login Button Click Delay**                       | Clicking "Login" had a noticeable delay before response.                               | Fixed by optimizing event listeners and reducing unnecessary database queries.                                  |
+| **Forgot Password Emails Not Sending**             | Users were not receiving password reset emails.                                        | Fixed by verifying EmailJS API credentials and enabling SMTP debugging.                                         |
+| **Mobile Menu Not Collapsing After Click**         | The mobile navbar stayed open after selecting an option.                               | Fixed by adding an event listener to close the menu after selection.                                            |
+| **User Dashboard Graphs Not Rendering**            | Progress tracking graphs were not loading on some browsers.                            | Fixed by updating the JavaScript chart library to a newer version.                                              |
+| **Bookmarking Resources Resulted in Duplicates**   | Clicking "Save" on a resource sometimes saved it multiple times.                       | Fixed by adding a **duplicate-check system before insertion**.                                                  |
+| **Incorrect Timestamp on Study Topics**            | Topics were showing incorrect creation dates.                                          | Fixed by ensuring UTC timestamps were used consistently across the database.                                    |
+| **Hover Effects on Buttons Not Consistent**        | Some buttons did not show hover animations in Firefox.                                 | Fixed by standardizing CSS transition properties.                                                               |
+| **Contact Form Not Sending Messages**              | The contact form failed to send messages to the admin.                                 | Fixed by properly setting up EmailJS integration.                                                               |
+| **Study Topics Not Deleting Properly**             | Deleting a topic sometimes failed without an error message.                            | Fixed by adding proper database commit handling.                                                                |
+| **Wiki Data Caching Issues**                       | Wikipedia data was fetched on every request, slowing down performance.                 | Fixed by **caching API responses** for improved speed.                                                          |
+| **Site Favicon Not Displaying**                    | The favicon was missing in some browsers.                                              | Fixed by ensuring the correct favicon path in `base.html`.                                                      |
+| **Study Progress Stats Not Updating**              | The user’s learning progress stats did not update in real-time.                        | Fixed by ensuring AJAX calls update the stats after changes.                                                    |
+| **File Upload Security Vulnerability**             | Users could upload malicious files.                                                    | Fixed by restricting file types and scanning for viruses.                                                       |
+| **User Dashboard Not Showing Newly Saved Topics**  | Topics did not appear immediately after saving.                                        | Fixed by adding a **real-time update function** using JavaScript.                                               |
+| **UI Inconsistencies in Dark Mode**                | Some elements did not adjust to dark mode properly.                                    | Fixed by ensuring dark mode styles applied to all components.                                                   |
+| **Database Backup Issues**                         | Regular backups were failing due to a script error.                                    | Fixed by ensuring proper cron job execution for database backups.                                               |
+| **Wiki Data Fetch Delay**                          | Wikipedia content took too long to load.                                               | Fixed by implementing async fetching and caching.                                                               |
+| **Admin Page Not Loading**                         | The admin dashboard failed to load due to missing route permissions.                   | Fixed by adding `@login_required` and checking `role == 'admin'` before rendering the page.                     |
+| **Users Not Displaying**                           | The user management table was empty because of an incorrect SQLAlchemy query.          | Fixed by using `db.query(UserSQL).all()` and ensuring the session is committed/closed properly.                 |
+| **Cannot Promote Users**                           | Admins couldn't promote users due to missing role update logic.                        | Fixed by updating the `role` field on the `UserSQL` instance and calling `db.commit()`.                         |
+| **Delete User Not Working**                        | Clicking "Delete" did not remove users due to ID type mismatch / missing commit.       | Fixed by fetching via `db.get(UserSQL, user_id)`, deleting with `db.delete(user)`, then `db.commit()`.          |
+| **Unauthorized Users Accessing Admin Panel**       | Normal users could access the **admin panel URL** directly without authorization.      | Fixed by restricting access using `if current_user.role != "admin": abort(403)` in admin routes.                |
+| **Session Not Clearing After Admin Logout**        | Logging out as an admin didn't properly clear session data.                            | Fixed by calling `logout_user()` followed by `session.clear()` to fully reset the session.                      |
 
 ---
 
 ## Deployment
 
 ### Deployment (Ubuntu Server + Gunicorn + Nginx)
-*(Active deployment)*
+
+_(Active deployment)_
 
 ```
 Brainery runs on an Ubuntu Server (VM) using Gunicorn (WSGI) behind Nginx (reverse proxy). The application is served under a single canonical URL and subpath for reliable, production-ready access.
@@ -754,24 +804,24 @@ OVERVIEW
 App Server   : Gunicorn (Flask app factory: <your_app_module>:create_app())
 Reverse Proxy: Nginx
 Edge         : CDN (TLS + caching)
-URL Scheme   : https://www.sovcore.com/mp3-brainery
+URL Scheme   : https://mp3-brainery.sovcore.com/
 Database     : SQLAlchemy (PostgreSQL)
 ```
 
-
 ---
 
-SYSTEMD SERVICE  (/etc/<project-name>.service)
+SYSTEMD SERVICE (/etc/<project-name>.service)
+
 - Service unit present for Gunicorn (production).
 - Uses an EnvironmentFile and a launcher script. (Details intentionally omitted.)
 
+GUNICORN LAUNCHER (/usr/local/bin/run*gunicorn*<project-name>.sh)
 
-GUNICORN LAUNCHER  (/usr/local/bin/run_gunicorn_<project-name>.sh)
 - Launcher script present for Gunicorn (production).
 - Exports the venv path and reads EnvironmentFile. (Details intentionally omitted.)
 
+NGINX CONFIGURATION (/etc/nginx/sites-available/<project-name>\_nginx.conf)
 
-NGINX CONFIGURATION  (/etc/nginx/sites-available/<project-name>_nginx.conf)
 - Nginx reverse proxy routes the app under the canonical subpath.
 - Static and media are served via Nginx aliases. (Details intentionally omitted.)
 
@@ -779,13 +829,14 @@ NGINX CONFIGURATION  (/etc/nginx/sites-available/<project-name>_nginx.conf)
 
 ```bash
 PUBLIC ACCESS
-HTTPS : https://www.sovcore.com/mp3-brainery
+HTTPS : https://mp3-brainery.sovcore.com/
 ```
 
 ---
 
 ### Running the Project Locally
-*(For local testing and development)*
+
+_(For local testing and development)_
 
 ```bash
 CLONE THE REPOSITORY
@@ -828,6 +879,7 @@ Local Dev  : Flask built-in server
 Database   : PostgreSQL (via SQLAlchemy)
 Security   : CSRF protection, secure session cookies
 ```
+
 ---
 
 ### **Credits**
@@ -837,12 +889,14 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **Icons & Visual Assets**
+
 - **FontAwesome** – Provided **icons** for UI elements like buttons, navigation, and alerts.
 - **Unsplash** – Used for **high-quality images** where applicable.
 
 ---
 
 ### **Media & Video Sources**
+
 - **Hero Section Video** – The homepage **hero background video** was sourced from:
   - **Tactus Marketing** – [tactusmarketing.com](https://tactusmarketing.com/wp-content/uploads/tactus-waves-hero.mp4)
   - Used to create an **immersive visual experience** for users.
@@ -850,6 +904,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **Libraries & Frameworks**
+
 - **Flask** – Python-based **web framework** for backend development.
 - **SQLAlchemy + PostgreSQL** – ORM + relational database for users, topics, and subjects.
 - **Bootstrap 5** – **Responsive UI framework** for styling and layout.
@@ -861,6 +916,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **APIs & Integrations**
+
 - **EmailJS** – Integrated for **email notifications** (password resets, confirmations).
 - **Google Fonts** – Applied custom typography for a **modern, clean look**.
 - **Wikipedia API / Live Wikipedia Fetch**
@@ -870,6 +926,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **Deployment & Version Control**
+
 - **GitHub** – Repository and version control.
 - **Nginx** – Reverse proxy on the production VM.
 - **Gunicorn** – WSGI server for the Flask application.
@@ -878,6 +935,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ### **Documentation References**
+
 - **Flask Documentation** – Used for **backend development and routing logic**.
 - **SQLAlchemy Docs** – Guided **ORM models, sessions, and queries**.
 - **Bootstrap Docs** – Assisted in **responsive design and UI enhancements**.
@@ -885,6 +943,7 @@ Brainery was built using a combination of **open-source technologies, libraries,
 ---
 
 ## **Acknowledgements**
+
 Thanks to **Code Institute**, **Flask Documentation**, and the **open-source community** for guidance!
 
 Special thanks to **Miguel** for their guidance throughout the project.
